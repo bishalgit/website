@@ -33,19 +33,6 @@ class WebsiteForm(WebsiteForm):
 
     def extract_data(self, model, values):
         """ Inject ReCaptcha validation into pre-existing data extraction """
-        # delete recaptcha response code to make email clean
-        if 'g-recaptcha-response' in values:
-            del values["g-recaptcha-response"]
-
-        # Prepare and Prepend subject for the email
-        if 'form_type' in values:
-            if values['form_type'] == 'connect_form':
-                values['subject'] = values['Fullname'].title() + ' sent you ' + values['Subject'] + ' inquiry'
-            elif values['form_type'] == 'talk_to_our_expert_form':
-                values['subject'] = values['Fullname'].title() + ' wants to talk to our expert ' + values['Query for']
-
-            del values['form_type']
-        res = super(WebsiteForm, self).extract_data(model, values)
         if model.website_form_recaptcha:
             captcha_obj = request.env['website.form.recaptcha']
             ip_addr = request.httprequest.environ.get('HTTP_X_FORWARDED_FOR')
@@ -59,4 +46,18 @@ class WebsiteForm(WebsiteForm):
                 )
             except ValidationError:
                 raise ValidationError([captcha_obj.RESPONSE_ATTR])
+        
+        # delete recaptcha response code to make email clean
+        if 'g-recaptcha-response' in values:
+            del values["g-recaptcha-response"]
+
+        # Prepare and Prepend subject for the email
+        if 'form_type' in values:
+            if values['form_type'] == 'connect_form':
+                values['subject'] = values['Fullname'].title() + ' sent you ' + values['Subject'] + ' inquiry'
+            elif values['form_type'] == 'talk_to_our_expert_form':
+                values['subject'] = values['Fullname'].title() + ' wants to talk to our expert ' + values['Query for']
+
+            del values['form_type']
+        res = super(WebsiteForm, self).extract_data(model, values)
         return res
