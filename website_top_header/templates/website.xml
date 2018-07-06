@@ -27,7 +27,7 @@
         </template>
 
         <template id="top_header" inherit_id="website.layout">
-            <xpath expr="//header" position="before">
+            <xpath expr="//header/div[hasClass('navbar')]/div['hasClass('container')]" position="before">
                 <t t-call="website_top_header.content"/>
             </xpath>
         </template>
