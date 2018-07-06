@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    <template id="loader" inherit_id="website.assets_frontend" name="Top Header loader">
+        <xpath expr=".">
+            <link rel="stylesheet" href="/website_top_header/static/src/less/top_header.less"/>
+        </xpath>
+    </template>
+        <template id="content" name="Top Header">
+            <div class="top-header">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 hidden-xs">
+                            <h3><b>Hotline:</b> +971-551668872</h3>
+                        </div>
+                        <div class="col-md-6 hidden-xs clearfix">
+                            <ul class="top-social-media pull-right">
+                                <li><a href="https://www.facebook.com/INCEPTIONINNOVATION/" class="fa fa-facebook"></a></li>
+                                <li><a href="https://www.instagram.com/inception_innovation/" class="fa fa-instagram"></a></li>
+                                <li><a href="#" class="fa fa-linkedin"></a></li>
+                                <li><a href="https://www.youtube.com/channel/UClsUo3xJmx2DaIGs66D6LNw" class="fa fa-youtube"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <template id="top_header" inherit_id="website.layout">
+            <xpath expr="//header" position="before">
+                <t t-call="website_top_header.content"/>
+            </xpath>
+        </template>
+    </data>
+</odoo>
