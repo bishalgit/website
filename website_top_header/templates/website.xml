@@ -10,10 +10,10 @@
             <div class="top-header">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-6 hidden-xs">
+                        <div class="col-md-6 col-xs-8">
                             <h3><b>Hotline:</b> +971-551668872</h3>
                         </div>
-                        <div class="col-md-6 hidden-xs clearfix">
+                        <div class="col-md-6 clearfix">
                             <ul class="top-social-media pull-right">
                                 <li><a href="https://www.facebook.com/INCEPTIONINNOVATION/" class="fa fa-facebook" target="_blank"></a></li>
                                 <li><a href="https://www.instagram.com/inception_innovation/" class="fa fa-instagram" target="_blank"></a></li>
