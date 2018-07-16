@@ -1,0 +1,12 @@
+<!-- Copyright 2018 Bishal Pun
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <data>
+        <template id="layout" inherit_id="website.layout">
+            <!-- Sticky -->
+            <xpath expr="//header/div" position="attributes">
+                <attribute name="t-attf-data-do-stick">{{ 1 }}</attribute>
+            </xpath>
+        </template>
+    </data>
+</odoo>
