@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_branch_location,access_branch_location,model_branch_location,,1,0,0,0
+access_branch_map_config,access_branch_map_config,model_branch_map_config,,1,0,0,0
+access_group_branch_location,access_group_branch_location,model_branch_location,website.group_website_designer,1,1,1,1

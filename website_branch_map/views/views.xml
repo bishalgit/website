@@ -1,0 +1,84 @@
+<odoo>
+	<data>
+
+		<record id='branch_map_location_view_tree' model='ir.ui.view'>
+			<field name="name">branch.map.location.tree</field>
+			<field name="model">branch.location</field>
+			<field name="arch" type="xml">
+				<tree string="Branch Information">
+					<field name="sequence" widget="handle"/>
+                    <field name="name"/>
+					<field name="active" invisible="1"/>
+                    <field name="address"/>
+					<field name="telephone"/>
+                    <field name="email"/>
+                </tree>
+			</field>
+		</record>
+
+		<record id='branch_map_location_view_form' model='ir.ui.view'>
+			<field name="name">branch.map.location.form</field>
+			<field name="model">branch.location</field>
+			<field name="arch" type="xml">
+				<form string="Branch">
+					<sheet>
+						<div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" name="website_publish_button"
+                                type="object" icon="fa-globe">
+                                <field name="website_published" widget="website_button"/>
+                            </button>
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                            </button>
+                        </div>
+						<field name="image" widget="image" class="oe_avatar" option='{"preview_image":"image_medium"}'/>
+						<group>
+							<field name="name"/>
+							<field name="address" widget="place_autocomplete"/>
+							<field name="lat" class="latitude" id="latitude"/>
+							<field name="lng" class="longitude" id="longitude"/>
+							<field name="telephone"/>
+							<field name="email"/>
+						</group>
+					</sheet>
+					<div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread" options='{"thread_level": 1}'/>
+                    </div>
+				</form>
+			</field>
+		</record>
+
+		<record id="branch_map_location_view_search" model="ir.ui.view">
+			<field name="name">branch.map.location.search</field>
+			<field name="model">branch.location</field>
+			<field name="arch" type="xml">
+				<search string="Branch">
+					<filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
+					<field name="name"/>
+					<field name="address"/>
+					<field name="telephone"/>
+					<field name="email"/>
+				</search>
+			</field>
+		</record>
+
+        <record model="ir.actions.act_window" id="branch_map_location_view_action">
+			<field name="name">Branch</field>
+			<field name="res_model">branch.location</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+            <field name="view_id" ref="branch_map_location_view_tree"/>
+			<field name="search_view_id" ref="branch_map_location_view_search"/>
+			<field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new branch.
+                </p>
+            </field>
+		</record>
+
+		<menuitem name="Branch" id="website_branch_map.menu_branch_map_location" parent="website.menu_website_configuration"
+        action="branch_map_location_view_action"/>
+
+	</data>
+</odoo>

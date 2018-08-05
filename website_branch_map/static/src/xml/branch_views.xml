@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="branch_templates">
+    <t t-name="website_branch_map.app">
+        <div>
+            <div class="map-controller">
+                <div class="location-modal">
+                    <div class=" text-left">
+                        <div class="locations">
+                            <div class="location-swapper">
+                                
+                            </div>
+
+                            <!-- Madal for branches -->
+                            <button type="button" class="btn btn-info btn-lg hvr-pulse"
+                                    data-toggle="modal" data-target="#myModal">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <div class="o_branch_list" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+    <t t-name="website_branch_map.branch_list">
+        <!-- Modal -->
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <button type="button" class="close" data-dismiss="modal">&amp;times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <t t-if="widget.branches.length">
+                            <t t-foreach="widget.branches" t-as="branch">
+                                <t t-call="website_branch_map.branch_list.branch"/>
+                            </t> 
+                        </t>
+                        <p t-else="">No branches to see</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+    <t t-name="website_branch_map.branch_list.branch">
+        <div class="row location-address-contact" t-att-data-id="branch.id">
+            <div class="col-md-6 location-address">
+                <h4>
+                    <a href="#">
+                        <t t-esc="branch.name"/>
+                    </a>
+                </h4>
+                <p>
+                    <t t-esc="branch.address"/>
+                </p>
+            </div>
+            <div class="col-md-6 location-contact">
+                <ul>
+                    <li>
+                        <a t-attf-href="tel:{{ branch.telephone }}">
+                            <i class="fa fa-phone"></i>
+                            <t t-esc="branch.telephone"/>
+                        </a>
+                    </li>
+                    <li>
+                        <a t-attf-href="mailto:{{ branch.email }}">
+                            <i class="fa fa-envelope"></i>
+                            <t t-esc="branch.email"/>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </t>
+    <t t-name="website_branch_map.branch_swap">
+        <div>
+            <div class="location-fader">
+                <div class="current_branch">
+                    <t t-call="website_branch_map.branch_swap.content">
+                        <t t-if="widget">
+                            <t t-set="branch" t-value="widget.branch"/>
+                        </t>
+                    </t>
+                </div>
+                <div class="loading"/>                      
+            </div>
+            <div class="location-controller">
+                <!-- Put data-target for swapping locations -->
+                <div class="fa fa-angle-left"></div>
+                <div class="fa fa-angle-right"></div>
+            </div>
+            <!-- Generate url of branch for Get Directions -->
+            <a href="" class="btn btn-default hvr-sweep-to-top get_direction" target="_blank">GET DIRECTIONS</a>
+        </div>
+    </t>
+    <t t-name="website_branch_map.branch_swap.content">
+        <t t-if="branch">
+            <div class="name_address" t-att-data-swap-id="branch.id">
+                <h3><t t-esc="branch.name"/></h3>
+                <p><t t-esc="branch.address"/></p>
+            </div>
+        </t>
+        <!-- <t t-else="">
+            <div class="name_address" t-att-data-swap-id="branch.id">
+                <h3></h3>
+                <p><t t-esc="branch.address"/></p>
+            </div>
+        </t> -->
+    </t>
+</templates>

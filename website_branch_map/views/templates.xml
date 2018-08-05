@@ -1,0 +1,17 @@
+<odoo>
+    <data>
+        <!-- Template for location in website for -->
+		<template id="location">
+            <t t-call="website.layout">
+                <t t-set="title">Locations</t>
+                <div class="oe_structure">
+                    <section class="map intro">
+                        <div class="intro-body o_branch_location_app">
+                            
+                        </div>
+                    </section>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>
