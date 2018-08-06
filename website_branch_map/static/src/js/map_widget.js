@@ -11,8 +11,37 @@ odoo.define('website_branch_map.map_widget', function(require) {
             this.parent = parent || {};
             this._super(parent);
             // default location
-            this.branches = parent.mapConfig.branches;
+            this.branches = parent.mapConfig.branches.slice();
             this.branch = parent.swap.getBranch();
+            this.markerIcons = {};
+            this.markerIcons.primary = {
+                url: '/website_branch_map/static/src/img/hdpi/spotlight_poi_black_dot_green_hdpi.png',
+                // The anchor for this image is the base of the flagpole at (0, 43).
+                anchor: new google.maps.Point(0, 43),
+                // label origin
+                labelOrigin: new google.maps.Point(15, 55),
+                // The origin for this image is (0, 0).
+                origin: new google.maps.Point(0, 0),
+                // scaledSize
+                scaledSize: new google.maps.Size(27, 43),
+                // This marker is 27 pixels wide by 43 pixels high.
+                size: new google.maps.Size(27, 43)
+            };
+            this.markerIcons.secondary = {
+                url: '/website_branch_map/static/src/img/hdpi/spotlight_poi_black_dot_white_hdpi.png',
+                // The anchor for this image is the base of the flagpole at (0, 43).
+                anchor: new google.maps.Point(0, 21.5),
+                // label origin
+                labelOrigin: new google.maps.Point(15, 30),
+                // The origin for this image is (0, 0).
+                origin: new google.maps.Point(0, 0),
+                // scaledSize
+                scaledSize: new google.maps.Size(15.1, 24),
+                // This marker is 13.5 pixels wide by 21.5 pixels high.
+                size: new google.maps.Size(15.1, 24)
+            };
+            this.primaryColor = "#ea4335";
+            this.secondaryColor = "#060708";
         },
         start: function() {
             var self = this;
@@ -43,42 +72,112 @@ odoo.define('website_branch_map.map_widget', function(require) {
                 center: latLng
             };
 
-            this.map = new google.maps.Map(self.$el.filter('.gmap-container')[0], mapOptions);
+            self.map = new google.maps.Map(self.$el.filter('.gmap-container')[0], mapOptions);
 
-            this.addMarkers();
+            self.addAllMarkers();
         },
-        addMarkers: function() {
+        /**
+         * Swap marker instance.
+         * @param  {OdooClass.Branch} branch Branch to update in the list
+         */
+        swapMarker: function(branch, isNew = false) {
             var self = this;
-            var image = {
-                url: '/website_branch_map/static/src/img/hdpi/spotlight_poi_black_dot_green_hdpi.png',
-                // The anchor for this image is the base of the flagpole at (0, 43).
-                anchor: new google.maps.Point(0, 43),
-                // label origin
-                labelOrigin: new google.maps.Point(30, 50),
-                // The origin for this image is (0, 0).
-                origin: new google.maps.Point(0, 0),
-                // scaledSize
-                scaledSize: new google.maps.Size(27, 43),
-                // This marker is 27 pixels wide by 43 pixels high.
-                size: new google.maps.Size(27, 43)
-            };
+
+            self.clearMarkers();
+            var t_idx = self.branches.findIndex(t => t.id === branch.id);
+            if (t_idx !== -1) {
+                var marker = self.branches[t_idx].marker;
+                self.branches.splice(t_idx, 1, branch);
+                self.branches[t_idx].marker = marker;
+            } else {
+                self.branches.push(branch);
+            }
+            if (!isNew)
+                self.branch = branch;
+            self.addAllMarkers();
+            self.showMarkers(self.map);
+        },
+        addAllMarkers: function() {
+            var self = this;
 
             for (let i = 0; i < self.branches.length; i++) {
                 var latlng = new google.maps.LatLng(self.branches[i].lat, self.branches[i].lng);
-                var label = {
-                    color: '#ea4335',
-                    fontSize: '16px',
-                    fontWeight: 'bolder',
-                    text: self.branches[i].name
-                };
-                self.branches[i].marker = new google.maps.Marker({
-                    position: latlng,
-                    map: self.map,
-                    animation: google.maps.Animation.DROP,
-                    // title: self.branches[i].name,
-                    icon: image,
-                    label: label
-                });
+                if (self.branches[i].id != self.branch.id) {
+                    var label = self.createLabel(self.secondaryColor, '13px', 'normal', self.branches[i].name);
+                    self.branches[i].marker = self.createMarker(latlng, label, self.markerIcons.secondary);
+                } else {
+                    var label = self.createLabel(self.primaryColor, '14px', 'normal', self.branches[i].name);
+                    self.branches[i].marker = self.createMarker(latlng, label, self.markerIcons.primary);
+                }
+            }
+        },
+        createLabel: function(color, fontSize, fontWeight, text) {
+            return {
+                color: color,
+                fontSize: fontSize,
+                fontWeight: fontWeight,
+                text: text
+            };
+        },
+        createMarker: function(latlng, label, icon) {
+            var marker = new google.maps.Marker({
+                position: latlng,
+                map: this.map,
+                animation: google.maps.Animation.DROP,
+                // title: self.branches[i].name,
+                icon: icon,
+                label: label
+            });
+            return marker;
+        },
+        // Sets the map on a marker in the array.
+        setMapOnAll: function(map) {
+            for (var i = 0; i < this.branches.length; i++) {
+                if (map != null)
+                    this.branches[i].marker.setMap(this.map);
+                else
+                    this.branches[i].marker.setMap(map);
+            }
+        },
+
+        // Removes a marker from the map, but keeps it in the array.
+        clearMarkers: function() {
+            this.setMapOnAll(null);
+        },
+
+        // Shows any markers currently in the array.
+        showMarkers: function() {
+            this.setMapOnAll(this.map);
+        },
+
+        // Deletes all markers in the array by removing references to them.
+        deleteMarkers: function() {
+            this.clearMarkers();
+        },
+        /**
+         * Remove a branch from the list. If this is the last branch to be
+         * removed, rerender the widget completely to reflect the 'empty list'
+         * state.
+         * @param  {Integer} id ID of the branch to remove.
+         */
+        removeBranch: function(id) {
+            var t_idx = this.branches.findIndex(t => t.id === id);
+            if (t_idx !== -1) {
+                this.branches[t_idx].marker.setMap(null);
+                this.branches.splice(t_idx, 1);
+            }
+        },
+        /**
+         * Update an existing branch instance in the list.
+         * @param  {OdooClass.Branch} branch Branch to update in the list
+         */
+        updateMarker: function(branch) {
+            var t_idx = this.branches.findIndex(t => t.id === branch.id);
+            if (t_idx !== -1) {
+                this.clearMarkers();
+                this.branches.splice(t_idx, 1, branch);
+                this.addAllMarkers();
+                this.showMarkers(self.map);
             }
         },
         update_marker: function(lat, lng) {

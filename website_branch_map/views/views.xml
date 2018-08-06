@@ -77,7 +77,7 @@
             </field>
 		</record>
 
-		<menuitem name="Branch" id="website_branch_map.menu_branch_map_location" parent="website.menu_website_configuration"
+		<menuitem name="Branch" id="menu_branch" parent="website.menu_website_configuration"
         action="branch_map_location_view_action"/>
 
 	</data>

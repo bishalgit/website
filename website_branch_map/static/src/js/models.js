@@ -155,9 +155,6 @@ odoo.define('website_branch_map.classes', function(require) {
             var self = this;
             var t_idx = self.branches.findIndex(t => t.id === id);
             if (t_idx !== -1) {
-                console.log("t_ids: " + t_idx);
-                console.log("length: " + self.branches.length);
-                console.log("currentBranch: " + self.current_branch_index);
                 self.branches.splice(t_idx, 1);
 
                 // Check if the current branch was the last one
@@ -169,7 +166,6 @@ odoo.define('website_branch_map.classes', function(require) {
                 // If so, set current index to -1
                 if (self.branches.length <= 0)
                     self.current_branch_index = -1;
-                console.log(self.current_branch_index);
             }
         },
     });
