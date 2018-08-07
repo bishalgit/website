@@ -1,0 +1,34 @@
+<odoo>
+    <data>
+
+        <!-- Template for Press Page -->
+        <template id="press" name="Press">
+            <t t-call="website.layout">
+                <t t-set="title">Press</t>
+                <div class="oe_structure">
+                    <!-- About UNDER500 -->
+                    <section class="banner-inner  press">
+                        <div>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12 text-center">
+                                        <h2>Press</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="our-presss section gray-bg">
+                        <div class="container o_press_app" />
+                        <div class="press-pager">
+                            <t t-call="website.pager" >
+                                <t t-set="classname">pull-right</t>
+                            </t>
+                        </div>
+                    </section>
+                </div>
+            </t>
+            <t t-call="u500.u500_footer_snippet"/>
+        </template>
+    </data>
+</odoo>
