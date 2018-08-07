@@ -80,9 +80,8 @@ odoo.define('website_branch_map.views', function(require) {
                 clearInterval(self.t);
             }
 
-            var map_widget = new MapWidget(self);
-            map_widget.prependTo(self.$el);
-            console.log("hello");
+            self.map_widget = new MapWidget(self);
+            self.map_widget.prependTo(self.$el);
         },
         /**
          * Call next_branch to load next branch instance
@@ -90,7 +89,9 @@ odoo.define('website_branch_map.views', function(require) {
          * @param  {Event} event object
          */
         _nextBranch: function(ev) {
-            this.swap.swapBranch(this.mapConfig.nextBranch());
+            var branch = this.mapConfig.nextBranch();
+            this.swap.swapBranch(branch);
+            this.map_widget.swapMarker(branch);
         },
         /**
          * Call prev_branch to load previous branch instance
@@ -98,7 +99,9 @@ odoo.define('website_branch_map.views', function(require) {
          * @param  {Event} event object
          */
         _prevBranch: function(ev) {
-            this.swap.swapBranch(this.mapConfig.prevBranch());
+            var branch = this.mapConfig.prevBranch();
+            this.swap.swapBranch(branch);
+            this.map_widget.swapMarker(branch);
         },
 
         /**
@@ -123,7 +126,12 @@ odoo.define('website_branch_map.views', function(require) {
                     if (!this.mapConfig.branches.find(t => t.id === branch_id)) {
                         this.mapConfig.fetchBranch(branch_id).then(function(new_branch) {
                             self.list.insertBranch(new_branch);
-                            self.swap.swapBranch(new_branch);
+                            if (!self.swap.branch) {
+                                self.swap.swapBranch(new_branch);
+                                self.map_widget.swapMarker(new_branch);
+                            } else {
+                                self.map_widget.swapMarker(new_branch, true);
+                            }
                         });
                     }
                 } else if (message[0] === 'update_branch') {
@@ -131,17 +139,22 @@ odoo.define('website_branch_map.views', function(require) {
                     if (this.mapConfig.branches.find(t => t.id === branch_id)) {
                         this.mapConfig.fetchBranch(branch_id).then(function(update_branch) {
                             self.list.updateBranch(update_branch);
-                            if ((self.swap.getBranch()).id == update_branch.id)
-                                self.swap.swapBranch(self.mapConfig.getCurrentBranch());
+                            self.map_widget.updateMarker(update_branch);
+                            if ((self.swap.getBranch()).id == update_branch.id) {
+                                var branch = self.mapConfig.getCurrentBranch();
+                                self.swap.swapBranch(branch);
+                            }
                         });
                     }
                 } else if (message[0] === 'unlink_branch') {
                     self.mapConfig.removeBranch(message[1]);
                     self.list.branches = self.mapConfig.branches;
                     self.list.removeBranch(message[1]);
+                    self.map_widget.removeBranch(message[1]);
                     if ((self.swap.getBranch()).id == message[1]) {
-                        console.log("hello empty");
-                        self.swap.swapBranch(self.mapConfig.getCurrentBranch());
+                        var branch = self.mapConfig.getCurrentBranch();
+                        self.swap.swapBranch(branch);
+                        self.map_widget.swapMarker(branch);
                     }
                 }
             }
@@ -215,7 +228,7 @@ odoo.define('website_branch_map.views', function(require) {
                 self.$('.fa-angle-left').on("click", _.bind(self.prevBranch, self));
                 self.$('.fa-angle-right').on("click", _.bind(self.nextBranch, self));
                 self.get_direction = self.$('.get_direction');
-                self.get_direction.attr("href", "http://maps.google.com/maps?z=13&q=" + self.branch.lat + "," + self.branch.lng);
+                self.get_direction.attr("href", self.generateGetDirection());
             });
         },
         /**
@@ -254,6 +267,7 @@ odoo.define('website_branch_map.views', function(require) {
                 self.$('div[data-swap-id=' + self.branch.id + ']').replaceWith(branch_node);
             }
             self.branch = branch;
+            self.get_direction.attr("href", self.generateGetDirection());
         },
         /**
          * Update an current branch instance.
@@ -263,6 +277,12 @@ odoo.define('website_branch_map.views', function(require) {
             var branch_node = qweb.render('website_branch_map.branch_swap.content', { branch: branch });
             this.$('div[data-swap-id=' + branch.id + ']').replaceWith(branch_node);
             self.branch = branch;
+        },
+        /**
+         * 
+         */
+        generateGetDirection: function() {
+            return "https://www.google.com/maps/dir/?api=1&origin=Current+Location&destination=" + this.branch.lat + "," + this.branch.lng;
         },
         /**
          * Rerender the whole widget; will be useful when we switch from

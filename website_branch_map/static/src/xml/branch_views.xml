@@ -12,7 +12,7 @@
 
                             <!-- Madal for branches -->
                             <button type="button" class="btn btn-info btn-lg hvr-pulse"
-                                    data-toggle="modal" data-target="#myModal">
+                                    data-toggle="modal" data-backdrop="false" data-target="#myModal">
                                 <i class="fa fa-bars"></i>
                             </button>
                             <div class="o_branch_list" />

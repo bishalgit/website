@@ -16,7 +16,7 @@ class BranchLocation(models.Model):
 
     @api.model
     def _default_image(self):
-        image_path = get_module_resource('inception_innovation', 'static/src/img', 'logo.png')
+        image_path = get_module_resource('website_branch_map', 'static/src/img', 'spotlight-poi2_hdpi.png')
         return tools.image_resize_image_big(base64.b64encode(open(image_path, 'rb').read()))
 
     name = fields.Char(string="Name", help="Branch Name")
