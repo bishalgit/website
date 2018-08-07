@@ -1,0 +1,7 @@
+<odoo>
+  <data>
+    <menuitem name="Website Press" id="website_press.menu_root" sequence="1" web_icon="website_press,logo.png"/>
+    <menuitem name="Press" id="website_press.menu_press" parent="website_press.menu_root"
+              action="website_press.action_website_press"/>
+  </data>
+</odoo>
