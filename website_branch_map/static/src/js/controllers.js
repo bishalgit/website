@@ -209,7 +209,6 @@ odoo.define('website_branch_map.views', function(require) {
          * by using the bus.
          */
         _rerender: function() {
-            var self = this;
             this.replaceElement(qweb.render('website_branch_map.branch_list', { widget: this }));
         },
     });
