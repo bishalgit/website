@@ -21,11 +21,11 @@
         <div class="col-md-6 col-sm-6" t-att-data-id="post.id">
             <div class="presss-content">
                 <div class="press-image">
-                    <span
-                        t-attf-content=""
-                        t-field="post.image"
-                        t-options="{'widget': 'image'}"
-                        t-att-alt="post.name" />
+                    <span>
+                        <img class="o_post_image"
+                             t-attf-src="data:image/png;base64,{{ post.image }}"
+                             t-att-alt="post.name" />
+                    </span>
                     <div class="enter-icon">
                         <a t-attf-href="{{ post.external_link }}" target="_blank">
                             <i class="fa fa-external-link"></i>
