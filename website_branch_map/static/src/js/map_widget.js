@@ -3,6 +3,7 @@
  * @Email: bishalpun2013@gmail.com
  */
 odoo.define('website_branch_map.map_widget', function(require) {
+    var core = require('web.core');
     var Widget = require('web.Widget');
 
     var MapWidget = Widget.extend({
@@ -109,7 +110,17 @@ odoo.define('website_branch_map.map_widget', function(require) {
                     var label = self.createLabel(self.primaryColor, '14px', 'normal', self.branches[i].name);
                     self.branches[i].marker = self.createMarker(latlng, label, self.markerIcons.primary);
                 }
+                google.maps.event.addListener(self.branches[i].marker, 'click', function() {
+                    self.swapMarker(self.branches[i]);
+                    core.bus.trigger('onMarkerSwap', self.branches[i]);
+                });
             }
+            self.setCenter();
+        },
+        setCenter: function() {
+            var latlng = new google.maps.LatLng(this.branch.lat, this.branch.lng);
+            google.maps.event.trigger(this.map, 'resize');
+            this.map.setCenter(latlng);
         },
         createLabel: function(color, fontSize, fontWeight, text) {
             return {

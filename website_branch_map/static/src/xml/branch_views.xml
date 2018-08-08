@@ -12,7 +12,7 @@
 
                             <!-- Madal for branches -->
                             <button type="button" class="btn btn-info btn-lg hvr-pulse"
-                                    data-toggle="modal" data-backdrop="false" data-target="#myModal">
+                                    data-toggle="modal" data-target="#productListModal">
                                 <i class="fa fa-bars"></i>
                             </button>
                             <div class="o_branch_list" />
@@ -24,12 +24,14 @@
     </t>
     <t t-name="website_branch_map.branch_list">
         <!-- Modal -->
-        <div id="myModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
+        <div id="productListModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="productListModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header text-center">
-                        <button type="button" class="close" data-dismiss="modal">&amp;times;</button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&amp;times;</span>
+                        </button>
                     </div>
                     <div class="modal-body">
                         <t t-if="widget.branches.length">

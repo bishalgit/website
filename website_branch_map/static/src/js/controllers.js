@@ -228,6 +228,8 @@ odoo.define('website_branch_map.views', function(require) {
                 self.$('.fa-angle-right').on("click", _.bind(self.nextBranch, self));
                 self.get_direction = self.$('.get_direction');
                 self.get_direction.attr("href", self.generateGetDirection());
+
+                core.bus.on('onMarkerSwap', self, self._swapBranch);
             });
         },
         /**
@@ -248,6 +250,14 @@ odoo.define('website_branch_map.views', function(require) {
          */
         prevBranch: function(ev) {
             core.bus.trigger('onClickPrevBranch', ev);
+        },
+        /**
+         * Swap branch instance.
+         * @param  {OdooClass.Branch} branch Branch to update in the list
+         */
+        _swapBranch: function(branch) {
+            console.log("slkdjflskj");
+            this.swapBranch(branch);
         },
         /**
          * Swap branch instance.
