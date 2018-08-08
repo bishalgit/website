@@ -15,7 +15,7 @@
     'version': '11.0',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'website'],
+    'depends': ['base', 'website', 'u500'],
 
     # always loaded
     'data': [

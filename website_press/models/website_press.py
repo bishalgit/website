@@ -50,15 +50,17 @@ class WebsitePress(models.Model):
     def create(self, vals):
         press = super(WebsitePress, self).create(vals)
         if press:
-            (channel, message) = ((self._cr.dbname, 'website.press', '1'), ('new_press', press.id))
+            (channel, message) = ((self._cr.dbname, 'website.press', '1'), ('new_post', press.id))
+            _logger.warning("Post Created >>> " + str(press))
             self.env['bus.bus'].sendone(channel, message)
-            return press
+        return press
 
     @api.multi
     def write(self, vals):
         press = super(WebsitePress, self).write(vals)
         if press:
-            (channel, message) = ((self._cr.dbname, 'website.press', '1'), ('update_press', self.id))
+            (channel, message) = ((self._cr.dbname, 'website.press', '1'), ('update_post', self.id))
+            _logger.warning("Post Updated >>> " + str(press))
             self.env['bus.bus'].sendone(channel, message)
         return press
 
@@ -66,6 +68,7 @@ class WebsitePress(models.Model):
         notifications = []
         for press in self:
             notifications.append(((self._cr.dbname, 'website.press', '1'),
-                                  ('unlink_press', press.id)))
+                                  ('unlink_post', press.id)))
+        _logger.warning("Post Removed >>> " + str(press))
         self.env['bus.bus'].sendmany(notifications)
         return super(WebsitePress, self).unlink()

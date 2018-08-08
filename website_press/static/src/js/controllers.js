@@ -32,7 +32,7 @@ odoo.define('website_press.views', function(require) {
             var self = this;
             return this._super.apply(this, arguments).then(function() {
 
-                // Create and append press list
+                // Create and append post list
                 self.list = new PostList(self, self.pressConfig.posts);
                 self.list.appendTo($('.o_post_list'));
 
