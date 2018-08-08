@@ -28,7 +28,7 @@
                     </section>
                 </div>
             </t>
-            <t t-call="u500.u500_footer_snippet"/>
+            <!-- <t t-call="u500.u500_footer_snippet"/> -->
         </template>
     </data>
 </odoo>

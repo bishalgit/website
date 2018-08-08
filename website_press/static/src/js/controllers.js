@@ -4,7 +4,7 @@ odoo.define('website_press.views', function(require) {
     var bus = require('bus.bus').bus;
     var core = require('web.core');
     var Dialog = require('web.Dialog');
-    var MapConfig = require('website_press.classes').PressConfig;
+    var PressConfig = require('website_press.classes').PressConfig;
     var Widget = require('web.Widget');
 
     var qweb = core.qweb;

@@ -22,7 +22,7 @@
             <div class="presss-content">
                 <div class="press-image">
                     <span
-                        t-attf-content="{{request.httprequest.url_root}}web/image/website.press/{{post.id}}/image"
+                        t-attf-content=""
                         t-field="post.image"
                         t-options="{'widget': 'image'}"
                         t-att-alt="post.name" />
