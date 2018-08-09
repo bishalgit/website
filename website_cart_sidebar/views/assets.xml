@@ -1,0 +1,11 @@
+<!-- Copyright 2018 Bishal Pun
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+	<data>
+		<template id="assets_frontend" inherit_id="website.assets_frontend">
+			<xpath expr=".">
+				<script type="text/javascript" src="/website_cart_sidebar/static/src/js/website_sale.js"></script>				
+			</xpath>
+		</template>
+	</data>
+</odoo>
