@@ -75,11 +75,13 @@ odoo.define('website_press.classes', function(require) {
          *                           (with its Branches collection
          *                           populated).
          */
-        fetchAllPosts: function() {
+        fetchAllPosts: function(offset = 0, limit = 8) {
             var self = this;
             return rpc.query({
                 'route': '/website_press/get_posts',
                 params: {
+                    offset: offset,
+                    limit: limit,
                     fields: ['id', 'name', 'active', 'description', 'image', 'datetime', 'topic', 'category', 'external_link']
                 },
             }).then(function(post_values) {
@@ -88,6 +90,12 @@ odoo.define('website_press.classes', function(require) {
                 }
                 return self;
             });
+        },
+        getPostsLength: function() {
+            return this.posts.length;
+        },
+        getPostsOffset: function(offset = 0) {
+            return this.posts.slice(offset);
         },
         /**
          * Fetch a specified branch id for the current MapConfig.

@@ -15,6 +15,9 @@
                 <t t-call="website_press.post_list.post" />
                 <t t-set="count" t-value="count+1"/>
             </t>
+            <div class="load-more">
+                <button type="button" class="load_more" t-att-data-offset="widget.posts.length">Load More...</button>
+            </div>
         </div>
     </t>
     <t t-name="website_press.post_list.post">
