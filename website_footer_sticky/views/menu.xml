@@ -1,0 +1,12 @@
+<!-- Copyright 2018 Susan K.C.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <data>
+        <template id="layout_footer" inherit_id="website.layout">
+            <!-- Sticky -->
+            <xpath expr="//footer/div" position="attributes">
+                <attribute name="t-attf-data-do-stick">{{ 1 }}</attribute>
+            </xpath>
+        </template>
+    </data>
+</odoo>
