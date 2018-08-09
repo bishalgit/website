@@ -100,26 +100,30 @@ odoo.define('website_press.views', function(require) {
             return this._super.apply(this, arguments).then(function() {
                 // Bind events for swap controllers
                 self.load_more = self.$('.load_more');
-                self.$('.load_more').on('click', _.bind(self.loadPosts, self));
+                console.log(self.load_more.attr('data-offset'));
+                self.load_more.on('click', _.bind(self.loadPosts, self));
             });
         },
         loadPosts: function(ev) {
             var self = this;
-            console.log($(ev.target).attr('data-offset'));
-            $(ev.target).disabled = true;
+            // $(ev.target).disabled = true;
+            console.log('Loading Posts...');
+            console.log(self.load_more.attr('data-offset'));
             this.parent.pressConfig.fetchAllPosts($(ev.target).attr('data-offset')).then(function (pressConfig) {
+                console.log(self.load_more.attr('data-offset'));
+                console.log(pressConfig.posts);
                 self.load_more.attr('data-offset', pressConfig.posts.length);
-                (self.parent.pressConfig.getPostsOffset()).forEach(post => {
+                console.log(self.load_more.attr('data-offset'));
+                (pressConfig.getPostsOffset()).forEach(post => {
                     self.appendPost(post);
                 });
-                $(ev.target).disabled = false;
+                // $(ev.target).disabled = false;
+                return;
             });
         },
         /**
-         * Insert a new post instance in the list. If the list is hidden
-         * (because there was no post prior to the insertion), call for
-         * a complete rerendering instead.
-         * @param  {OdooClass.Post} branch Post to insert in the list
+         * Append old posts instance in the list.
+         * @param  {OdooClass.Post} Post to insert in the list
          */
         appendPost: function(post) {
             if (!this.$('.press_list_body').length) {
@@ -133,7 +137,7 @@ odoo.define('website_press.views', function(require) {
          * Insert a new post instance in the list. If the list is hidden
          * (because there was no post prior to the insertion), call for
          * a complete rerendering instead.
-         * @param  {OdooClass.Post} branch Post to insert in the list
+         * @param  {OdooClass.Post} Post to insert in the list
          */
         insertPost: function(post) {
             if (!this.$('.press_list_body').length) {

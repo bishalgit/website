@@ -74,6 +74,7 @@ class WebsitePressController(http.Controller):
 
     @route(['/website_press/get_posts'], type='json', auth='public', website=True)
     def get_posts(self, id=None, offset=0, limit=8, fields=None, **kw):
+        _logger.warning("Offset >>>>>>>>> " + str(offset))
         if id:
             domain = [("id", "=", id)]
         else:

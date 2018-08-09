@@ -5,8 +5,8 @@ odoo.define('website_press.classes', function(require) {
     var rpc = require('web.rpc');
 
     /**
-     * Branches
-     * Represents a branch.location object from the Backend
+     * Posts
+     * Represents a website.press object from the Backend
      * @type {OdooClass}
      */
     var Post = Class.extend({
@@ -14,10 +14,10 @@ odoo.define('website_press.classes', function(require) {
             Object.assign(this, values);
         },
         /**
-         * Fetch the latest fields for this particular branch
+         * Fetch the latest fields for this post
          * on the backend server
          * @return {jQuery.Deferred} Resolves to the updated
-         *                           Branch if successful.
+         *                           Post if successful.
          */
         update: function() {
             var self = this;
