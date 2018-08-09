@@ -1,0 +1,21 @@
+<!-- Copyright 2018 Susan K.C.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+	<data>
+		<template id="assets_editor" inherit_id="website.assets_editor">
+			<xpath expr=".">
+				<link rel="stylesheet" type="text/css"
+                  href="/website_footer_sticky/static/src/css/website_footer_sticky.editor.css"/>
+			</xpath>
+		</template>
+		<template id="assets_frontend" inherit_id="website.assets_frontend">
+			<xpath expr=".">
+				<script type="text/javascript"
+						src="/website_footer_sticky/static/src/js/website_footer_sticky.frontend.js"/>
+
+				<link rel="stylesheet" type="text/css"
+					href="/website_footer_sticky/static/src/css/website_footer_sticky.frontend.css"/>
+			</xpath>
+		</template>
+	</data>
+</odoo>
