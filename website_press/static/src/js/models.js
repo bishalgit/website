@@ -80,8 +80,8 @@ odoo.define('website_press.classes', function(require) {
             return rpc.query({
                 'route': '/website_press/get_posts',
                 params: {
-                    offset: offset,
-                    limit: limit,
+                    offset: parseInt(offset),
+                    limit: parseInt(limit),
                     fields: ['id', 'name', 'active', 'description', 'image', 'datetime', 'topic', 'category', 'external_link']
                 },
             }).then(function(post_values) {

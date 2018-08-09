@@ -105,13 +105,14 @@ odoo.define('website_press.views', function(require) {
         },
         loadPosts: function(ev) {
             var self = this;
-            ev.target.disabled = true;
-            this.parent.pressConfig.fetchAllPosts(ev.target.attr('data-offset')).then(function(pressConfig) {
+            console.log($(ev.target).attr('data-offset'));
+            $(ev.target).disabled = true;
+            this.parent.pressConfig.fetchAllPosts($(ev.target).attr('data-offset')).then(function (pressConfig) {
                 self.load_more.attr('data-offset', pressConfig.posts.length);
                 (self.parent.pressConfig.getPostsOffset()).forEach(post => {
                     self.appendPost(post);
                 });
-                ev.target.disabled = false;
+                $(ev.target).disabled = false;
             });
         },
         /**

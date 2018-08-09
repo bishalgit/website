@@ -10,7 +10,7 @@ class WebsitePress(models.Model):
     _name = 'website.press'
     _description = "Press Posts"
     _inherit = ['mail.thread', 'website.seo.metadata', 'website.published.mixin']
-    # _order = "sequence, name"
+    _order = "create_date desc"
     _mail_post_access = 'read'
 
     name = fields.Char(string="Press Title", required=True)
