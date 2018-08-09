@@ -92,6 +92,41 @@ odoo.define('website_press.views', function(require) {
         init: function(parent, posts) {
             this._super.apply(this, arguments);
             this.posts = posts;
+            this.parent = parent;
+            this.offset = 0;
+        },
+        start: function() {
+            var self = this;
+            return this._super.apply(this, arguments).then(function() {
+                // Bind events for swap controllers
+                self.load_more = self.$('.load_more');
+                self.$('.load_more').on('click', _.bind(self.loadPosts, self));
+            });
+        },
+        loadPosts: function(ev) {
+            var self = this;
+            ev.target.disabled = true;
+            this.parent.pressConfig.fetchAllPosts(ev.target.attr('data-offset')).then(function(pressConfig) {
+                self.load_more.attr('data-offset', pressConfig.posts.length);
+                (self.parent.pressConfig.getPostsOffset()).forEach(post => {
+                    self.appendPost(post);
+                });
+                ev.target.disabled = false;
+            });
+        },
+        /**
+         * Insert a new post instance in the list. If the list is hidden
+         * (because there was no post prior to the insertion), call for
+         * a complete rerendering instead.
+         * @param  {OdooClass.Post} branch Post to insert in the list
+         */
+        appendPost: function(post) {
+            if (!this.$('.press_list_body').length) {
+                this._rerender();
+                return;
+            }
+            var post_node = qweb.render('website_press.post_list.post', { post: post });
+            this.$('.press_list_body').append(post_node);
         },
         /**
          * Insert a new post instance in the list. If the list is hidden

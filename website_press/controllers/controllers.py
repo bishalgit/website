@@ -73,9 +73,9 @@ class WebsitePressController(http.Controller):
         return http.request.render('website_press.press', values)
 
     @route(['/website_press/get_posts'], type='json', auth='public', website=True)
-    def get_posts(self, id=None, fields=None, **kw):
+    def get_posts(self, id=None, offset=0, limit=8, fields=None, **kw):
         if id:
             domain = [("id", "=", id)]
         else:
             domain = None
-        return request.env['website.press'].sudo().search_read(domain, fields)
+        return request.env['website.press'].sudo().search_read(domain, fields, offset=offset, limit=limit)
