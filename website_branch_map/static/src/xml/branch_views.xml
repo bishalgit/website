@@ -71,6 +71,12 @@
                             <t t-esc="branch.email"/>
                         </a>
                     </li>
+                    <li>
+                        <a href="">
+                            <i class="fa fa-clock-o"></i>
+                            <t t-esc="branch.opening_hour"/> - <t t-esc="branch.closing_hour"/>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

@@ -27,7 +27,7 @@ odoo.define('website_branch_map.classes', function(require) {
                 args: [
                     [this.id]
                 ],
-                kwargs: { fields: ['id', 'name', 'active', 'description', 'address', 'telephone', 'email', 'lat', 'lng', 'sequence'] }
+                kwargs: { fields: ['id', 'name', 'active', 'description', 'address', 'telephone', 'email', 'lat', 'lng', 'sequence', 'opening_hour', 'closing_hour'] }
             }).then(function(branch_values) {
                 Object.assign(self, branch_values[0]);
                 return self;

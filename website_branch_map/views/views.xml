@@ -39,6 +39,8 @@
 							<field name="lng" class="longitude" id="longitude"/>
 							<field name="telephone"/>
 							<field name="email"/>
+							<field name="opening_hour"/>
+							<field name="closing_hour"/>
 						</group>
 					</sheet>
 					<div class="oe_chatter">
