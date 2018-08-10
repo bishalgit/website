@@ -20,15 +20,15 @@
                     </section>
                     <section class="our-presss section gray-bg">
                         <div class="container o_press_app" />
-                        <div class="press-pager">
+                        <!-- <div class="press-pager">
                             <t t-call="website.pager" >
                                 <t t-set="classname">pull-right</t>
                             </t>
-                        </div>
+                        </div> -->
                     </section>
                 </div>
             </t>
-             <t t-call="u500.u500_footer_snippet"/>
+             <!-- <t t-call="u500.u500_footer_snippet"/> -->
         </template>
     </data>
 </odoo>
