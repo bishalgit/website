@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="cart_modal" name="Cart Modal">
+        <div t-if="not website_sale_order or not website_sale_order.website_order_line" class="well well-lg">
+            Your cart is empty!
+        </div>
+        <t t-if="website_sale_order and website_sale_order.website_order_line">
+            <t t-foreach="website_sale_order.website_order_line" t-as="line">
+                <div class="food-order-item">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <span t-field="line.product_id.image_small" t-options="{'widget': 'image', 'class': 'img-rounded'}" />
+                        </div>
+                        <div class="col-md-9">
+                            <a t-attf-href="/shop/product/#{ slug(line.product_id.product_tmpl_id) }">
+                                <h3>
+                                    <span t-esc="line.product_id.with_context(display_default_code=False).display_name" />
+                                </h3>
+                                <small>Qty: <t t-esc="int(line.product_uom_qty) == line.product_uom_qty and int(line.product_uom_qty) or line.product_uom_qty" /></small>
+                                <p>
+                                    <span t-esc="line.product_id.with_context(display_default_code=False).description_sale" />
+                                </p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="price">
+                                <t t-if="(compute_currency(line.product_id.lst_price) - line.price_reduce ) &gt; 0.01  and website.get_current_pricelist().discount_policy=='without_discount'">
+                                    <del t-attf-class="#{'text-danger mr8'}" style="white-space: nowrap;" t-esc="compute_currency(line.product_id.website_public_price)" t-options="{'widget': 'monetary', 'display_currency': website.get_current_pricelist().currency_id, 'from_currency': website.currency_id}" />
+                                </t>
+                                <span t-field="line.price_reduce_taxexcl" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'from_currency': website_sale_order.pricelist_id.currency_id, 'display_currency': website.currency_id}" groups="sale.group_show_price_subtotal" />
+                                <span t-field="line.price_reduce_taxinc" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'from_currency': website_sale_order.pricelist_id.currency_id, 'display_currency': website.currency_id}" groups="sale.group_show_price_total" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="control-btn pull-right">
+                                <form>
+                                    <div class="css_quantity input-group oe_website_spinner">
+                                        <a t-attf-href="#" class="mb8 input-group-addon js_add_cart_json hidden-xs">
+                                            <i class="fa fa-minus"></i>
+                                        </a>
+                                        <input type="text" class="js_quantity form-control quantity" t-att-data-line-id="line.id" t-att-data-product-id="line.product_id.id" t-att-value="int(line.product_uom_qty) == line.product_uom_qty and int(line.product_uom_qty) or line.product_uom_qty" />
+                                        <a t-attf-href="#" class="mb8 input-group-addon float_left js_add_cart_json hidden-xs">
+                                            <i class="fa fa-plus"></i>
+                                        </a>
+                                    </div>
+                                    <!-- <div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+                                    <input type="number" id="number" value="0" class="number-field" />
+                                    <div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div> -->
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href='#' class='js_delete_product_modal hidden-xs no-decoration'>
+                                <small><i class='fa fa-trash-o'></i> Remove</small>
+                            </a>
+                            <!-- <button class="btn btn-customize ">Remove</button> -->
+                            <!-- <a href=""  class="btn btn-default-cart">Customize </a> -->
+                            
+                        </div>
+                    </div>
+                </div>
+            </t>
+            <div class="text-center">
+                <span class="h5">
+                    <t t-call="website_sale.total">
+                        <t t-set='hide_coupon'>True</t>
+                    </t>
+                </span>
+                <a class="btn btn-primary" href="/shop/cart">
+                    View Cart (<t t-esc="website_sale_order.cart_quantity" /> items)
+                </a>
+            </div>
+        </t>
+    </template>
+</odoo>
