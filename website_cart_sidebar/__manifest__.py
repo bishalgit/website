@@ -22,7 +22,7 @@
     'version': '11.0.1.0.0',
 
     # any module necessary for this one to work correctly
-    'depends': ['website'],
+    'depends': ['website_sale'],
 
     # always loaded
     'data': [
