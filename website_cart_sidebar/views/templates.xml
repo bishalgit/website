@@ -144,7 +144,7 @@
 													<div class="team_list">
 														<form action="/shop/cart/update" class="js_add_cart_variants" method="post">
 															<input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
-															<t t-set="additional_title" t-value="product.name" />
+															<!-- <t t-set="additional_title" t-value="product.name" /> -->
 															<div itemscope="itemscope" itemtype="http://schema.org/Product" id="wrap" class="js_sale">
 																<div class="team_img">
 																	<div class="oe_product_image">
@@ -203,6 +203,10 @@
 																		<div class="col-md-9 co-sm-9 col-xs-8">
 																			<div class="price">
 																				<h4>
+																					<!-- AED -->
+																					<!-- <t t-if="(compute_currency(line.product_id.lst_price) - line.price_reduce ) &gt; 0.01  and website.get_current_pricelist().discount_policy=='without_discount'">
+																						<del t-attf-class="#{'text-danger mr8'}" style="white-space: nowrap;" t-esc="compute_currency(line.product_id.website_public_price)" t-options="{'widget': 'monetary', 'display_currency': website.get_current_pricelist().currency_id, 'from_currency': website.currency_id}" />
+																					</t> -->
 																					AED
 																					<t t-esc="product.list_price" />
 																				</h4>
@@ -230,7 +234,7 @@
 						<div class="oe_structure mb32" />
 					</div>
 				</section>
-				<div id="wrap" class="js_sale">
+				<!-- <div id="wrap" class="js_sale">
 					<div class="oe_structure" />
 					<div class="container oe_website_sale">
 						<div class="products_pager">
@@ -289,7 +293,7 @@
 						</div>
 					</div>
 					<div class="oe_structure mb32" />
-				</div>
+				</div> -->
 			</t>
 		</xpath>
 	</template>

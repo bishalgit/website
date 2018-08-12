@@ -33,7 +33,7 @@ odoo.define('website_cart_sidebar.cart', function(require) {
                             $(cartModal).modal('hide');
                         }
                     }
-                }, 1000);
+                }, 100000);
             });
         });
     }, 1000);
