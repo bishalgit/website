@@ -4,9 +4,7 @@
 	<data>
 		<template id="assets_frontend" inherit_id="website.assets_frontend">
 			<xpath expr=".">
-				 <link rel="stylesheet" href="/website_cart_sidebar/static/src/css/category_sticky.css"/>
-			</xpath>
-			<xpath expr=".">
+				<link rel="stylesheet" type="text/css" href="/website_cart_sidebar/static/src/css/style.css" />
 				<script type="text/javascript" src="/website_cart_sidebar/static/src/js/website_sale.js"></script>				
 				<script type="text/javascript" src="/website_cart_sidebar/static/src/js/category_sticky.js"></script>
 				<script type="text/javascript" src="/website_cart_sidebar/static/src/js/smooth_scroll.js"></script>
