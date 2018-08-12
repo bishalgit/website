@@ -19,6 +19,30 @@ _logger = logging.getLogger(__name__)
 
 
 class WebsiteSaleCart(WebsiteSale):
+    def _get_search_domain(self, search, category, attrib_values):
+        domain = request.website.sale_product_domain()
+        domain += [('is_addition', '=', False)]
+
+        if category:
+            domain += [('public_categ_ids', 'child_of', int(category))]
+
+        if attrib_values:
+            attrib = None
+            ids = []
+            for value in attrib_values:
+                if not attrib:
+                    attrib = value[0]
+                    ids.append(value[1])
+                elif value[0] == attrib:
+                    ids.append(value[1])
+                else:
+                    domain += [('attribute_line_ids.value_ids', 'in', ids)]
+                    attrib = value[0]
+                    ids = [value[1]]
+            if attrib:
+                domain += [('attribute_line_ids.value_ids', 'in', ids)]
+        return domain
+    
     @http.route(['/shop/cart/modal'], type='http', auth="public", website=True)
     def cartModal(self, access_token=None, revive='', **post):
         """
