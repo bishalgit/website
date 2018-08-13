@@ -1505,23 +1505,3 @@ ul.wizard li:last-child {
 .owl-carousel button.owl-dot {
     background: #6ebe47 !important;
 }
-
-/*Make Carousel Category Order Onlin3 Menu Sticky*/
-
-.oe_category_menu {}
-
-.oe_category_menu * {
-    -webkit-transition: all 0.5s ease-in-out;
-    -moz-transition: all 0.5s ease-in-out;
-    -o-transition: all 0.5s ease-in-out;
-    -ms-transition: all 0.5s ease-in-out;
-    transition: all 0.5s ease-in-out;
-}
-
-.oe_category_menu.section-sticky {
-    position: fixed;
-    top: 50px;
-    left: 0;
-    width: 100%;
-    z-index: 99;
-}

@@ -13,3 +13,6 @@
     width: 100%;
     z-index: 99;
 }
+.o_connected_user .oe_category_menu.section-sticky {
+    top: 97px;
+}
