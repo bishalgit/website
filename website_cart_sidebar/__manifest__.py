@@ -2,7 +2,7 @@
 # Copyright 2018 Bishal Pun
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 {
-    'name': "Webisite Sale Cart Sidebar",
+    'name': "Website Sale Cart Sidebar",
 
     'summary': """
         Makes cart sidebar in website.""",
