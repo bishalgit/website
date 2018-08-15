@@ -140,6 +140,7 @@ a.search {
     /* display: none !important; */
 }
 
+
 /**/
 
 .btn-dark-transparent {
@@ -332,7 +333,6 @@ p.price {
     font-family: gotham-bold;
     padding: 9px !important;
     display: inline-block;
-    
 }
 
 .team_list .team_img ul li a {
@@ -432,6 +432,7 @@ p.price {
     color: #6ebe47;
 }
 
+
 /* --====== ORDER --======*/
 
 .owl-item a {
@@ -465,6 +466,7 @@ p.price {
     margin-top: 10px;
     padding-top: 4px;
 }
+
 
 /* --====== order online section ======-- */
 
@@ -604,11 +606,13 @@ p.price {
     margin-left: 6px;
 }
 
+
 /* ----- v CAN BE DELETED v ----- */
 
 .mt-50 {
     margin-top: 50px;
 }
+
 
 /* -- checkout -- */
 
@@ -620,6 +624,7 @@ p.price {
     padding: 100px 0;
     margin-bottom: 50px;
 }
+
 
 /*  */
 
@@ -843,6 +848,7 @@ section.additions {
     margin: 2px 0 0 0;
 }
 
+
 /*  */
 
 input[type="checkbox"] {
@@ -1064,6 +1070,7 @@ input[type="checkbox"] {
     margin-left: 10px;
 }
 
+
 /* .owl-nav {
     position: absolute;
     bottom: -44px;
@@ -1271,6 +1278,7 @@ input[type="checkbox"] {
     box-shadow: 0 1px 20px rgba(20, 20, 20, 0.2);
 }
 
+
 /* ADDRESS */
 
 .oe_cart h2 {
@@ -1300,6 +1308,7 @@ select {
     font-size: 14px;
     border: 1px solid #dedede;
 }
+
 
 /* .custom-wraps {
     background: #eee;
@@ -1378,9 +1387,11 @@ select {
     margin: 17px 25px;
 }
 
+
 /* .custom_wraps {
     background: #eee;
 } */
+
 
 /* Payment */
 
@@ -1467,9 +1478,11 @@ div#payment_method {
     font-size: 18px;
 }
 
-li#my_cart {
+
+/* li#my_cart {
     display: none;
-}
+} */
+
 
 /*  */
 

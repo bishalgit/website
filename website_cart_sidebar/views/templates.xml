@@ -213,7 +213,7 @@
 																			</div>
 																		</div>
 																		<div class="col-md-3 col-sm-3 col-xs-4">
-																			<a id="additions" class="btn btn-primary btn-lg mt8 pull-right" t-att-href="keep('/shop/product/additions/%s' % slug(product),
+																			<a id="additions" class="btn btn-primary btn-lg mt8 pull-right" t-att-href="keep('/shop/product/%s' % slug(product),
                                                                                            page=(pager['page']['num'] if pager['page']['num']&gt;1 else None))" style="display:inline-block;" href="#">
 																				<i class="fa fa-cart-plus" />
 																			</a>
