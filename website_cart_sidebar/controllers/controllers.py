@@ -5,7 +5,8 @@ import logging
 from werkzeug.exceptions import Forbidden, NotFound
 
 from odoo import http, tools, _
-from odoo.http import request
+from odoo.addons.bus.controllers.main import BusController
+from odoo.http import request, route
 from odoo.addons.base.ir.ir_qweb.fields import nl2br
 from odoo.addons.http_routing.models.ir_http import slug
 from odoo.addons.website.controllers.main import QueryURL
@@ -155,3 +156,62 @@ class WebsiteSaleCart(WebsiteSale):
         if category:
             values['main_object'] = category
         return request.render("website_sale.products", values)
+
+class BranchLocationController(BusController):
+    def _poll(self, dbname, channels, last, options):
+        """Add the relevant channels to the BusController polling."""
+        if options.get('product.product'):
+            channels = list(channels)
+            branch_channel = (
+                request.db,
+                'product.product',
+                options.get('product.product')
+            )
+            channels.append(branch_channel)
+        return super(BranchLocationController, self)._poll(dbname, channels, last, options)
+
+
+class OrderAppController(http.Controller):
+
+    @route(['/website_cart_sidebar/product'], type='json', auth='public', website=True)
+    def get_product(self, id=None, **kw):
+        fields = ['id', 'name', 'active', 'barcode', 'calorie', 'carbohydrate', 'fat', 'protein', 'categ_id',
+        'child_id', 'currency_id', 'description', 'description_sale', 'display_name', 'list_price', 'is_offer',
+        'lst_price', 'offer_points', 'public_categ_ids', 'uom_id', 'uom_po_id', 'website_price', 'website_public_price']
+        
+        Product = request.env['product.template']
+        _logger.warning("lskdf" + str(id))
+        
+        if id:
+            domain = [("id", "=", id), ("is_addition", "=", False)]
+        else:
+            domain = None
+        
+        product = Product.sudo().search_read(domain, fields, limit=1)
+        for prod in product:
+            fields = ['id', 'name', 'active', 'barcode', 'calorie', 'carbohydrate', 'fat', 'protein', 'categ_id',
+            'currency_id', 'description', 'description_sale', 'display_name', 'list_price',
+            'lst_price', 'offer_points', 'public_categ_ids', 'uom_id', 'uom_po_id', 'website_price', 'website_public_price',
+            'is_addition', 'is_multiple']
+            domain = [("id", "in", prod['child_id'])]
+            additions = Product.sudo().search_read(domain, fields)
+            _logger.warning(additions);
+            
+        values = {
+            # 'search': search,
+            # 'category': category,
+            # 'attrib_values': attrib_values,
+            # 'attrib_set': attrib_set,
+            # 'pager': pager,
+            # 'pricelist': pricelist,
+            'product': product,
+            # 'search_count': product_count,  # common for all searchbox
+            # 'bins': TableCompute().process(products, ppg),
+            # 'rows': PPR,
+            # 'categories': categs,
+            # 'attributes': attributes,
+            # 'compute_currency': compute_currency,
+            # 'keep': keep,
+            # 'parent_category_ids': parent_category_ids,
+        }
+        return values

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="product_templates">
+    <t t-name="website_cart_sidebar.product_modal">
+        <!-- Modal -->
+		<div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalTitle" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="productModalTitle">Modal</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&amp;times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div itemscope="itemscope" itemtype="http://schema.org/Product" id="wrap" class="js_sale custom_wraps">
+							<section data-id="productModal" class="container-fluid mt8 oe_website_sale "/>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary">Add to Cart</button>
+					</div>
+				</div>
+			</div>
+		</div>
+    </t>
+	<t t-name="website_cart_sidebar.product">
+		<t t-set="product" t-value="widget"/>
+		<t t-if="product">
+			<div class="row oe_product_content">
+				<div class="col-sm-6">
+					<img t-attf-src="/web/image/product.template/{{product.id}}/image" class="img img-responsive product_detail_img" 
+					t-att-alt="product.display_name" data-zoom="1" data-zoom-image="/web/image/product.template/{{ product.id }}/image" />
+				</div>
+				<div class="col-sm-6" t-if="len(product._additions) &gt; 0">
+					<form action="/shop/cart/update" class="js_add_cart_variants" method="POST">
+						<!-- <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" /> -->
+						<div class="product_additions_checkboxes">
+							<t t-set="i" t-value="0"/>
+							<ul>
+								<t t-foreach="product.child_id" t-as="addition">
+									<div>
+										<!-- <t t-esc="addition.name"> -->
+									</div>
+									<li>
+										<label>
+
+											<div class="css_quantity input-group oe_website_spinner" contenteditable="false">
+												<t t-if="addition.is_multiple">
+													<a t-attf-href="#" class="mb8 input-group-addon js_add_cart_json">
+														<i class="fa fa-minus"></i>
+													</a>
+													<input type="text"
+															t-attf-name="additions_input[{{addition.id}}]"
+															t-attf-id="{{ addition.id }}"
+															t-attf-value="0"
+															class="additions_checkbox form-control quantity"
+															t-attf-data-price="{{ addition.website_price }}"
+															data-min="1"/>
+													<a t-attf-href="#" class="mb8 input-group-addon float_left js_add_cart_json">
+														<i class="fa fa-plus"></i>
+													</a>
+												</t>
+											</div>
+											<input type="checkbox"
+													t-if="not addition.is_multiple"
+													t-attf-name="additions_input[{{addition.id}}]"
+													t-attf-id="{{ addition.id }}"
+													t-attf-value="{{ addition.id }}"
+													class="additions_checkbox"
+													t-attf-data-price="{{ addition.website_price }}"/>
+											<div class="oe_u500_price">
+												<p t-esc="addition.name" />
+												<t t-call="website_cart_sidebar.addition_price" />
+											</div>
+										</label>
+									</li>
+								</t>
+							</ul>
+						</div>
+						<div class="js_product" t-if="product.product_variant_ids">
+							<t t-placeholder="select">
+								<input type="hidden" class="product_id" name="product_id"
+										t-att-value="product.product_variant_id.id if len(product.product_variant_ids) == 1 else '0'" />
+								<t t-call="website_sale.variants">
+									<t t-set="ul_class"
+										t-value="'nav-stacked'" />
+								</t>
+							</t>
+							<t t-call="website_sale.product_price" />
+							<p t-if="len(product.product_variant_ids) &gt; 1"
+								class="css_not_available_msg bg-danger"
+								style="padding: 15px;">This combination does not exist.</p>
+							
+							<div class="add_to_cart_btns cart-inner"> 
+								<a id="add_to_cart" class="btn btn-outline fill btn-lg mt8 js_check_product a-submit"
+								href="#"><span class="fa fa fa-shopping-cart" /> Add to Cart 
+								</a>
+								<a href="/shop" class="btn btn-outline  mb32 u500_continue_shopping">
+									<span class="fa fa-long-arrow-left" />
+									<span class="hidden-xs">Continue Shopping</span>
+									<span class="visible-xs-inline">Continue</span>
+								</a>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</t>
+	</t>
+	<t t-name="website_cart_sidebar.cart_modal">
+		<div class="modal right fade custom-modal oe_website_sale" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="cartModelLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content oe_cart oe_cart_modal">
+					<div class="modal-header">
+						<div class="col-md-2 col-sm-2 col-xs-2">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&amp;times;</span>
+							</button>
+						</div>
+						<div class="col-md-8 col-sm-8 col-xs-8 text-center">
+							<h4 class="modal-title" id="cartModelLabel">Your Order</h4>
+						</div>
+						<div class="col-md-2 col-sm-2 col-xs-2">
+							<!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<i class="fa fa-trash-o "></i>
+							</button> -->
+						</div>
+					</div>
+					<div class="modal-body"/>
+
+					<div class="modal-footer">
+						<div class="row">
+							<div class="col-md-6 col-sm-6 col-xs-6">
+								<a href="shop.php" class="btn btn-default-cart-dark pull-left"> <i class="fa fa-angle-left mr-10"></i> Order More </a>
+							</div>
+							<div class="col-md-6 col-sm-6 col-xs-6">
+								<a href="checkout.php" class="btn btn-default-cart pull-right">Checkout </a>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<!-- modal-content -->
+			</div>
+			<!-- modal-dialog -->
+		</div>
+		<!-- modal -->
+	</t>
+</templates>
