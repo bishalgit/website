@@ -47,6 +47,7 @@
 				<div class="col-sm-6">
 					<img t-attf-src="/web/image/product.template/{{product.id}}/image" class="img img-responsive product_detail_img" 
 					t-att-alt="product.display_name" data-zoom="1" data-zoom-image="/web/image/product.template/{{ product.id }}/image" />
+					<div class="oe-product-description" t-esc="product.description_sale"/>
 				</div>
 				<div class="col-sm-6" t-if="(product.additions.length) &gt; 0">
 					<div id="oe_additions" class="product_additions_checkboxes"/>
