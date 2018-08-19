@@ -192,7 +192,6 @@ odoo.define('website_cart_sidebar.views', function(require) {
                 if (this.checked) {
                     minus_plus = 1;
                 }
-
                 current_total = minus_plus * parseFloat($input.attr("data-price")) + current_total;
                 $(self.productModal).find('#productCartTotalAmount').text(current_total);
                 return false;

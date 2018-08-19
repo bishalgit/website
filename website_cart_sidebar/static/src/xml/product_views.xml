@@ -72,9 +72,9 @@
 					<input type="text" 
 						t-attf-name="additions_input[{{addition.id}}]"
 						t-attf-id="{{ addition.id }}"
-						t-attf-value="0"
 						class="additions_checkbox form-control quantity"
-						t-attf-data-price="{{ addition.website_price }}"
+						t-attf-data-price="{{ addition.website_price }}" 
+						value="0" 
 						data-min="0" data-max="5"/>
 					<a t-attf-href="#" class="mb8 input-group-addon float_left js_add_cart_json">
 						<i class="fa fa-plus"></i>
@@ -104,8 +104,8 @@
 				<input type="checkbox"
 						t-attf-name="additions_input[{{addition.id}}]"
 						t-attf-id="{{ addition.id }}"
-						t-attf-value="{{ addition.id }}"
-						class="js_add_cart_json"
+						class="js_add_cart_json" 
+						t-att-value="addition.id" 
 						t-attf-data-price="{{ addition.website_price }}"/>
 				<div class="oe_u500_price">
 					<p t-esc="addition.name" />

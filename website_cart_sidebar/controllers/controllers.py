@@ -163,11 +163,20 @@ class WebsiteSaleCart(WebsiteSale):
         # def cart_update(self, **kw):
         main_item = request.env['product.template'].sudo().search(
             [('id', '=', product_id), ('is_addition', '=', False)])
-        addition_items = request.env['product.template'].sudo().search([('id', '=', product_id)]).child_id
+        # addition_items = request.env['product.template'].sudo().search([('id', '=', product_id)]).child_id
+        additions_list = dict([(int(key[16:-1]),int(value)) for key, value in kw.items() if key.startswith("additions_input[")])
+
+        _logger.warning(additions_list)
+
         sub_count = 0
-        for aitems in addition_items:
-            if kw.get('additions_input[' + str(aitems.id) + ']'):
-                sub_count += 1
+        if len(additions_list) > 0:
+            addition_items = request.env['product.template'].sudo().browse(list(additions_list.keys())).filtered(
+                lambda r: (
+                    (r.is_multiple and additions_list[r.id] > 0) or (not r.is_multiple)
+                ))
+            sub_count = len(addition_items)
+        
+        _logger.warning("count: " + str(sub_count))
         old_item = True
         # check if the similar order already exists
         order = request.website.sale_get_order(force_create=1)
@@ -175,39 +184,51 @@ class WebsiteSaleCart(WebsiteSale):
         if main_item:
             _logger.warning(order.id)
             _logger.warning(product_id)
-            main_product = request.env['sale.order.line'].search(
+            main_product_lines = request.env['sale.order.line'].search(
                 [('order_id', '=', int(order.id)), ('product_id', '=', int(product_id))])
-            _logger.warning(main_product)
+            _logger.warning('1')
+            _logger.warning(main_product_lines)
             old_id = 0
-            if main_product:
-                for mp in main_product:
+            old_item = False
+            if main_product_lines:
+                _logger.warning('2')
+                for main_product_line in main_product_lines:
                     old_item = True
-                    sub_product = request.env['sale.order.line'].search([('parent_id', '=', mp.id)])
-                    sub_product_count = request.env['sale.order.line'].search_count([('parent_id', '=', mp.id)])
-                    _logger.warning(sub_product_count)
-                    _logger.warning(sub_count)
-                    if sub_product_count == sub_count:
-                        for sub in sub_product:
-                            # checking for is_multiple addons item
-                            _logger.warning(sub.product_id.is_multiple)
-                            if sub.product_id.is_multiple:
-                                old_item = False
-                                break
-                            _logger.warning(sub.product_id.id)
-                            if not kw.get('additions_input[' + str(sub.product_id.id) + ']'):
-                                old_item = False
-                                _logger.warning('Addons mismatch')
+                    sub_product = request.env['sale.order.line'].search([('parent_id', '=', main_product_line.id)])
+                    if sub_product:
+                        _logger.warning('3')
+                        if len(sub_product) == len(addition_items):
+                            old_item = True
+                            _logger.warning(sub_product.ids)
+                            _logger.warning(addition_items.ids)
+                            for x in sub_product:
+                                _logger.warning(x.product_id.id)
+                                if x.product_id.id not in addition_items.ids:
+                                    old_item = False
+
+                        # if sub_product_count == sub_count:
+                        #     for sub in sub_product:
+                        #         # checking for is_multiple addons item
+                        #         _logger.warning(sub.product_id.is_multiple)
+                        #         if sub.product_id.is_multiple:
+                        #             old_item = False
+                        #             break
+                        #         _logger.warning(sub.product_id.id)
+                        #         if not kw.get('additions_input[' + str(sub.product_id.id) + ']'):
+                        #             old_item = False
+                        #             _logger.warning('Addons mismatch')
+                        else:
+                            old_item = False
+                            _logger.warning('Addons count mismatch')
                     else:
                         old_item = False
                         _logger.warning('Addons count mismatch')
+                    
                     if old_item == True:
-                        old_id = mp.id
+                        old_id = main_product_line.id
                         break
-            else:
-                _logger.warning('New Main Product')
-                old_item = False
 
-            if old_item == False:
+            if not old_item:
                 _logger.warning('Treating as new item')
                 main = request.website.sale_get_order(force_create=1)._cart_update(
                     product_id=int(product_id),
@@ -218,26 +239,24 @@ class WebsiteSaleCart(WebsiteSale):
                 )
                 _logger.warning(main)
                 for aitems in addition_items:
-                    if kw.get('additions_input[' + str(aitems.id) + ']'):
-                        if aitems.is_multiple:
-                            if int(kw.get('additions_input[' + str(aitems.id) + ']')) > 0:
-                                request.website.sale_get_order(force_create=1)._cart_update(
-                                    product_id=int(aitems.id),
-                                    add_qty=kw.get('additions_input[' + str(aitems.id) + ']'),
-                                    set_qty=set_qty,
-                                    line_id=False,
-                                    parent_id=main['line_id'],
-                                    attributes=self._filter_attributes(**kw),
-                                )
-                        else:
-                            request.website.sale_get_order(force_create=1)._cart_update(
-                                product_id=int(aitems.id),
-                                add_qty=add_qty,
-                                set_qty=set_qty,
-                                line_id=False,
-                                parent_id=main['line_id'],
-                                attributes=self._filter_attributes(**kw),
-                            )
+                    if aitems.is_multiple:
+                        request.website.sale_get_order(force_create=1)._cart_update(
+                            product_id=int(aitems.id),
+                            add_qty=additions_list[aitems.id],
+                            set_qty=set_qty,
+                            line_id=False,
+                            parent_id=main['line_id'],
+                            attributes=self._filter_attributes(**kw),
+                        )
+                    else:
+                        request.website.sale_get_order(force_create=1)._cart_update(
+                            product_id=int(aitems.id),
+                            add_qty=add_qty,
+                            set_qty=set_qty,
+                            line_id=False,
+                            parent_id=main['line_id'],
+                            attributes=self._filter_attributes(**kw),
+                        )
             else:
                 _logger.warning('treating as old item')
                 m_line_id = request.env['sale.order.line'].search(
