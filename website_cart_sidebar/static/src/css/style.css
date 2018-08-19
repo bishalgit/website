@@ -923,6 +923,7 @@ section#product_detail {
     color: #181f27 !important;
     font-size: 30px;
     margin-bottom: 25px;
+    font-family: gotham-bold
 }
 
 #product_details h2 {
@@ -1053,9 +1054,11 @@ input[type="checkbox"] {
 #product_details .btn-primary {
     border-radius: 0;
     display: inline-block;
-    padding: 9px 23px !important;
+    padding: 12px 30px !important;
     margin: 10px 0 !important;
     text-transform: uppercase;
+    font-family: gotham-bold;
+    font-size: 14px;
 }
 
 .u500_continue_shopping {
@@ -1240,11 +1243,12 @@ input[type="checkbox"] {
     font-family: gotham-bold !important;
 }
 
-.oe_cart .btn-default {
+.oe_cart .btn-default, .oe_cart .btn-default:hover, .oe_cart .btn-default:active, .oe_cart .btn-default:focus {
     padding: 10px 23px;
     font-size: 14px;
     text-transform: uppercase;
     border-radius: 4px !important;
+    background: #6cbe45;
 }
 
 .u500_continue_shopping {
@@ -1299,7 +1303,6 @@ input[type="checkbox"] {
 }
 
 .oe_cart input,
-textarea,
 select {
     box-shadow: none;
     border-radius: 0;
@@ -1367,12 +1370,12 @@ select {
     line-height: 29px;
 }
 
-.oe_cart .all_shipping .one_kanban .btn-block {
+.oe_cart .all_shipping .one_kanban .btn-block, .oe_cart .all_shipping .one_kanban .btn-block:hover, .oe_cart .all_shipping .one_kanban .btn-block:active, .oe_cart .all_shipping .one_kanban .btn-block:focus {
     max-width: 240px;
     border-radius: 0 !important;
-    border: 1px solid #bebebe !important;
+    border: 1px solid #ffffff !important;
     color: #464646;
-    background: #f5f5f5;
+    background: #ffffff;
     font-family: gotham-bold !important;
 }
 
@@ -1441,10 +1444,21 @@ ul.wizard li {
 div#payment_method {
     margin-top: 0px;
     background: #fff;
-    padding: 30px;
-    border-radius: 8px;
+    padding: 30px 30px 85px;
+    border-radius: 0px;
     margin-bottom: 50px;
     box-shadow: 0 1px 20px rgba(20, 20, 20, 0.2);
+}
+div#payment_method .panel {
+    border-radius: 0;
+    box-shadow: none;
+}
+div#payment_method .panel .panel-body{
+    padding: 0px !important;
+    border-top: none !important;
+}
+div#payment_method .panel .panel-body label{
+    margin-bottom: 0px !important; 
 }
 
 .confirm_order input[type="radio"] {
@@ -1459,6 +1473,7 @@ div#payment_method {
 
 #payment_method input {
     padding: 0 15px;
+    vertical-align: middle
 }
 
 .oe_cart .js_quantity {
@@ -1515,4 +1530,18 @@ ul.wizard li:last-child {
 .owl-carousel .owl-nav button.owl-prev,
 .owl-carousel button.owl-dot {
     background: #6ebe47 !important;
+}
+
+.oe_website_sale .oe_search .oe_search_box {
+    box-shadow: none;
+    height: 45px;
+    background: whitesmoke;
+    border-color: whitesmoke;
+    font-family: gotham;
+    margin-top: 10px;
+    vertical-align: middle;
+}
+
+.css_quantity input[name="add_qty"] {
+    font-family: gotham-bold;
 }
