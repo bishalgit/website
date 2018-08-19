@@ -243,10 +243,9 @@
 																			</div>
 																		</div>
 																		<div class="col-md-3 col-sm-3 col-xs-4">
-																			<a t-attf-id="additions_{{ product.id }}" class="btn btn-primary btn-lg mt8 pull-right additions" t-att-href="keep('/shop/product/%s' % slug(product),
-                                                                                           page=(pager['page']['num'] if pager['page']['num']&gt;1 else None))" style="display:inline-block;" href="#">
+																			<button type="button" t-att-data-product-id="product.id" class="btn btn-primary btn-lg mt8 pull-right additions oe_add_to_cart_button" style="display:inline-block;">
 																				<i class="fa fa-cart-plus" />
-																			</a>
+																			</button>
 																		</div>
 																	</div>
 																</div>
@@ -260,7 +259,6 @@
 									</t>
 								</div>
 							</t>
-							<t t-call="website_cart_sidebar.product_modal" />
 						</div>
 						<div class="oe_structure mb32" />
 					</div>
@@ -349,4 +347,201 @@
           <h4 class="hidden oe_not_available bg-warning">Product not available</h4>
       </div>
     </template>
+
+	<template id="product" name="Custom Product" inherit_id="website_sale.product">
+		<xpath expr="//t[@t-call='website.layout']" position="replace">
+			<t t-call="website.layout">
+                <t t-set="additional_title" t-value="product.name" />
+                <div itemscope="itemscope" itemtype="http://schema.org/Product" id="wrap" class="js_sale custom_wraps">
+                    <section t-attf-class="container mt8 oe_website_sale #{(compute_currency(product.lst_price) - product.website_price) &gt; 0.01 and website.get_current_pricelist().discount_policy == 'without_discount'  and 'discount'}" id="product_detail">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <ol class="breadcrumb">
+                                    <li>
+                                        <a t-att-href="keep(category=0)">Products</a>
+                                    </li>
+                                    <li t-if="category">
+                                        <a t-att-href="keep('/shop/category/%s' % slug(category), category=0)"
+                                           t-field="category.name" />
+                                    </li>
+                                    <li class="active">
+                                        <span t-field="product.name" />
+                                    </li>
+                                </ol>
+                            </div>
+                            <div id="website_published_button" class="col-sm-3">
+                            </div>
+                            <div class="col-sm-2 text-right">
+                                <t t-call="website_sale.pricelist_list" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h1 itemprop="name" style="color: #8c8c8c;" t-field="product.name">Product Name</h1>
+                                <span itemprop="image" t-attf-content="{{request.httprequest.url_root}}web/image/product.template/{{product.id}}/image"
+                                      t-field="product.image" t-options="{'widget': 'image', 'class': 'product_detail_img', 'alt-field': 'name', 'zoom': 'image'}"
+                                      groups="!website_sale.group_website_multi_image"/>
+                                <t groups="website_sale.group_website_multi_image">
+                                    <t t-set="variant_img" t-value="any(product.mapped('product_variant_ids.image_variant'))"/>
+                                    <t t-set="image_ids"  t-value="product.product_image_ids"/>
+                                    <div id="o-carousel-product" class="carousel slide"
+                                         data-ride="carousel" data-interval="0">
+                                      <div class="carousel-outer">
+                                        <div class="carousel-inner">
+                                            <div t-if="variant_img" class="item active" itemprop="image"
+                                                 t-field="product[:1].product_variant_id.image"
+                                                 t-options="{'widget': 'image', 'class': 'product_detail_img js_variant_img', 'alt-field': 'name', 'zoom': 'image', 'unique': product['__last_update'] + (product.product_variant_id['__last_update'] or '')}"/>
+                                            <div t-attf-class="item#{'' if variant_img else ' active'}"
+                                                 itemprop="image" t-field="product.image"
+                                                 t-options="{'widget': 'image', 'class': 'product_detail_img', 'alt-field': 'name', 'zoom': 'image', 'unique': product['__last_update']}"/>
+                                            <t t-if="len(image_ids)" t-foreach="image_ids" t-as="pimg">
+                                                <div class="item" t-field="pimg.image"
+                                                     t-options='{"widget": "image", "class": "product_detail_img", "alt-field": "name", "zoom": "image" }'/>
+                                            </t>
+                                        </div>
+
+                                        <t t-if="len(image_ids) or variant_img">
+                                            <a class="carousel-control left" href="#o-carousel-product" role="button"
+                                               data-slide="prev" >
+                                                <span class="fa fa-chevron-left" aria-hidden="true"/>
+                                                <span class="sr-only">Previous</span>
+                                            </a>
+                                            <a class="carousel-control right" href="#o-carousel-product" role="button"
+                                               data-slide="next">
+                                                <span class="fa fa-chevron-right" aria-hidden="true"/>
+                                                <span class="sr-only">Next</span>
+                                            </a>
+                                        </t>
+                                      </div>
+
+                                      <ol class="carousel-indicators" t-if="len(image_ids) or variant_img">
+                                        <li t-if="variant_img" data-target="#o-carousel-product" data-slide-to="0"
+                                            class="active">
+                                            <img class="img img-responsive js_variant_img_small"
+                                                 t-attf-src="/website/image/product.product/{{product.product_variant_id.id}}/image/90x90"
+                                                 t-att-alt="product.name"/>
+                                        </li>
+                                        <li data-target="#o-carousel-product" t-att-data-slide-to="1 if variant_img else '0'"
+                                            t-att-class="'' if variant_img else 'active'">
+                                            <img class="img img-responsive" t-attf-src="/website/image/product.template/{{product.id}}/image/90x90"
+                                                 t-att-alt="product.name"/>
+                                        </li>
+                                        <t t-if="len(image_ids)" t-foreach="image_ids" t-as="pimg">
+                                            <li data-target="#o-carousel-product" t-att-data-slide-to="pimg_index + (variant_img and 2 or 1)">
+                                                <img class="img img-responsive" t-attf-src="/website/image/product.image/{{pimg.id}}/image/90x90"
+                                                     t-att-alt="pimg.name"/>
+                                            </li>
+                                        </t>
+                                      </ol>
+                                    </div>
+                                </t>
+                            </div>
+                            <div class="col-sm-6" 
+                                 id="product_details" 
+                                 t-if="len(product.child_id) &gt; 0">
+                                <h2 style="color: #8c8c8c;">Available Additions</h2>
+                                <br />
+                                <!--<div class="total_product_price">-->
+                                    <!--<a id="calc_additions" class="btn btn-primary btn-lg mt8 js_calc_additions" href="#">Calculate Additions</a>-->
+                                    <!--<span>-->
+                                        <!--<strong style="color: #8c8c8c;"> AED </strong>-->
+                                        <!--<strong style="color: #8c8c8c;" class="total_additions_price"> 0.0 </strong>-->
+                                        <!--<strong style="color: #8c8c8c;"> د.إ </strong>-->
+                                    <!--</span>-->
+                                <!--</div>-->
+                                <br />
+                                <span itemprop="url" style="display:none;"
+                                      t-esc="'%sshop/product/%s' % (request.httprequest.url_root, slug(product))"/>
+                                <form action="/shop/cart/update" class="js_add_cart_variants" method="POST">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                                    <div class="product_additions_checkboxes">
+                                        <t t-set="i" t-value="0"/>
+                                        <ul>
+                                            <t t-foreach="product.child_id" t-as="addition">
+												<div>
+													<!-- <t t-esc="addition.name"> -->
+												</div>
+                                                <li>
+                                                    <label>
+
+                                                        <div class="css_quantity input-group oe_website_spinner" contenteditable="false">
+                                                            <t t-if="addition.is_multiple">
+                                                                <a t-attf-href="#" class="mb8 input-group-addon js_add_cart_json">
+                                                                    <i class="fa fa-minus"></i>
+                                                                </a>
+                                                                <input type="text"
+                                                                       t-attf-name="additions_input[{{addition.id}}]"
+                                                                       t-attf-id="{{ addition.id }}"
+                                                                       t-attf-value="0"
+                                                                       class="additions_checkbox form-control quantity"
+                                                                       t-attf-data-price="{{ addition.website_price }}"
+                                                                       data-min="1"/>
+                                                                <a t-attf-href="#" class="mb8 input-group-addon float_left js_add_cart_json">
+                                                                    <i class="fa fa-plus"></i>
+                                                                </a>
+                                                            </t>
+                                                        </div>
+                                                        <input type="checkbox"
+                                                               t-if="not addition.is_multiple"
+                                                               t-attf-name="additions_input[{{addition.id}}]"
+                                                               t-attf-id="{{ addition.id }}"
+                                                               t-attf-value="{{ addition.id }}"
+                                                               class="additions_checkbox"
+                                                               t-attf-data-price="{{ addition.website_price }}"/>
+                                                        <div class="oe_u500_price">
+                                                            <p t-esc="addition.name" />
+                                                            <t t-call="website_cart_sidebar.addition_price" />
+                                                        </div>
+                                                    </label>
+                                                </li>
+                                            </t>
+                                        </ul>
+                                    </div>
+                                    <div class="js_product" t-if="product.product_variant_ids">
+                                        <t t-placeholder="select">
+                                            <input type="hidden" class="product_id" name="product_id"
+                                                   t-att-value="product.product_variant_id.id if len(product.product_variant_ids) == 1 else '0'" />
+                                            <t t-call="website_sale.variants">
+                                                <t t-set="ul_class"
+                                                   t-value="'nav-stacked'" />
+                                            </t>
+                                        </t>
+                                        <t t-call="website_sale.product_price" />
+                                        <p t-if="len(product.product_variant_ids) &gt; 1"
+                                           class="css_not_available_msg bg-danger"
+                                           style="padding: 15px;">This combination does not exist.</p>
+                                        
+                                        <div class="add_to_cart_btns cart-inner"> 
+                                            <a id="add_to_cart" class="btn btn-outline fill btn-lg mt8 js_check_product a-submit"
+                                            href="#"><span class="fa fa fa-shopping-cart" /> Add to Cart 
+                                            </a>
+                                            <a href="/shop" class="btn btn-outline  mb32 u500_continue_shopping">
+                                                <span class="fa fa-long-arrow-left" />
+                                                <span class="hidden-xs">Continue Shopping</span>
+                                                <span class="visible-xs-inline">Continue</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                        </div>
+                    </section>
+                    <t t-set="head">
+                        <!-- Facebook and linkedin sharing data -->
+                        <meta property="og:type" content="website" />
+                        <meta property="og:url" t-att-content="request.httprequest.url" />
+                        <meta property="og:image" t-attf-content="#{request.httprequest.url_root}web/image/product.template/#{product.id}/image" />
+                        <meta property="og:description" t-att-content="product.description_sale" />
+                        <!--  Twitter sharing data -->
+                        <meta name="twitter:card" content="summary_large_image" />
+                        <meta name="twitter:site" t-attf-content="@#{res_company.name}" />
+                        <meta name="twitter:title" t-att-content="product.name" />
+                        <meta name="twitter:description" t-att-content="product.description_sale" />
+                        <meta name="twitter:image" t-attf-content="#{request.httprequest.url_root}web/image/product.template/#{product.id}/image" />
+                    </t>
+                </div>
+            </t>
+		</xpath>
+	</template>
 </odoo>

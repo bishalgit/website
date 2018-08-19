@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="product_templates">
+    <t t-name="website_cart_sidebar.product_modal">
+        <!-- Modal -->
+		<div class="modal fade bd-example-modal-lg oe_website_sale" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalTitle" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="productModalTitle">Modal</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&amp;times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div itemscope="itemscope" itemtype="http://schema.org/Product" id="wrap" class="js_sale custom_wraps">
+							<section data-id="productModal" class="container-fluid mt8 oe_website_sale "/>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary">Add to Cart</button>
+					</div>
+				</div>
+			</div>
+		</div>
+    </t>
+	<t t-name="website_cart_sidebar.product">
+		<t t-set="product" t-value="widget"/>
+		<t t-if="product">
+			<div class="row oe_product_content">
+				<div class="col-sm-6">
+					<img t-attf-src="/web/image/product.template/{{product.id}}/image" class="img img-responsive product_detail_img" 
+					t-att-alt="product.display_name" data-zoom="1" data-zoom-image="/web/image/product.template/{{ product.id }}/image" />
+				</div>
+				<div class="col-sm-6" t-if="(product.additions.length) &gt; 0">
+					<div id="oe_additions" class="product_additions_checkboxes"/>
+				</div>
+			</div>
+		</t>
+	</t>
+	<t t-name="website_cart_sidebar.addition.categ">
+		<div class="oe-additions-categ" t-att-data-addition-categ-id="categ.id">
+			<div class='oe-additions-categ-title'>
+				<t t-esc="categ.name"/>
+			</div>
+			<ul class='oe-additions-categ-ul' t-att-data-addition-categ-ul-id="categ.id"/>
+		</div>
+	</t>
+	<t t-name="website_cart_sidebar.additon.single">
+		<li>
+			<label>
+				<div class="css_quantity input-group oe_website_spinner" contenteditable="false">
+					<a t-attf-href="#" class="mb8 input-group-addon js_add_cart_json">
+						<i class="fa fa-minus"></i>
+					</a>
+					<input type="text" 
+						t-attf-name="additions_input[{{addition.id}}]"
+						t-attf-id="{{ addition.id }}"
+						t-attf-value="0"
+						class="additions_checkbox form-control quantity"
+						t-attf-data-price="{{ addition.website_price }}"
+						data-min="1"/>
+					<a t-attf-href="#" class="mb8 input-group-addon float_left js_add_cart_json">
+						<i class="fa fa-plus"></i>
+					</a>
+				</div>
+				<div class="oe_u500_price">
+					<p t-esc="addition.name" />
+					<div itemprop="offers" itemscope="itemscope" itemtype="http://schema.org/Offer" class="product_price mt16">
+						<h4 class="oe_price_h4 css_editable_mode_hidden">
+							<span data-oe-type="monetary" class="text-danger oe_default_price" style="display: none;">
+								AED <span class="oe_currency_value"><t t-esc="addition.website_public_price" /></span>
+							</span>
+							<b data-oe-type="monetary" class="oe_price" style="white-space: nowrap;">
+								AED <span class="oe_currency_value"><t t-esc="addition.website_public_price" /></span>
+							</b>
+							<span itemprop="price" style="display:none;"><t t-esc="addition.website_public_price" /></span>
+							<span itemprop="priceCurrency" style="display:none;">AED</span>
+						</h4>
+					</div>
+				</div>
+			</label>
+		</li>
+	</t>
+	<t t-name="website_cart_sidebar.additon.multi">
+		<li>
+			<label>
+				<input type="checkbox"
+						t-attf-name="additions_input[{{addition.id}}]"
+						t-attf-id="{{ addition.id }}"
+						t-attf-value="{{ addition.id }}"
+						class="additions_checkbox"
+						t-attf-data-price="{{ addition.website_price }}"/>
+				<div class="oe_u500_price">
+					<p t-esc="addition.name" />
+					<div itemprop="offers" itemscope="itemscope" itemtype="http://schema.org/Offer" class="product_price mt16">
+						<h4 class="oe_price_h4 css_editable_mode_hidden">
+							<span data-oe-type="monetary" class="text-danger oe_default_price" style="display: none;">
+								AED <span class="oe_currency_value"><t t-esc="addition.website_public_price" /></span>
+							</span>
+							<b data-oe-type="monetary" class="oe_price" style="white-space: nowrap;">
+								AED <span class="oe_currency_value"><t t-esc="addition.website_public_price" /></span>
+							</b>
+							<span itemprop="price" style="display:none;"><t t-esc="addition.website_public_price" /></span>
+							<span itemprop="priceCurrency" style="display:none;">AED</span>
+						</h4>
+					</div>
+				</div>
+			</label>
+		</li>
+	</t>
+	<t t-name="website_cart_sidebar.cart_modal">
+		<div class="modal right fade custom-modal oe_website_sale" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="cartModelLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content oe_cart oe_cart_modal">
+					<div class="modal-header">
+						<div class="col-md-2 col-sm-2 col-xs-2">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&amp;times;</span>
+							</button>
+						</div>
+						<div class="col-md-8 col-sm-8 col-xs-8 text-center">
+							<h4 class="modal-title" id="cartModelLabel">Your Order</h4>
+						</div>
+						<div class="col-md-2 col-sm-2 col-xs-2">
+							<!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<i class="fa fa-trash-o "></i>
+							</button> -->
+						</div>
+					</div>
+					<div class="modal-body"/>
+
+					<div class="modal-footer">
+						<div class="row">
+							<div class="col-md-6 col-sm-6 col-xs-6">
+								<a href="shop.php" class="btn btn-default-cart-dark pull-left"> <i class="fa fa-angle-left mr-10"></i> Order More </a>
+							</div>
+							<div class="col-md-6 col-sm-6 col-xs-6">
+								<a href="checkout.php" class="btn btn-default-cart pull-right">Checkout </a>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<!-- modal-content -->
+			</div>
+			<!-- modal-dialog -->
+		</div>
+		<!-- modal -->
+	</t>
+</templates>

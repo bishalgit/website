@@ -30,4 +30,5 @@
         'data/data.xml',
         'views/templates.xml',
     ],
+    'qweb': ['static/src/xml/product_views.xml',],
 }
