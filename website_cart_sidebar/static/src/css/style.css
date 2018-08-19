@@ -1288,7 +1288,7 @@ input[type="checkbox"] {
 .oe_cart h2 {
     color: #222;
     font-size: 25px;
-    font-family: arial;
+    font-family: gotham-bold;
     margin-bottom: 13px !important;
     font-weight: bold;
 }
@@ -1352,9 +1352,10 @@ select {
 .oe_cart .checkout_autoformat {
     background: #fff;
     padding: 40px 20px;
-    box-shadow: 0 1px 20px rgba(20, 20, 20, 0.2);
+    /* box-shadow: 0 1px 20px rgba(20, 20, 20, 0.2); */
     border-radius: 3px;
     margin-bottom: 50px;
+    border: 1px solid #eee;
 }
 .oe_website_sale .oe_cart .oe_cart_total {
     padding-right: 0;
@@ -1372,9 +1373,10 @@ select {
 
 .oe_cart .panel-default {
     background: #fff;
-    border: none;
-    /* box-shadow: 0 1px 20px rgba(20, 20, 20, 0.2); */
+    border: 1px solid #eee;
 }
+    /* box-shadow: 0 1px 20px rgba(20, 20, 20, 0.2); */
+
 
 .oe_cart .panel-default address span {
     font-size: 15px;
@@ -1388,7 +1390,7 @@ select {
 .oe_cart .all_shipping .one_kanban .btn-block, .oe_cart .all_shipping .one_kanban .btn-block:hover, .oe_cart .all_shipping .one_kanban .btn-block:active, .oe_cart .all_shipping .one_kanban .btn-block:focus {
     max-width: 240px;
     border-radius: 0 !important;
-    border: 1px solid #b3b3b3 !important;
+    border: 1px solid #eee !important;
     color: #464646;
     background: #ffffff;
     font-family: gotham-bold !important;
@@ -1403,6 +1405,11 @@ select {
     font-size: 20px;
     font-weight: bold;
     margin: 17px 25px;
+}
+address span {
+    font-family: gotham-bold;
+    line-height: 27px;
+    font-size: 15px;
 }
 
 
@@ -1468,6 +1475,7 @@ div#payment_method {
 div#payment_method .panel {
     border-radius: 0;
     box-shadow: none;
+    border:none !important;
 }
 div#payment_method .panel .panel-body{
     padding: 0px !important;
