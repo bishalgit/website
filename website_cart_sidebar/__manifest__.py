@@ -2,7 +2,7 @@
 # Copyright 2018 Bishal Pun
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 {
-    'name': "Webisite Sale Cart Sidebar",
+    'name': "Website Sale Cart Sidebar",
 
     'summary': """
         Makes cart sidebar in website.""",
@@ -22,10 +22,13 @@
     'version': '11.0.1.0.0',
 
     # any module necessary for this one to work correctly
-    'depends': ['website'],
+    'depends': ['website_sale'],
 
     # always loaded
     'data': [
         'views/assets.xml',
+        'data/data.xml',
+        'views/templates.xml',
     ],
+    'qweb': ['static/src/xml/product_views.xml',],
 }

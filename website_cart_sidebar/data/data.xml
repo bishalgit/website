@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="website_sale.products_categories" model="ir.ui.view">
+            <field name="active" eval="True"/>
+        </record>
+    </data>
+</odoo>

@@ -5,7 +5,7 @@
             <t t-call="website.layout">
                 <t t-set="title">Locations</t>
                 <div class="oe_structure">
-                    <section class="map intro">
+                    <section class="map">
                         <div class="intro-body o_branch_location_app">
                             
                         </div>
