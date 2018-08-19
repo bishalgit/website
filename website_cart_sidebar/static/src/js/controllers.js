@@ -116,6 +116,8 @@ odoo.define('website_cart_sidebar.views', function(require) {
             });
             // Header and Footer
             $(this.productModal).find("#productModalTitle").text("Customize " + product.display_name);
+
+            // Total Price
             $(this.productModal).find('#productCartTotalAmount').text(product.website_public_price);
 
             // Body
@@ -126,8 +128,10 @@ odoo.define('website_cart_sidebar.views', function(require) {
             $(this.productModal).find("#oe_additions").empty();
             $(this.productModal).find("#oe_additions").append(oe_additions);
 
+            // Bind events
             this._bindAddCartAddition();
 
+            // Show Product Modal
             $(this.productModal).modal("show");
         },
         _bindAddCartAddition: function() {
@@ -144,10 +148,8 @@ odoo.define('website_cart_sidebar.views', function(require) {
                 var quantity = minus_plus + parseFloat($input.val() || 0, 10);
                 var current_total = parseFloat($(self.productModal).find('#productCartTotalAmount').text());
                 if (quantity >= min && quantity <= max) {
-                    console.log(current_total);
                     current_total = minus_plus * parseFloat($input.attr("data-price")) + current_total;
                 }
-                console.log("lskdj");
                 var new_qty = quantity > min ? (quantity < max ? quantity : max) : min;
                 $input.val(new_qty).change();
                 $(self.productModal).find('#productCartTotalAmount').text(current_total);
