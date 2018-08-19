@@ -1286,10 +1286,10 @@ input[type="checkbox"] {
 /* ADDRESS */
 
 .oe_cart h2 {
-    color: #fff;
-    font-size: 29px;
-    font-family: gotham-bold;
-    margin-bottom: 25px !important;
+    color: #222;
+    font-size: 25px;
+    font-family: arial;
+    margin-bottom: 13px !important;
     font-weight: bold;
 }
 
@@ -1324,9 +1324,10 @@ select {
 .oe_cart #cart_total {
     background: #fff;
     padding: 30px;
-    box-shadow: 0 1px 20px rgba(20, 20, 20, 0.2);
+    /* box-shadow: 0 1px 20px rgba(20, 20, 20, 0.2); */
     font-family: gotham-book;
     margin-bottom: 30px;
+    border: 1px solid #eeeeee;
 }
 
 .js_cart_lines .text-muted {
@@ -1336,11 +1337,16 @@ select {
 }
 
 .js_delete_product {
-    font-family: gotham-book;
-    color: #7d7272;
-    background: #dddddd;
+    font-family: arial;
+    color: #4b4f56;
+    background: #f6f7f9;
     padding: 8px 12px;
     line-height: 50px;
+    border: 1px solid #ced0d4;
+    font-size: 13px;
+}
+.js_delete_product i {
+    margin-right: 5px;
 }
 
 .oe_cart .checkout_autoformat {
@@ -1350,15 +1356,24 @@ select {
     border-radius: 3px;
     margin-bottom: 50px;
 }
+.oe_website_sale .oe_cart .oe_cart_total {
+    padding-right: 0;
+}
 
 .oe_cart .page-header {
     border-bottom: none;
+}
+.oe_cart {
+    margin-bottom: 150px;
+    background: #fff;
+    padding: 0 50px;
+    margin-top: 50px;
 }
 
 .oe_cart .panel-default {
     background: #fff;
     border: none;
-    box-shadow: 0 1px 20px rgba(20, 20, 20, 0.2);
+    /* box-shadow: 0 1px 20px rgba(20, 20, 20, 0.2); */
 }
 
 .oe_cart .panel-default address span {
@@ -1373,7 +1388,7 @@ select {
 .oe_cart .all_shipping .one_kanban .btn-block, .oe_cart .all_shipping .one_kanban .btn-block:hover, .oe_cart .all_shipping .one_kanban .btn-block:active, .oe_cart .all_shipping .one_kanban .btn-block:focus {
     max-width: 240px;
     border-radius: 0 !important;
-    border: 1px solid #ffffff !important;
+    border: 1px solid #b3b3b3 !important;
     color: #464646;
     background: #ffffff;
     font-family: gotham-bold !important;
@@ -1443,11 +1458,12 @@ ul.wizard li {
 
 div#payment_method {
     margin-top: 0px;
-    background: #fff;
+    background: #fbfbfb;
     padding: 30px 30px 85px;
     border-radius: 0px;
     margin-bottom: 50px;
-    box-shadow: 0 1px 20px rgba(20, 20, 20, 0.2);
+    /* box-shadow: 0 1px 20px rgba(20, 20, 20, 0.2); */
+    border: 1px solid #eeeeee;
 }
 div#payment_method .panel {
     border-radius: 0;
@@ -1456,6 +1472,7 @@ div#payment_method .panel {
 div#payment_method .panel .panel-body{
     padding: 0px !important;
     border-top: none !important;
+    background: #fbfbfb;
 }
 div#payment_method .panel .panel-body label{
     margin-bottom: 0px !important; 
@@ -1513,6 +1530,11 @@ ul.wizard {
 .oe_price_h4 {
     font-family: gotham-bold;
 }
+.oe_u500_price .oe_price_h4 {
+    color: #be2526;
+    font-family: arial !important;
+    font-size: 15px;
+}
 
 .all_shipping {
     margin-bottom: 30px;
@@ -1544,4 +1566,73 @@ ul.wizard li:last-child {
 
 .css_quantity input[name="add_qty"] {
     font-family: gotham-bold;
+}
+
+/* Order modal csss */
+#productModalTitle {
+    float: left;
+    margin-top: 6px;
+    font-family: gotham-bold;
+    font-size: 22px;
+    margin-left: 20px;
+    color: #222;
+}
+
+.oe-additions-categ-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-family: arial;
+    font-weight: bold;
+}
+
+.oe-additions-categ-ul li {
+    list-style: none;
+    display: inline-block;
+    margin-right: 10px;
+}
+.oe_u500_price b {
+    color: #c33637 !important;
+}
+
+.oe_u500_price {
+    font-family: gotham-bold;
+    margin-top: 5px;
+    font-size: 15px;
+}
+.modal-footer .product-cart-total {
+    color: #be2526;
+    margin-bottom: 12px;
+    font-weight: bold;
+    font-size: 18px;
+    font-family: arial;
+    text-align: left;
+    margin-left: 20px;
+}
+.modal-footer #product_qty {
+    float: left;
+    vertical-align: middle;
+}
+
+.modal-footer .product-cart-total {
+    float: left;
+    vertical-align: middle;
+    background: #b72b15;
+    padding: 6px 20px;
+    color: #fff;
+    margin-top: 7px;
+    border-radius: 4px;
+}
+.modal .product_price.mt16 {
+    margin: 0 !important;
+}
+.modal-footer .btn-secondary {
+    background: #f6f7f9;
+    border: 1px solid #ced0d4;
+    color: #4b4f56;
+    font-family: arial;
+}
+
+.modal-footer .btn {
+    padding: 9px 30px;
+    font-size: 15px;
 }
