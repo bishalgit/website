@@ -36,6 +36,44 @@ odoo.define('website_cart_sidebar.views', function(require) {
                 $('body').append(product_modal_node);
                 self.cartModal = $('#cartModal');
                 self.productModal = $('#productModal');
+
+                $(self.productModal).off('click', 'button.a-submit').on('click', 'button.a-submit', function(event) {
+                    if (!event.isDefaultPrevented() && !$(this).is(".disabled")) {
+                        event.preventDefault();
+                        $(this).closest('form').submit();
+                    }
+                    if ($(this).hasClass('a-submit-disable')) {
+                        $(this).addClass("disabled");
+                    }
+                    if ($(this).hasClass('a-submit-loading')) {
+                        var loading = '<span class="fa fa-cog fa-spin"/>';
+                        var fa_span = $(this).find('span[class*="fa"]');
+                        if (fa_span.length) {
+                            fa_span.replaceWith(loading);
+                        } else {
+                            $(this).append(loading);
+                        }
+                    }
+                });
+
+                $(self.productModal).find('#product_qty').on('click', 'a.js_add_cart_json', function(ev) {
+                    ev.preventDefault();
+                    var $link = $(ev.currentTarget);
+                    var $input = $link.parent().find("input");
+                    var min = parseFloat($input.data("min") || 0);
+                    var max = parseFloat($input.data("max") || Infinity);
+                    var minus_plus = ($link.has(".fa-minus").length ? -1 : 1);
+                    var quantity = minus_plus + parseFloat($input.val() || 0, 10);
+                    var current_total = parseFloat($(self.productModal).find('#productCartTotalAmount').text());
+                    if (quantity >= min) {
+                        current_total = minus_plus * parseFloat($input.attr('data-price')) + current_total;
+                    }
+                    var new_qty = quantity > min ? (quantity < max ? quantity : max) : min;
+                    $input.val(new_qty).change();
+                    $(self.productModal).find('#productCartTotalAmount').text(current_total);
+                    return false;
+                });
+
                 self.$el.parent().find(".oe_add_to_cart_button").each(function() {
                     $(this).on("click", _.bind(self._showProductModal, self));
                 });
@@ -130,6 +168,9 @@ odoo.define('website_cart_sidebar.views', function(require) {
 
             // Bind events
             this._bindAddCartAddition();
+
+            // Assign product price
+            $(this.productModal).find('#product_qty').find('input').attr('data-price', product.website_public_price);
 
             // Show Product Modal
             $(this.productModal).modal("show");

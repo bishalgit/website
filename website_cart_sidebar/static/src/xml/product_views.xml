@@ -5,24 +5,36 @@
 		<div class="modal fade bd-example-modal-lg oe_website_sale" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalTitle" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="productModalTitle">Modal</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&amp;times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<div itemscope="itemscope" itemtype="http://schema.org/Product" id="wrap" class="js_sale custom_wraps">
-							<section data-id="productModal" class="container-fluid mt8 oe_website_sale "/>
+					<form action="/shop/cart/update" class="" method="POST">
+						<input type="hidden" name="csrf_token" t-att-value="45" />
+						<div class="modal-header">
+							<h5 class="modal-title" id="productModalTitle">Modal</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&amp;times;</span>
+							</button>
 						</div>
-					</div>
-					<div class="modal-footer">
-						<div class="product-cart-total">
-							AED <span id="productCartTotalAmount" class="product-cart-total-amount"/>
+						<div class="modal-body">
+							<div itemscope="itemscope" itemtype="http://schema.org/Product" id="wrap" class="js_sale custom_wraps">
+								<section data-id="productModal" class="container-fluid mt8 oe_website_sale "/>
+							</div>
 						</div>
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary">Add to Cart</button>
-					</div>
+						<div class="modal-footer">
+							<div id="product_qty" class="css_quantity input-group oe_website_spinner" contenteditable="false">
+								<a t-attf-href="#" class="mb8 input-group-addon js_add_cart_json">
+									<i class="fa fa-minus"></i>
+								</a>
+								<input data-price="" type="text" class="form-control quantity" data-min="1" name="add_qty" value="1"/>
+								<a t-attf-href="#" class="mb8 input-group-addon float_left js_add_cart_json">
+									<i class="fa fa-plus"></i>
+								</a>
+							</div>
+							<div class="product-cart-total">
+								AED <span id="productCartTotalAmount" class="product-cart-total-amount"/>
+							</div>
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							<button type="button" class="btn btn-primary .a-submit">Add to Cart</button>
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
