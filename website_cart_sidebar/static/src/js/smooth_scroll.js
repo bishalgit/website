@@ -1,6 +1,6 @@
 $(document).ready(function () {
     // Smooth Scrolling...
-    $('a[href*=\\#]:not([href=\\#]), a[href*=\\#]:not([href=\\#])').click(function() {
+    $('.oe_category_menu a[href*=\\#]:not([href=\\#]), .oe_category_menu a[href*=\\#]:not([href=\\#])').click(function() {
         if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
             var target = $(this.hash);
             target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
