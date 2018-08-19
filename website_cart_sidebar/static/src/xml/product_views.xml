@@ -17,6 +17,9 @@
 						</div>
 					</div>
 					<div class="modal-footer">
+						<div class="product-cart-total">
+							AED <span id="productCartTotalAmount" class="product-cart-total-amount"/>
+						</div>
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 						<button type="button" class="btn btn-primary">Add to Cart</button>
 					</div>
@@ -46,7 +49,7 @@
 			<ul class='oe-additions-categ-ul' t-att-data-addition-categ-ul-id="categ.id"/>
 		</div>
 	</t>
-	<t t-name="website_cart_sidebar.additon.single">
+	<t t-name="website_cart_sidebar.additon.multi">
 		<li>
 			<label>
 				<div class="css_quantity input-group oe_website_spinner" contenteditable="false">
@@ -59,7 +62,7 @@
 						t-attf-value="0"
 						class="additions_checkbox form-control quantity"
 						t-attf-data-price="{{ addition.website_price }}"
-						data-min="1"/>
+						data-min="0" data-max="5"/>
 					<a t-attf-href="#" class="mb8 input-group-addon float_left js_add_cart_json">
 						<i class="fa fa-plus"></i>
 					</a>
@@ -82,14 +85,14 @@
 			</label>
 		</li>
 	</t>
-	<t t-name="website_cart_sidebar.additon.multi">
+	<t t-name="website_cart_sidebar.additon.single">
 		<li>
 			<label>
 				<input type="checkbox"
 						t-attf-name="additions_input[{{addition.id}}]"
 						t-attf-id="{{ addition.id }}"
 						t-attf-value="{{ addition.id }}"
-						class="additions_checkbox"
+						class="js_add_cart_json"
 						t-attf-data-price="{{ addition.website_price }}"/>
 				<div class="oe_u500_price">
 					<p t-esc="addition.name" />

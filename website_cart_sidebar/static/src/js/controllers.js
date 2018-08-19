@@ -77,60 +77,95 @@ odoo.define('website_cart_sidebar.views', function(require) {
                 this.cartConfig.fetchProduct(product_id).then(function(prod) {
                     if (prod != null) {
                         product = prod;
-                        console.log(product);
-                        console.log(product.id);
-                        var product_content = qweb.render('website_cart_sidebar.product', { widget: product });
-                        var addons_categ_changed = false;
-                        var addons_current_categ_id = -1;
-                        var oe_additions = document.createElement("div");
-                        product.additions.forEach(addition => {
-                            addons_categ_changed = (addons_current_categ_id != addition.public_categs[0].id) ? true : false;
-                            var addition_content = null;
-                            console.log(addition.public_categs[0].id);
-                            if (addons_categ_changed && $(oe_additions).find("ul[data-addition-categ-id='" + addition.public_categs[0].id + "']").length == 0) {
-                                addons_categ_changed = false;
-                                addons_current_categ_id = addition.public_categs[0].id;
-                                console.log("1");
-                                if (addition.is_multiple) {
-                                    console.log("2");
-                                    addition_content = qweb.render('website_cart_sidebar.additon.multi', { addition: addition });
-                                } else {
-                                    console.log("3");
-                                    addition_content = qweb.render('website_cart_sidebar.additon.single', { addition: addition });
-                                }
-                                console.log("4");
-                                var addons_ul = qweb.render('website_cart_sidebar.addition.categ', { categ: addition.public_categs[0] });
-                                $(oe_additions).append(addons_ul);
-                            } else {
-                                console.log("5");
-                                addons_current_categ_id = addition.public_categs[0].id;
-                                if (addition.is_multiple) {
-                                    console.log("6");
-                                    addition_content = qweb.render('website_cart_sidebar.additon.multi', { addition: addition });
-                                } else {
-                                    console.log("7");
-                                    addition_content = qweb.render('website_cart_sidebar.additon.single', { addition: addition });
-                                }
-                            }
-
-                            console.log("8");
-                            $(oe_additions).find("ul[data-addition-categ-ul-id='" + addons_current_categ_id + "']").append(addition_content);
-                            console.log($(oe_additions));
-                        });
-                        $(self.productModal).find("#productModalTitle").text("Customize " + product.display_name);
-                        $(self.productModal).find("section[data-id='productModal']").empty();
-                        $(self.productModal).find("section[data-id='productModal']").append(product_content);
-                        $(self.productModal).find("#oe_additions").empty();
-                        $(self.productModal).find("#oe_additions").append(oe_additions);
-                        console.log($(product_content));
-
-                        $(self.productModal).modal("show");
+                        self._appendProductModal(product);
                     }
                 });
             } else {
-                $(this.productModal).find("#productModalTitle").text(product.id);
-                $(this.productModal).modal("show");
+                self._appendProductModal(product);
             }
+        },
+        _appendProductModal: function(product) {
+            console.log(product);
+            var product_content = qweb.render('website_cart_sidebar.product', { widget: product });
+            var addons_categ_changed = false;
+            var addons_current_categ_id = -1;
+            var oe_additions = document.createElement("div");
+            product.additions.forEach(addition => {
+                addons_categ_changed = (addons_current_categ_id != addition.public_categs[0].id) ? true : false;
+                var addition_content = null;
+                if (addons_categ_changed && $(oe_additions).find("ul[data-addition-categ-id='" + addition.public_categs[0].id + "']").length == 0) {
+                    addons_categ_changed = false;
+                    addons_current_categ_id = addition.public_categs[0].id;
+                    if (addition.is_multiple) {
+                        addition_content = qweb.render('website_cart_sidebar.additon.multi', { addition: addition });
+                    } else {
+                        addition_content = qweb.render('website_cart_sidebar.additon.single', { addition: addition });
+                    }
+                    var addons_ul = qweb.render('website_cart_sidebar.addition.categ', { categ: addition.public_categs[0] });
+                    $(oe_additions).append(addons_ul);
+                } else {
+                    addons_current_categ_id = addition.public_categs[0].id;
+                    if (addition.is_multiple) {
+                        addition_content = qweb.render('website_cart_sidebar.additon.multi', { addition: addition });
+                    } else {
+                        addition_content = qweb.render('website_cart_sidebar.additon.single', { addition: addition });
+                    }
+                }
+
+                $(oe_additions).find("ul[data-addition-categ-ul-id='" + addons_current_categ_id + "']").append(addition_content);
+            });
+            // Header and Footer
+            $(this.productModal).find("#productModalTitle").text("Customize " + product.display_name);
+            $(this.productModal).find('#productCartTotalAmount').text(product.website_public_price);
+
+            // Body
+            $(this.productModal).find("section[data-id='productModal']").empty();
+            $(this.productModal).find("section[data-id='productModal']").append(product_content);
+
+            // Additions
+            $(this.productModal).find("#oe_additions").empty();
+            $(this.productModal).find("#oe_additions").append(oe_additions);
+
+            this._bindAddCartAddition();
+
+            $(this.productModal).modal("show");
+        },
+        _bindAddCartAddition: function() {
+            var self = this;
+            var oe_additions = $(this.productModal).find("#oe_additions");
+            // hack to add and remove from cart with json
+            $(oe_additions).on('click', 'a.js_add_cart_json', function(ev) {
+                ev.preventDefault();
+                var $link = $(ev.currentTarget);
+                var $input = $link.parent().find("input");
+                var min = parseFloat($input.data("min") || 0);
+                var max = parseFloat($input.data("max") || Infinity);
+                var minus_plus = ($link.has(".fa-minus").length ? -1 : 1);
+                var quantity = minus_plus + parseFloat($input.val() || 0, 10);
+                var current_total = parseFloat($(self.productModal).find('#productCartTotalAmount').text());
+                if (quantity >= min && quantity <= max) {
+                    console.log(current_total);
+                    current_total = minus_plus * parseFloat($input.attr("data-price")) + current_total;
+                }
+                console.log("lskdj");
+                var new_qty = quantity > min ? (quantity < max ? quantity : max) : min;
+                $input.val(new_qty).change();
+                $(self.productModal).find('#productCartTotalAmount').text(current_total);
+                return false;
+            });
+            $(oe_additions).on('change', 'input.js_add_cart_json', function(ev) {
+                ev.preventDefault();
+                var $input = $(ev.currentTarget);
+                var current_total = parseFloat($(self.productModal).find('#productCartTotalAmount').text());
+                var minus_plus = -1;
+                if (this.checked) {
+                    minus_plus = 1;
+                }
+
+                current_total = minus_plus * parseFloat($input.attr("data-price")) + current_total;
+                $(self.productModal).find('#productCartTotalAmount').text(current_total);
+                return false;
+            });
         },
         /**
          * Handle bus notification.
