@@ -80,9 +80,50 @@ odoo.define('website_cart_sidebar.views', function(require) {
                         console.log(product);
                         console.log(product.id);
                         var product_content = qweb.render('website_cart_sidebar.product', { widget: product });
+                        var addons_categ_changed = false;
+                        var addons_current_categ_id = -1;
+                        var oe_additions = document.createElement("div");
+                        product.additions.forEach(addition => {
+                            addons_categ_changed = (addons_current_categ_id != addition.public_categs[0].id) ? true : false;
+                            var addition_content = null;
+                            console.log(addition.public_categs[0].id);
+                            if (addons_categ_changed && $(oe_additions).find("ul[data-addition-categ-id='" + addition.public_categs[0].id + "']").length == 0) {
+                                addons_categ_changed = false;
+                                addons_current_categ_id = addition.public_categs[0].id;
+                                console.log("1");
+                                if (addition.is_multiple) {
+                                    console.log("2");
+                                    addition_content = qweb.render('website_cart_sidebar.additon.multi', { addition: addition });
+                                } else {
+                                    console.log("3");
+                                    addition_content = qweb.render('website_cart_sidebar.additon.single', { addition: addition });
+                                }
+                                console.log("4");
+                                var addons_ul = qweb.render('website_cart_sidebar.addition.categ', { categ: addition.public_categs[0] });
+                                $(oe_additions).append(addons_ul);
+                            } else {
+                                console.log("5");
+                                addons_current_categ_id = addition.public_categs[0].id;
+                                if (addition.is_multiple) {
+                                    console.log("6");
+                                    addition_content = qweb.render('website_cart_sidebar.additon.multi', { addition: addition });
+                                } else {
+                                    console.log("7");
+                                    addition_content = qweb.render('website_cart_sidebar.additon.single', { addition: addition });
+                                }
+                            }
+
+                            console.log("8");
+                            $(oe_additions).find("ul[data-addition-categ-ul-id='" + addons_current_categ_id + "']").append(addition_content);
+                            console.log($(oe_additions));
+                        });
                         $(self.productModal).find("#productModalTitle").text("Customize " + product.display_name);
                         $(self.productModal).find("section[data-id='productModal']").empty();
                         $(self.productModal).find("section[data-id='productModal']").append(product_content);
+                        $(self.productModal).find("#oe_additions").empty();
+                        $(self.productModal).find("#oe_additions").append(oe_additions);
+                        console.log($(product_content));
+
                         $(self.productModal).modal("show");
                     }
                 });

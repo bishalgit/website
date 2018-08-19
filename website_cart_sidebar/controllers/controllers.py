@@ -175,6 +175,13 @@ class OrderAppController(http.Controller):
 
     @route(['/website_cart_sidebar/product'], type='json', auth='public', website=True)
     def get_product(self, id=None, **kw):
+        """
+        Return product and its required dependencies for implementing the correct cart system.
+            :param self: 
+            :param id=None: 
+            :param **kw: 
+        """
+
         fields = ['id', 'name', 'active', 'barcode', 'calorie', 'carbohydrate', 'fat', 'protein', 'categ_id',
         'child_id', 'currency_id', 'description', 'description_sale', 'display_name', 'list_price', 'is_offer',
         'lst_price', 'offer_points', 'public_categ_ids', 'uom_id', 'uom_po_id', 'website_price', 'website_public_price']
@@ -194,9 +201,27 @@ class OrderAppController(http.Controller):
             'lst_price', 'offer_points', 'public_categ_ids', 'uom_id', 'uom_po_id', 'website_price', 'website_public_price',
             'is_addition', 'is_multiple']
             domain = [("id", "in", prod['child_id'])]
-            additions = Product.sudo().search_read(domain, fields)
-            _logger.warning(additions);
-            
+            additions = sorted(Product.sudo().search_read(domain, fields), key=lambda a: a['public_categ_ids'][0])
+        
+        pricelist = request.website.get_current_pricelist()
+
+        from_currency = request.env.user.company_id.currency_id
+        to_currency = pricelist.currency_id
+        compute_currency = lambda price: from_currency.compute(price, to_currency)
+        
+        _logger.warning(compute_currency(product[0]['lst_price']))
+        _logger.warning("before addition cult")
+        for addition in additions:
+            categ_ids_list = []
+            _logger.warning(addition['public_categ_ids'])  
+            for public_categ_id in addition['public_categ_ids']:
+                categ_ids_list.append(public_categ_id)
+
+            _logger.warning("inside addition cult")
+            domain = [('id', 'in', categ_ids_list)]
+            fields = ['id', 'display_name', 'name', 'order', 'parent_id', 'sequence']
+            addition['public_categs'] = request.env['product.public.category'].sudo().search_read(domain, fields)
+          
         values = {
             # 'search': search,
             # 'category': category,
@@ -205,6 +230,7 @@ class OrderAppController(http.Controller):
             # 'pager': pager,
             # 'pricelist': pricelist,
             'product': product,
+            'additions': additions,
             # 'search_count': product_count,  # common for all searchbox
             # 'bins': TableCompute().process(products, ppg),
             # 'rows': PPR,

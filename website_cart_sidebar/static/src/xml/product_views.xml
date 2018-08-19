@@ -2,8 +2,8 @@
 <templates id="product_templates">
     <t t-name="website_cart_sidebar.product_modal">
         <!-- Modal -->
-		<div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalTitle" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal fade bd-example-modal-lg oe_website_sale" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalTitle" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title" id="productModalTitle">Modal</h5>
@@ -32,81 +32,82 @@
 					<img t-attf-src="/web/image/product.template/{{product.id}}/image" class="img img-responsive product_detail_img" 
 					t-att-alt="product.display_name" data-zoom="1" data-zoom-image="/web/image/product.template/{{ product.id }}/image" />
 				</div>
-				<div class="col-sm-6" t-if="len(product._additions) &gt; 0">
-					<form action="/shop/cart/update" class="js_add_cart_variants" method="POST">
-						<!-- <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" /> -->
-						<div class="product_additions_checkboxes">
-							<t t-set="i" t-value="0"/>
-							<ul>
-								<t t-foreach="product.child_id" t-as="addition">
-									<div>
-										<!-- <t t-esc="addition.name"> -->
-									</div>
-									<li>
-										<label>
-
-											<div class="css_quantity input-group oe_website_spinner" contenteditable="false">
-												<t t-if="addition.is_multiple">
-													<a t-attf-href="#" class="mb8 input-group-addon js_add_cart_json">
-														<i class="fa fa-minus"></i>
-													</a>
-													<input type="text"
-															t-attf-name="additions_input[{{addition.id}}]"
-															t-attf-id="{{ addition.id }}"
-															t-attf-value="0"
-															class="additions_checkbox form-control quantity"
-															t-attf-data-price="{{ addition.website_price }}"
-															data-min="1"/>
-													<a t-attf-href="#" class="mb8 input-group-addon float_left js_add_cart_json">
-														<i class="fa fa-plus"></i>
-													</a>
-												</t>
-											</div>
-											<input type="checkbox"
-													t-if="not addition.is_multiple"
-													t-attf-name="additions_input[{{addition.id}}]"
-													t-attf-id="{{ addition.id }}"
-													t-attf-value="{{ addition.id }}"
-													class="additions_checkbox"
-													t-attf-data-price="{{ addition.website_price }}"/>
-											<div class="oe_u500_price">
-												<p t-esc="addition.name" />
-												<t t-call="website_cart_sidebar.addition_price" />
-											</div>
-										</label>
-									</li>
-								</t>
-							</ul>
-						</div>
-						<div class="js_product" t-if="product.product_variant_ids">
-							<t t-placeholder="select">
-								<input type="hidden" class="product_id" name="product_id"
-										t-att-value="product.product_variant_id.id if len(product.product_variant_ids) == 1 else '0'" />
-								<t t-call="website_sale.variants">
-									<t t-set="ul_class"
-										t-value="'nav-stacked'" />
-								</t>
-							</t>
-							<t t-call="website_sale.product_price" />
-							<p t-if="len(product.product_variant_ids) &gt; 1"
-								class="css_not_available_msg bg-danger"
-								style="padding: 15px;">This combination does not exist.</p>
-							
-							<div class="add_to_cart_btns cart-inner"> 
-								<a id="add_to_cart" class="btn btn-outline fill btn-lg mt8 js_check_product a-submit"
-								href="#"><span class="fa fa fa-shopping-cart" /> Add to Cart 
-								</a>
-								<a href="/shop" class="btn btn-outline  mb32 u500_continue_shopping">
-									<span class="fa fa-long-arrow-left" />
-									<span class="hidden-xs">Continue Shopping</span>
-									<span class="visible-xs-inline">Continue</span>
-								</a>
-							</div>
-						</div>
-					</form>
+				<div class="col-sm-6" t-if="(product.additions.length) &gt; 0">
+					<div id="oe_additions" class="product_additions_checkboxes"/>
 				</div>
 			</div>
 		</t>
+	</t>
+	<t t-name="website_cart_sidebar.addition.categ">
+		<div class="oe-additions-categ" t-att-data-addition-categ-id="categ.id">
+			<div class='oe-additions-categ-title'>
+				<t t-esc="categ.name"/>
+			</div>
+			<ul class='oe-additions-categ-ul' t-att-data-addition-categ-ul-id="categ.id"/>
+		</div>
+	</t>
+	<t t-name="website_cart_sidebar.additon.single">
+		<li>
+			<label>
+				<div class="css_quantity input-group oe_website_spinner" contenteditable="false">
+					<a t-attf-href="#" class="mb8 input-group-addon js_add_cart_json">
+						<i class="fa fa-minus"></i>
+					</a>
+					<input type="text" 
+						t-attf-name="additions_input[{{addition.id}}]"
+						t-attf-id="{{ addition.id }}"
+						t-attf-value="0"
+						class="additions_checkbox form-control quantity"
+						t-attf-data-price="{{ addition.website_price }}"
+						data-min="1"/>
+					<a t-attf-href="#" class="mb8 input-group-addon float_left js_add_cart_json">
+						<i class="fa fa-plus"></i>
+					</a>
+				</div>
+				<div class="oe_u500_price">
+					<p t-esc="addition.name" />
+					<div itemprop="offers" itemscope="itemscope" itemtype="http://schema.org/Offer" class="product_price mt16">
+						<h4 class="oe_price_h4 css_editable_mode_hidden">
+							<span data-oe-type="monetary" class="text-danger oe_default_price" style="display: none;">
+								AED <span class="oe_currency_value"><t t-esc="addition.website_public_price" /></span>
+							</span>
+							<b data-oe-type="monetary" class="oe_price" style="white-space: nowrap;">
+								AED <span class="oe_currency_value"><t t-esc="addition.website_public_price" /></span>
+							</b>
+							<span itemprop="price" style="display:none;"><t t-esc="addition.website_public_price" /></span>
+							<span itemprop="priceCurrency" style="display:none;">AED</span>
+						</h4>
+					</div>
+				</div>
+			</label>
+		</li>
+	</t>
+	<t t-name="website_cart_sidebar.additon.multi">
+		<li>
+			<label>
+				<input type="checkbox"
+						t-attf-name="additions_input[{{addition.id}}]"
+						t-attf-id="{{ addition.id }}"
+						t-attf-value="{{ addition.id }}"
+						class="additions_checkbox"
+						t-attf-data-price="{{ addition.website_price }}"/>
+				<div class="oe_u500_price">
+					<p t-esc="addition.name" />
+					<div itemprop="offers" itemscope="itemscope" itemtype="http://schema.org/Offer" class="product_price mt16">
+						<h4 class="oe_price_h4 css_editable_mode_hidden">
+							<span data-oe-type="monetary" class="text-danger oe_default_price" style="display: none;">
+								AED <span class="oe_currency_value"><t t-esc="addition.website_public_price" /></span>
+							</span>
+							<b data-oe-type="monetary" class="oe_price" style="white-space: nowrap;">
+								AED <span class="oe_currency_value"><t t-esc="addition.website_public_price" /></span>
+							</b>
+							<span itemprop="price" style="display:none;"><t t-esc="addition.website_public_price" /></span>
+							<span itemprop="priceCurrency" style="display:none;">AED</span>
+						</h4>
+					</div>
+				</div>
+			</label>
+		</li>
 	</t>
 	<t t-name="website_cart_sidebar.cart_modal">
 		<div class="modal right fade custom-modal oe_website_sale" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="cartModelLabel">

@@ -12,9 +12,9 @@ odoo.define('website_cart_sidebar.classes', function(require) {
     var Product = Class.extend({
         init: function(values) {
             Object.assign(this, values.product[0]);
-            this._additions = values.additions;
-            this._categories = values.categories;
-            this._pricelist = values.pricelist;
+            this.additions = values.additions;
+            this.categories = values.categories;
+            this.pricelist = values.pricelist;
         },
         /**
          * Fetch the latest fields for this particular branch
@@ -82,6 +82,7 @@ odoo.define('website_cart_sidebar.classes', function(require) {
                 },
             }).then(function(product_values) {
                 var product = null;
+                console.log(product_values);
                 if (product_values) {
                     product = new Product(product_values);
                     var t_idx = self.products.findIndex(t => t.id === id);
