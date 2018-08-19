@@ -19,20 +19,20 @@
 							</div>
 						</div>
 						<div class="modal-footer">
-							<div id="product_qty" class="css_quantity input-group oe_website_spinner" contenteditable="false">
+							<!-- <div id="product_qty" class="css_quantity input-group oe_website_spinner" contenteditable="false">
 								<a t-attf-href="#" class="mb8 input-group-addon js_add_cart_json">
 									<i class="fa fa-minus"></i>
-								</a>
-								<input data-price="" type="text" class="form-control quantity" data-min="1" name="add_qty" value="1"/>
-								<a t-attf-href="#" class="mb8 input-group-addon float_left js_add_cart_json">
+								</a> -->
+							<!-- <input data-price="" type="hidden" class="form-control quantity" data-min="1" name="add_qty" value="1"/> -->
+								<!-- <a t-attf-href="#" class="mb8 input-group-addon float_left js_add_cart_json">
 									<i class="fa fa-plus"></i>
 								</a>
-							</div>
+							</div> -->
 							<div class="product-cart-total">
 								AED <span id="productCartTotalAmount" class="product-cart-total-amount"/>
 							</div>
 							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-							<button type="button" class="btn btn-primary .a-submit">Add to Cart</button>
+							<a href="#" class="btn btn-primary a-submit">Add to Cart</a>
 						</div>
 					</form>
 				</div>
@@ -42,6 +42,7 @@
 	<t t-name="website_cart_sidebar.product">
 		<t t-set="product" t-value="widget"/>
 		<t t-if="product">
+			<input type="hidden" class="product_id" data-min="1" name="product_id" t-att-value="product.id"/>
 			<div class="row oe_product_content">
 				<div class="col-sm-6">
 					<img t-attf-src="/web/image/product.template/{{product.id}}/image" class="img img-responsive product_detail_img" 
