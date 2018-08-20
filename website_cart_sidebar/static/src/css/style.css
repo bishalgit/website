@@ -1540,7 +1540,7 @@ ul.wizard {
 }
 .oe_u500_price .oe_price_h4 {
     color: #be2526;
-    font-family: arial !important;
+    font-family: gotham-bold !important;
     font-size: 15px;
 }
 
@@ -1636,11 +1636,32 @@ ul.wizard li:last-child {
 .modal-footer .btn-secondary {
     background: #f6f7f9;
     border: 1px solid #ced0d4;
-    color: #4b4f56;
-    font-family: arial;
+    color: #c1c2c3;
+    font-family: gotham-bold;
 }
 
 .modal-footer .btn {
     padding: 9px 30px;
     font-size: 15px;
+}
+.modal .oe_product_content {
+    font-family: arial;
+}
+.modal .js_sale .product_detail_img {
+    margin-bottom: 20px;
+}
+.modal .oe_u500_price{
+    font-family: arial !important;
+    font-weight: lighter !important;
+}
+.modal .oe_u500_price .oe_price_h4{
+    font-family: arial !important;
+}
+.modal .oe-additions-categ-title {
+    border-bottom: 1px dashed #eee !important;
+    padding-bottom: 10px !important;
+    margin-bottom: 20px !important;
+} 
+.modal-header {
+    border-bottom: none !important;
 }
