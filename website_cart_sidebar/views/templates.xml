@@ -565,7 +565,7 @@
                                     <span><t t-esc="name_line"/></span><br/>
                                 </t>
                             </div>
-							<div t-if="line.child_ids">
+							<div class="oe-addition-cart-lines" t-if="line.child_ids">
 								<t t-foreach="line.child_ids" t-as="addition_line">
 									<div class="oe-addition-cart-line">
 										<div class="oe-addition-cart-line-title" t-esc="addition_line.product_id.display_name" />
