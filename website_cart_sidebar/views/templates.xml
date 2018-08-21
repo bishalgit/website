@@ -701,20 +701,25 @@
 						<t t-if="line.child_ids">
 							<tbody class="oe-addition-cart-lines">
 								<tr class="oe-addition-cart-line" t-foreach="line.child_ids" t-as="addition_line">
-									<td class="oe-addition-cart-line-title" t-esc="addition_line.product_id.display_name">
-										<div class='oe-addition-cart-line-icon'><i class="fa fa-plus"/></div>
+									<td class="oe-addition-cart-line-product">
+										<div class='oe-addition-cart-line-icon'>
+											<i class="fa fa-plus"/>
+										</div>
+										<div class="oe-addition-cart-line-title">
+											<strong t-esc="addition_line.product_id.with_context(display_default_code=False).display_name"/>
+										</div>
 									</td>
 									<td class="oe-addition-cart-line-qty" t-esc="addition_line.product_uom_qty" />
-									<td class="oe-addition-cart-line-price">
-										<!-- <t t-if="(compute_currency(addition_line.product_id.lst_price) - addition_line.price_reduce ) &gt; 0.01  and website.get_current_pricelist().discount_policy=='without_discount'">
-											<del t-attf-class="#{'text-danger mr8'}" style="white-space: nowrap;" t-esc="compute_currency(addition_line.product_id.website_public_price)" t-options="{'widget': 'monetary', 'display_currency': website.get_current_pricelist().currency_id, 'from_currency': website.currency_id}" />
-										</t> -->
-										<!-- <span t-field="addition_line.price_reduce_taxexcl" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'from_currency': order.pricelist_id.currency_id, 'display_currency': website.currency_id}" groups="sale.group_show_price_subtotal" /> -->
-										<span 
-											t-field="addition_line.price_reduce_taxinc" 
-											style="white-space: nowrap;" 
-											t-options="{'widget': 'monetary', 'from_currency': order.pricelist_id.currency_id, 'display_currency': website.currency_id}" 
-											groups="sale.group_show_price_total" />
+									<td class='td-price oe-addition-cart-line-price'>
+										<span class="text-right">
+											<div t-field="addition_line.price_unit"
+												t-options='{"widget": "monetary", "display_currency": order.pricelist_id.currency_id}'/>
+										</span>
+									</td>
+									<td class='td-price-total oe-addition-cart-line-price-total'>
+										<div class="text-right"
+											t-field="addition_line.price_subtotal"
+											t-options='{"widget": "monetary", "display_currency": order.pricelist_id.currency_id}'/>
 									</td>
 								</tr>
 							</tbody>
