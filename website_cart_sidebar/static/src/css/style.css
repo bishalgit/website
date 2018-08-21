@@ -1130,14 +1130,26 @@ input[type="checkbox"] {
     background-color: #fbfbfb;
 }
 
+.o_website_sale_rightfit .table-striped>tbody>tr:nth-of-type(odd) {
+    background-color: #fff ;
+}
+tr.oe-addition-cart-line {
+    background: #fbfbfb !important;
+}
+.oe_cart tbody td {
+    padding: 25px 10px !important;
+    border-top: none !important;
+    color: #4b4f56;
+}
+.oe_cart tr {
+    border-bottom: 1px solid #eeeeee;
+}
 .oe_cart .td-qty {}
 
 .oe_cart .td-price {}
 
 .oe_cart .td-price span {
-    background: red;
-    padding: 9px 12px;
-    color: #fff;
+    color: #be2526;
     font-family: gotham-bold !important;
 }
 
@@ -1187,14 +1199,6 @@ input[type="checkbox"] {
     font-size: 18px;
     color: #181f27;
     font-family: gotham-bold;
-}
-
-.oe_cart tbody td {
-    padding: 30px 10px !important;
-}
-
-.oe_cart tbody .td-price {
-    padding-top: 43px !important;
 }
 
 .oe_cart th {
@@ -1249,6 +1253,7 @@ input[type="checkbox"] {
     text-transform: uppercase;
     border-radius: 4px !important;
     background: #6cbe45;
+    color:#fff !important;
 }
 
 .u500_continue_shopping {
@@ -1323,8 +1328,7 @@ select {
 
 .oe_cart #cart_total {
     background: #fff;
-    padding: 30px;
-    /* box-shadow: 0 1px 20px rgba(20, 20, 20, 0.2); */
+    padding: 13px 28px;
     font-family: gotham-book;
     margin-bottom: 30px;
     border: 1px solid #eeeeee;
@@ -1434,7 +1438,6 @@ address span {
 .oe_website_sale .oe_cart #cart_products tbody td div strong {
     font-size: 16px;
     color: #272727;
-    font-family: gotham-bold;
 }
 
 .confirm_order #payment_method .o_payment_form .panel {
@@ -1625,7 +1628,7 @@ ul.wizard li:last-child {
     float: left;
     vertical-align: middle;
     background: #b72b15;
-    padding: 6px 20px;
+    padding: 7px 20px;
     color: #fff;
     margin-top: 7px;
     border-radius: 4px;
@@ -1664,4 +1667,35 @@ ul.wizard li:last-child {
 } 
 .modal-header {
     border-bottom: none !important;
+}
+
+/* .oe-addition-cart-lines {
+    width: 100%;
+}
+.oe-addition-cart-line {
+    display: inline-block;
+    width: 43%;
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+    min-height: 103px;
+} */
+td.oe-addition-cart-line-icon {
+    text-align: center;
+}
+.table > tbody + tbody {
+    border-top: 1px solid #ddd !important;
+}
+ul.wizard {
+    box-shadow: none !important;
+}
+td.oe-addition-cart-line-price {
+    text-align: center;
+}
+
+td.oe-addition-cart-line-qty {
+    text-align: center;
+}
+.oe_cart .td-qty {
+    text-align: center;
 }
