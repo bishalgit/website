@@ -38,7 +38,6 @@ class SaleOrder(models.Model):
             request.session['sale_order_id'] = None
             raise UserError(_('It is forbidden to modify a sales order which is not in draft status'))
         if line_id is not False:
-            _logger.warning('Not False')
             order_lines = self._cart_find_product_line(product_id, line_id, **kwargs)
             order_line = order_lines and order_lines[0]
 
@@ -72,7 +71,6 @@ class SaleOrder(models.Model):
             if self.pricelist_id.discount_policy == 'with_discount' and not self.env.context.get('fixed_price'):
                 order = self.sudo().browse(self.id)
                 product_context = dict(self.env.context)
-                _logger.warning(product_context)
                 product_context.setdefault('lang', order.partner_id.lang)
                 product_context.update({
                     'partner': order.partner_id.id,

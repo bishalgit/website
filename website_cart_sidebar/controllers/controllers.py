@@ -262,22 +262,79 @@ class WebsiteSaleCart(WebsiteSale):
                 m_line_id = request.env['sale.order.line'].search(
                     [('order_id', '=', int(order.id)), ('product_id', '=', int(product_id)), ('id', '=', old_id)])
                 for m in m_line_id:
+                    prev_product_qty = m.product_uom_qty
                     main = order._cart_update(
                         product_id=int(product_id),
                         add_qty=add_qty,
                         set_qty=set_qty,
                         line_id=m.id
                     )
-                    s_line_id = request.env['sale.order.line'].search(
+                    s_line_ids = request.env['sale.order.line'].search(
                         [('order_id', '=', order.id), ('parent_id', '=', m.id)])
-                    for s in s_line_id:
-                        order._cart_update(
-                            product_id=int(s.product_id),
-                            add_qty=add_qty,
-                            set_qty=set_qty,
-                            line_id=s.id
-                        )
+                    if s_line_ids:
+                        for s in s_line_ids:
+                            addition_new_qty = add_qty
+                            if s.product_id.is_multiple:
+                                addition_new_qty = (s.product_uom_qty / prev_product_qty) * add_qty
+                            order._cart_update(
+                                product_id=int(s.product_id),
+                                add_qty=addition_new_qty,
+                                set_qty=set_qty,
+                                line_id=s.id
+                            )
         return request.redirect("/shop/cart")
+
+    @http.route()
+    def cart_update_json(self, product_id, line_id=None, add_qty=None, set_qty=None, display=True):
+        order = request.website.sale_get_order(force_create=1)
+        if order.state != 'draft':
+            request.website.sale_reset()
+            return {}
+        
+        m_line_id = request.env['sale.order.line'].browse(line_id)
+        _logger.warning("m_line_id" + str(m_line_id))
+        prev_product_qty = m_line_id.product_uom_qty
+        _logger.warning("prev_product" + str(prev_product_qty))
+        
+        # Add or delete addons
+        s_line_ids = m_line_id.child_ids
+        if s_line_ids:
+            for s in s_line_ids:
+                addition_new_qty = set_qty
+                _logger.warning("addition_qty" + str(addition_new_qty))
+                if s.product_id.is_multiple:
+                    _logger.warning("masdfas")
+                    addition_new_qty = (s.product_uom_qty / prev_product_qty) * int(set_qty)
+                    _logger.warning("addition_qty" + str(addition_new_qty))
+
+                order._cart_update(
+                    product_id=int(s.product_id),
+                    add_qty=add_qty,
+                    set_qty=addition_new_qty,
+                    line_id=s.id
+                )
+
+        # Add or delete product
+        value = order._cart_update(product_id=product_id, line_id=line_id, add_qty=add_qty, set_qty=set_qty)
+        
+        if not order.cart_quantity:
+            request.website.sale_reset()
+            return value
+
+        order = request.website.sale_get_order()
+        value['cart_quantity'] = order.cart_quantity
+        from_currency = order.company_id.currency_id
+        to_currency = order.pricelist_id.currency_id
+
+        if not display:
+            return value
+
+        value['website_sale.cart_lines'] = request.env['ir.ui.view'].render_template("website_sale.cart_lines", {
+            'website_sale_order': order,
+            'compute_currency': lambda price: from_currency.compute(price, to_currency),
+            'suggested_products': order._cart_accessories()
+        })
+        return value
 
 
 class BranchLocationController(BusController):
