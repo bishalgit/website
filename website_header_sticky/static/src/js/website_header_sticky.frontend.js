@@ -15,5 +15,11 @@ odoo.define('website_header_sticky.frontend', function(require) {
             navbar_clone.addClass('navbar-fixed-top');
             header.append(navbar_clone);
         }
+        if(!$('#oe_main_menu_navbar').length){
+            $(".navbar-fixed-top").each(function () {
+                $(this).css("top", "0px");
+            });
+            $(".o_connected_user").css("cssText","padding-top: 0px !important");
+        }
     });
 });
