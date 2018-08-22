@@ -77,8 +77,8 @@
 							<div class="oe-cart-sidebar-modal-additions" t-if="line.child_ids">
 								<t t-foreach="line.child_ids" t-as="addition_line">
 									<div class="row oe-cart-sidebar-modal-addition">
-										<!-- <div class="col-md-3 col-sm-3 oe-cart-sidebar-modal-addition-blank" /> -->
-										<div class="col-md-12 col-sm-12 oe-cart-sidebar-modal-addition-container">
+										<div class="col-md-3 col-sm-3 oe-cart-sidebar-modal-addition-blank" />
+										<div class="col-md-9 col-sm-9 oe-cart-sidebar-modal-addition-container">
 											<div class="oe-cart-sidebar-modal-addition-icon">
 												<i class="fa fa-plus"/>
 											</div>
