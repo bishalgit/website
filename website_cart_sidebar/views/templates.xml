@@ -103,7 +103,7 @@
 							</div>
 
 							<div class="row">
-								<div class="col-md-12">
+								<div class="col-md-12 text-right">
 									<a href="#" class="js_delete_product_modal hidden-xs no-decoration">
 										<small>
 											<i class="fa fa-trash-o">

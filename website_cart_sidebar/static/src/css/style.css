@@ -1339,9 +1339,9 @@ select {
     font-family: gotham-book;
 }
 
-.js_delete_product {
+.js_delete_product, .js_delete_product:hover, .js_delete_product:active {
     font-family: arial;
-    color: #4b4f56;
+    color: #4b4f56 !important;
     background: #f6f7f9;
     padding: 8px 12px;
     line-height: 50px;
@@ -1370,7 +1370,7 @@ select {
 .oe_cart {
     margin-bottom: 150px;
     background: #fff;
-    padding: 0 50px;
+    padding: 50px 50px;
     margin-top: 50px;
 }
 
@@ -1402,9 +1402,9 @@ select {
 .oe_cart .js_edit_address {
     width: 40px;
     height: 40px;
-    background: #ffe100;
+    background: #6cbe45;
     border-radius: 0;
-    color: #202a33;
+    color: #000000;
     font-size: 20px;
     font-weight: bold;
     margin: 17px 25px;
@@ -1698,4 +1698,87 @@ td.oe-addition-cart-line-qty {
 }
 .oe_cart .td-qty {
     text-align: center;
+}
+
+/*new css payment*/
+th.text-right.td-price {
+    text-align: center;
+}
+
+h3.text-left strong {
+    font-family: gotham-bold;
+    color: #181f27;
+}
+.oe_website_sale .break-word {
+    border-color: transparent;
+    border: none;
+    border-radius: 0;
+}
+.oe_website_sale .break-word .panel-heading {
+    color: #ffffff;
+    background-color: #6ebe47;
+    border-color: #6ebe47;
+    border-radius: 0;
+    font-family: gotham-bold;
+}
+.oe_website_sale .break-word address span {
+    font-family: gotham-book;
+    color: #181f27;
+}
+.thanks_msg h2 {
+    color: #6ebe47;
+    font-family: gotham-bold;
+}
+.oe_website_sale .panel-success {
+    border-color: #6ebe47;
+}
+.oe_website_sale .panel-success .panel-heading {
+    color: #ffffff;
+    background-color: #6ebe47;
+    border-color: #6ebe47;
+    font-family: gotham-bold;
+}
+.oe_website_sale .panel-success .panel-body {
+    display: none;
+}
+.oe_website_sale .alert-info {
+    background-color: #fbfbfb;
+    border-color: #fbfbfb;
+    color: #4b4f56;
+    font-family: gotham-bold;
+}
+.oe_website_sale .alert-info .btn-primary {
+    margin-right: 10px;
+}
+td.oe-addition-cart-line-product {
+    width: 100%;
+}
+
+td.oe-addition-cart-line-product div {
+    display: inline-block;
+}
+
+td.oe-addition-cart-line-product div i {
+    margin-right: 10px;
+}
+.oe_cart h2 .btn {
+    margin-left: 8px;
+}
+.checkout_autoformat .a-submit-loading, .checkout_autoformat .a-submit-loading:hover, .checkout_autoformat .a-submit-loading:active, .checkout_autoformat .a-submit-loading:focus {
+    color: #fff;
+    background-color: #6cbe45;
+    border-color: #6cbe45;
+}
+.one_kanban .panel .panel-footer .btn-ship .btn-primary:hover, .one_kanban .panel .panel-footer .btn-ship .btn-primary:active, .one_kanban .panel .panel-footer .btn-ship .btn-primary:focus{
+    color:#fff !important;
+}
+
+.oe-cart-sidebar-modal-addition-container {}
+
+.oe-cart-sidebar-modal-addition-container div {
+    display:  inline-block;
+}
+
+.oe-cart-sidebar-modal-addition-container div i {
+    margin-right: 8px;
 }
