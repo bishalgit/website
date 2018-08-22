@@ -990,7 +990,7 @@ section#product_detail {
 
 .css_quantity.css_quantity {
     max-width: 110px;
-    margin: 6px 0;
+    margin: 0px;
 }
 
 .product_additions_checkboxes .css_quantity {
@@ -1277,8 +1277,7 @@ tr.oe-addition-cart-line {
 
 .oe_cart input.quantity {
     box-shadow: none !important;
-    border-left: none !important;
-    border-right: none !important;
+    border: none !important;
     font-family: gotham-bold;
 }
 
@@ -1395,7 +1394,7 @@ select {
     max-width: 240px;
     border-radius: 0 !important;
     border: 1px solid #eee !important;
-    color: #464646;
+    color: #464646 !important;
     background: #ffffff;
     font-family: gotham-bold !important;
 }
@@ -1545,6 +1544,7 @@ ul.wizard {
     color: #be2526;
     font-family: gotham-bold !important;
     font-size: 15px;
+    margin: 5px 0 !important;
 }
 
 .all_shipping {
