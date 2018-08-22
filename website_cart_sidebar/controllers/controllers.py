@@ -337,7 +337,7 @@ class WebsiteSaleCart(WebsiteSale):
         return value
 
 
-class BranchLocationController(BusController):
+class OrderAppBusController(BusController):
     def _poll(self, dbname, channels, last, options):
         """Add the relevant channels to the BusController polling."""
         if options.get('product.product'):
@@ -348,7 +348,7 @@ class BranchLocationController(BusController):
                 options.get('product.product')
             )
             channels.append(branch_channel)
-        return super(BranchLocationController, self)._poll(dbname, channels, last, options)
+        return super(OrderAppBusController, self)._poll(dbname, channels, last, options)
 
 
 class OrderAppController(http.Controller):
