@@ -1277,8 +1277,10 @@ tr.oe-addition-cart-line {
 
 .oe_cart input.quantity {
     box-shadow: none !important;
-    border: none !important;
+    border: 1px solid #eee !important;
     font-family: gotham-bold;
+    border-left: none !important;
+    border-right: none !important;
 }
 
 .oe_cart .cart_bg_box .table {
@@ -1781,4 +1783,27 @@ td.oe-addition-cart-line-product div i {
 
 .oe-cart-sidebar-modal-addition-container div i {
     margin-right: 8px;
+}
+.modal-content.oe_cart{
+    padding:0 !important;
+}
+.custom-modal .oe_cart_modal .modal-body {
+    background: #fafafa;
+}
+
+.custom-modal .oe_cart_modal .food-order-item p {
+    margin-bottom: 15px;
+}
+
+.custom-modal .oe_cart_modal .food-order-item .control-btn {
+    float: right;
+}
+.custom-modal .oe_cart_modal .modal-header button {
+    background:  transparent;
+}
+.modal.fade.in {
+    background: rgba(31, 30, 30, 0.6509803921568628);
+}
+.custom-modal .oe_cart {
+    margin-top: 0 !important;
 }
