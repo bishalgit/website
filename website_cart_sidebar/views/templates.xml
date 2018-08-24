@@ -639,7 +639,7 @@
 							<tbody class="oe-addition-cart-lines">
 								<tr class="oe-addition-cart-line" t-foreach="line.child_ids" t-as="addition_line">
 									
-									<td colspan="2" class='oe-addition-cart-line-icon hidden-lg hidden-md hidden-sm'>
+									<td colspan="2" class='oe-addition-cart-line-title hidden-lg hidden-md hidden-sm'>
 										<i class="hidden-lg hidden-md hidden-sm">+ &amp;nbsp;</i>
 										<!-- <div class="hidden-lg hidden-md hidden-sm">&amp;nbsp;</div> -->
 										<t t-esc="addition_line.product_id.display_name" />
@@ -677,7 +677,7 @@
 									<span t-field="line.product_id.image_small" t-options="{'widget': 'image', 'class': 'img-rounded'}" />
 								</a>
 							</td>
-							<td class='td-product_name' t-if="line.product_id.product_tmpl_id">
+							<td class='td-product_name hidden-xs' t-if="line.product_id.product_tmpl_id">
 								<div>
 									<strong t-field="line.product_id.with_context(display_default_code=False).display_name" />
 								</div>
@@ -687,6 +687,17 @@
 									</t>
 								</div>
 							</td>
+							<td colspan="2" class='td-product_name hidden-lg hidden-md hidden-sm' t-if="line.product_id.product_tmpl_id">
+								<div>
+									<strong t-field="line.product_id.with_context(display_default_code=False).display_name" />
+								</div>
+								<div class="text-muted hidden-xs small">
+									<t t-foreach="line.name.splitlines()[1:]" t-as="name_line">
+										<span><t t-esc="name_line"/></span><br/>
+									</t>
+								</div>
+							</td>
+							
 							<td class='td-qty'>
 								<div t-esc="int(line.product_uom_qty) == line.product_uom_qty and int(line.product_uom_qty) or line.product_uom_qty" />
 							</td>
@@ -698,8 +709,13 @@
 						<t t-if="line.child_ids">
 							<tbody class="oe-addition-cart-lines">
 								<tr class="oe-addition-cart-line" t-foreach="line.child_ids" t-as="addition_line">
-									<td class='oe-addition-cart-line-icon'><i class="fa fa-plus"/></td>
-									<td class="oe-addition-cart-line-title" t-esc="addition_line.product_id.display_name" />
+									<td colspan="2" class='oe-addition-cart-line-title hidden-lg hidden-md hidden-sm'>
+										<i class="hidden-lg hidden-md hidden-sm">+ &amp;nbsp;</i>
+										<!-- <div class="hidden-lg hidden-md hidden-sm">&amp;nbsp;</div> -->
+										<t t-esc="addition_line.product_id.display_name" />
+									</td>
+									<td class='oe-addition-cart-line-icon hidden-xs'><i class="fa fa-plus"/></td>
+									<td class="oe-addition-cart-line-title hidden-xs" t-esc="addition_line.product_id.display_name" />
 									<td class="oe-addition-cart-line-qty" t-esc="addition_line.product_uom_qty" />
 									<td class="oe-addition-cart-line-price">
 										<!-- <t t-if="(compute_currency(addition_line.product_id.lst_price) - addition_line.price_reduce ) &gt; 0.01  and website.get_current_pricelist().discount_policy=='without_discount'">
