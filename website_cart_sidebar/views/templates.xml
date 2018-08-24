@@ -51,15 +51,15 @@
 									</div>
 								</div>
 								<div class="col-md-6 col-sm-6">
-									<div class="control-btn pull-right">
+									<div class="control-btn ">
 										<form>
 											<div class="css_quantity input-group oe_website_spinner">
-												<a t-attf-href="#" class="mb8 input-group-addon js_add_cart_json hidden-xs">
+												<a t-attf-href="#" class="mb8 input-group-addon js_add_cart_json ">
 													<i class="fa fa-minus">
 													</i>
 												</a>
 												<input type="text" class="js_quantity form-control quantity" t-att-data-line-id="line.id" t-att-data-product-id="line.product_id.id" t-att-value="int(line.product_uom_qty) == line.product_uom_qty and int(line.product_uom_qty) or line.product_uom_qty" />
-												<a t-attf-href="#" class="mb8 input-group-addon float_left js_add_cart_json hidden-xs">
+												<a t-attf-href="#" class="mb8 input-group-addon float_left js_add_cart_json ">
 													<i class="fa fa-plus">
 													</i>
 												</a>
