@@ -638,7 +638,6 @@
 						<t t-if="line.child_ids">
 							<tbody class="oe-addition-cart-lines">
 								<tr class="oe-addition-cart-line" t-foreach="line.child_ids" t-as="addition_line">
-									
 									<td colspan="2" class='oe-addition-cart-line-title hidden-lg hidden-md hidden-sm'>
 										<i class="hidden-lg hidden-md hidden-sm">+ &amp;nbsp;</i>
 										<!-- <div class="hidden-lg hidden-md hidden-sm">&amp;nbsp;</div> -->

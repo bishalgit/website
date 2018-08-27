@@ -1,16 +1,18 @@
 odoo.define('website_cart_sidebar.views', function(require) {
     'use strict';
 
+    require('web.dom_ready');
     var bus = require('bus.bus').bus;
+    var ajax = require('web.ajax');
+    var utils = require('web.utils');
     var core = require('web.core');
     var Dialog = require('web.Dialog');
     var CartConfig = require('website_cart_sidebar.classes').CartConfig;
     var Widget = require('web.Widget');
+    require("website.content.zoomodoo");
 
     var qweb = core.qweb;
     var _t = core._t;
-
-    require('web.dom_ready');
 
     var OrderApp = Widget.extend({
         // template: 'website_cart_sidebar.app',
@@ -283,6 +285,7 @@ odoo.define('website_cart_sidebar.views', function(require) {
                                 $(cartModal).on("mouseleave", function() {
                                     $(selfModal).trigger('mouseleave');
                                 });
+                                self._bindAllEvents();
                             });
                     }, 100);
                 }).on("mouseleave", function() {
@@ -295,6 +298,110 @@ odoo.define('website_cart_sidebar.views', function(require) {
                         }
                     }, 1000);
                 });
+            });
+        },
+        _bindAllEvents: function() {
+            var self = this;
+
+            var clickwatch = (function() {
+                var timer = 0;
+                return function(callback, ms) {
+                    clearTimeout(timer);
+                    timer = setTimeout(callback, ms);
+                };
+            })();
+            $(this.$el).off('change', '.oe_cart input.js_quantity[data-product-id]').on('change', '.oe_cart input.js_quantity[data-product-id]', function() {
+                var $input = $(this);
+                if ($input.data('update_change')) {
+                    return;
+                }
+                var value = parseInt($input.val() || 0, 10);
+                if (isNaN(value)) {
+                    value = 1;
+                }
+                var $dom = $(this).closest('tr');
+                //var default_price = parseFloat($dom.find('.text-danger > span.oe_currency_value').text());
+                var $dom_optional = $dom.nextUntil(':not(.optional_product.info)');
+                var line_id = parseInt($input.data('line-id'), 10);
+                var product_ids = [parseInt($input.data('product-id'), 10)];
+                clickwatch(function() {
+                    $dom_optional.each(function() {
+                        $(this).find('.js_quantity').text(value);
+                        product_ids.push($(this).find('span[data-product-id]').data('product-id'));
+                    });
+                    $input.data('update_change', true);
+
+                    ajax.jsonRpc("/shop/cart/update_json", 'call', {
+                        'line_id': line_id,
+                        'product_id': parseInt($input.data('product-id'), 10),
+                        'set_qty': value
+                    }).then(function(data) {
+                        $input.data('update_change', false);
+                        var check_value = parseInt($input.val() || 0, 10);
+                        if (isNaN(check_value)) {
+                            check_value = 1;
+                        }
+                        if (value !== check_value) {
+                            $input.trigger('change');
+                            return;
+                        }
+                        var $q = $(".my_cart_quantity");
+                        if (data.cart_quantity) {
+                            $q.parents('li:first').removeClass("hidden");
+                        } else {
+                            $q.parents('li:first').addClass("hidden");
+                            $('a[href*="/shop/checkout"]').addClass("hidden");
+                        }
+
+                        $q.html(data.cart_quantity).hide().fadeIn(600);
+                        $input.val(data.quantity);
+                        $('.js_quantity[data-line-id=' + line_id + ']').val(data.quantity).html(data.quantity);
+
+                        // Refresh sidebar cart modal
+                        // TODO: Optimize memory
+                        $.get("/shop/cart/modal", { 'type': 'modal' })
+                            .then(function(data) {
+                                $(self.$el).find("div.modal-body").empty().append(data);
+                                // self._bindAllEvents();
+                            });
+
+                        $(".js_cart_lines").first().before(data['website_sale.cart_lines']).end().remove();
+
+                        if (data.warning) {
+                            var cart_alert = $('.oe_cart').parent().find('#data_warning');
+                            if (cart_alert.length === 0) {
+                                $('.oe_cart').prepend('<div class="alert alert-danger alert-dismissable" role="alert" id="data_warning">' +
+                                    '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> ' + data.warning + '</div>');
+                            } else {
+                                cart_alert.html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> ' + data.warning);
+                            }
+                            $input.val(data.quantity);
+                        }
+                    });
+                }, 500);
+            });
+
+            // hack to add and remove from cart with json
+            $(this.$el).off('click', 'a.js_add_cart_json').on('click', 'a.js_add_cart_json', function(ev) {
+                ev.preventDefault();
+                var $link = $(ev.currentTarget);
+                var $input = $link.parent().find("input");
+                var product_id = +$input.closest('*:has(input[name="product_id"])').find('input[name="product_id"]').val();
+                var min = parseFloat($input.data("min") || 0);
+                var max = parseFloat($input.data("max") || Infinity);
+                var quantity = ($link.has(".fa-minus").length ? -1 : 1) + parseFloat($input.val() || 0, 10);
+                var new_qty = quantity > min ? (quantity < max ? quantity : max) : min;
+                // if they are more of one input for this product (eg: option modal)
+                $('input[name="' + $input.attr("name") + '"]').add($input).filter(function() {
+                    var $prod = $(this).closest('*:has(input[name="product_id"])');
+                    return !$prod.length || +$prod.find('input[name="product_id"]').val() === product_id;
+                }).val(new_qty).change();
+                return false;
+            });
+
+            $(this.$el).off('click', '.js_delete_product_modal').on('click', '.js_delete_product_modal', function(e) {
+                e.preventDefault();
+                $(this).closest('div.oe-cart-sidebar-modal-product').find('.js_quantity').val(0).trigger('change');
             });
         },
     });
