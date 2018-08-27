@@ -296,7 +296,7 @@ odoo.define('website_cart_sidebar.views', function(require) {
                                 $(cartModal).modal('hide');
                             }
                         }
-                    }, 1000);
+                    }, 100000);
                 });
             });
         },

@@ -24,7 +24,8 @@
 									</div>
 								</div>
 								<div class="col-md-9 col-sm-9">
-									<a t-attf-href="/shop/product/#{ slug(line.product_id.product_tmpl_id) }">
+									<!-- <a t-attf-href="/shop/product/#{ slug(line.product_id.product_tmpl_id) }"> -->
+									<a>
 										<h3>
 											<span t-esc="line.product_id.with_context(display_default_code=False).display_name" />
 										</h3>
@@ -591,7 +592,7 @@
 							</td>
 							<td t-if="line.product_id.product_tmpl_id" class='td-product_name hidden-xs'>
 								<div>
-									<a href="">
+									<a>
 										<strong t-esc="line.product_id.with_context(display_default_code=False).display_name" />
 									</a>
 									<!-- <a t-attf-href="/shop/product/#{ slug(line.product_id.product_tmpl_id) }">
@@ -607,9 +608,12 @@
 							</td>
 							<td colspan="2" t-if="line.product_id.product_tmpl_id" class='td-product_name hidden-lg hidden-md hidden-sm'>
 								<div>
-									<a t-attf-href="/shop/product/#{ slug(line.product_id.product_tmpl_id) }">
+									<a>
 										<strong t-esc="line.product_id.with_context(display_default_code=False).display_name" />
 									</a>
+									<!-- <a t-attf-href="/shop/product/#{ slug(line.product_id.product_tmpl_id) }">
+										<strong t-esc="line.product_id.with_context(display_default_code=False).display_name" />
+									</a> -->
 								</div>
 								<div class="text-muted hidden-xs small">
 									<t t-foreach="line.name.splitlines()[1:]" t-as="name_line">
@@ -675,7 +679,8 @@
 						<tr>
 							<td class='' colspan="2" t-if="not line.product_id.product_tmpl_id"></td>
 							<td class='td-img' t-if="line.product_id.product_tmpl_id">
-								<a t-attf-href="/shop/product/#{ slug(line.product_id.product_tmpl_id) }">
+								<!-- <a t-attf-href="/shop/product/#{ slug(line.product_id.product_tmpl_id) }"> -->
+								<a>
 									<span t-field="line.product_id.image_small" t-options="{'widget': 'image', 'class': 'img-rounded'}" />
 								</a>
 							</td>
@@ -743,7 +748,8 @@
 						<tr>
 							<td class='td-product_name'>
 								<div>
-									<a t-attf-href="/shop/product/#{ slug(line.product_id.product_tmpl_id) }">
+									<!-- <a t-attf-href="/shop/product/#{ slug(line.product_id.product_tmpl_id) }"> -->
+									<a>
 										<strong t-esc="line.product_id.with_context(display_default_code=False).display_name"/>
 									</a>
 								</div>
