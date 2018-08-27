@@ -31,17 +31,18 @@ odoo.define('website_cart_sidebar.views', function(require) {
 
                 // Create and append branch list
                 var product_modal_node = qweb.render('website_cart_sidebar.product_modal');
-                var cart_modal_node = qweb.render('website_cart_sidebar.cart_modal');
-                $('body').append(cart_modal_node);
+                // var cart_modal_node = qweb.render('website_cart_sidebar.cart_modal');
+                self.cartModal = new CartModal(this, "cartModal");
+                // $('body').append(cart_modal_node);
+                self.cartModal.appendTo($('body')).then(function() {
+                    console.log("cart modal widget appended.");
+                });
                 $('body').append(product_modal_node);
-                self.cartModal = $('#cartModal');
+                // self.cartModal = $('#cartModal');
                 self.productModal = $('#productModal');
 
-
-                console.log($("#productModal").find('.modal-footer'));
-
+                // Bind events for product modal elements
                 $(self.productModal).on('click', '.a-submit', function(event) {
-                    console.log("sldfj");
                     if (!event.isDefaultPrevented() && !$(this).is(".disabled")) {
                         event.preventDefault();
                         $(this).closest('form').submit();
@@ -59,8 +60,6 @@ odoo.define('website_cart_sidebar.views', function(require) {
                         }
                     }
                 });
-
-                console.log($("#productModal").find('.modal-footer'));
 
                 self.$el.parent().find(".oe_add_to_cart_button").each(function() {
                     $(this).on("click", _.bind(self._showProductModal, self));
@@ -111,7 +110,7 @@ odoo.define('website_cart_sidebar.views', function(require) {
             }
         },
         _appendProductModal: function(product) {
-            console.log(product);
+            // console.log(product);
             var product_content = qweb.render('website_cart_sidebar.product', { widget: product });
             var addons_categ_changed = false;
             var addons_current_categ_id = -1;
@@ -232,6 +231,71 @@ odoo.define('website_cart_sidebar.views', function(require) {
                     self.cartConfig.removeProduct(message[1]);
                 }
             }
+        },
+    });
+
+    var CartModal = Widget.extend({
+        template: 'website_cart_sidebar.cart_modal',
+        xmlDependencies: ['/website_cart_sidebar/static/src/xml/product_views.xml'],
+        /* Lifecycle */
+        init: function(parent, nodeId) {
+            this._super.apply(this, arguments);
+            this.nodeId = nodeId;
+        },
+        willStart: function() {
+            return $.when(this._super.apply(this, arguments));
+        },
+        start: function() {
+            var self = this;
+            return this._super.apply(this, arguments).then(function() {
+                /**
+                 * Check if top navbar has loaded completely
+                 * If yes then bind events for cart modal elements
+                 */
+                self.t = setInterval(function() {
+                    self._onReady();
+                }, 1000);
+            });
+        },
+        /**
+         * 
+         */
+        _onReady: function() {
+            var self = this;
+
+            if (self.t) {
+                clearInterval(self.t);
+            }
+
+            $('a.oe_my_cart_link').each(function() {
+                var shopping_cart_link_counter;
+                var cartModal = self.$el;
+                $(this).on("click", function() {
+                    var selfModal = this;
+                    clearTimeout(shopping_cart_link_counter);
+                    $(cartModal).modal('hide');
+                    shopping_cart_link_counter = setTimeout(function() {
+                        $(cartModal).find(".modal-body").empty();
+                        $(cartModal).modal("show");
+                        $.get("/shop/cart/modal", { 'type': 'modal' })
+                            .then(function(data) {
+                                $(cartModal).find(".modal-body").append(data);
+                                $(cartModal).on("mouseleave", function() {
+                                    $(selfModal).trigger('mouseleave');
+                                });
+                            });
+                    }, 100);
+                }).on("mouseleave", function() {
+                    var selfModal = this;
+                    setTimeout(function() {
+                        if (!$(".modal:hover").length) {
+                            if (!$(cartModal).is(':hover')) {
+                                $(cartModal).modal('hide');
+                            }
+                        }
+                    }, 1000);
+                });
+            });
         },
     });
 

@@ -5,38 +5,38 @@ odoo.define('website_cart_sidebar.cart', function(require) {
     var core = require('web.core');
     var _t = core._t;
 
-    setTimeout(() => {
-        $('ul.top_menu_custom').each(function() {
-            var shopping_cart_link = $(this).find('li a[data-href$="/shop/cart"]');
-            var shopping_cart_link_counter;
-            var cartModal = $('#cartModal');
-            shopping_cart_link.on("click", function() {
-                var self = this;
-                clearTimeout(shopping_cart_link_counter);
-                $(cartModal).modal('hide');
-                shopping_cart_link_counter = setTimeout(function() {
-                    $(cartModal).find(".modal-body").empty();
-                    $(cartModal).modal("show");
-                    $.get("/shop/cart/modal", { 'type': 'modal' })
-                        .then(function(data) {
-                            $(cartModal).find(".modal-body").append(data);
-                            $(cartModal).on("mouseleave", function() {
-                                $(self).trigger('mouseleave');
-                            });
-                        });
-                }, 100);
-            }).on("mouseleave", function() {
-                var self = this;
-                setTimeout(function() {
-                    if (!$(".modal:hover").length) {
-                        if (!$(cartModal).is(':hover')) {
-                            $(cartModal).modal('hide');
-                        }
-                    }
-                }, 100000);
-            });
-        });
-    }, 1000);
+    // setTimeout(() => {
+    //     $('ul.top_menu_custom').each(function() {
+    //         var shopping_cart_link = $(this).find('li a[data-href$="/shop/cart"]');
+    //         var shopping_cart_link_counter;
+    //         var cartModal = $('#cartModal');
+    //         shopping_cart_link.on("click", function() {
+    //             var self = this;
+    //             clearTimeout(shopping_cart_link_counter);
+    //             $(cartModal).modal('hide');
+    //             shopping_cart_link_counter = setTimeout(function() {
+    //                 $(cartModal).find(".modal-body").empty();
+    //                 $(cartModal).modal("show");
+    //                 $.get("/shop/cart/modal", { 'type': 'modal' })
+    //                     .then(function(data) {
+    //                         $(cartModal).find(".modal-body").append(data);
+    //                         $(cartModal).on("mouseleave", function() {
+    //                             $(self).trigger('mouseleave');
+    //                         });
+    //                     });
+    //             }, 100);
+    //         }).on("mouseleave", function() {
+    //             var self = this;
+    //             setTimeout(function() {
+    //                 if (!$(".modal:hover").length) {
+    //                     if (!$(cartModal).is(':hover')) {
+    //                         $(cartModal).modal('hide');
+    //                     }
+    //                 }
+    //             }, 100000);
+    //         });
+    //     });
+    // }, 1000);
 });
 
 odoo.define('website_cart_sidebar.website_sale', function(require) {

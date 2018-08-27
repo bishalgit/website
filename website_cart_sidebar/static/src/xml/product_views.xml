@@ -127,7 +127,7 @@
 		</li>
 	</t>
 	<t t-name="website_cart_sidebar.cart_modal">
-		<div class="modal right fade custom-modal oe_website_sale" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="cartModelLabel">
+		<div class="modal right fade custom-modal oe_website_sale" t-att-id="widget.nodeId" tabindex="-1" role="dialog" aria-labelledby="cartModelLabel">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content oe_cart oe_cart_modal">
 					<div class="modal-header">
