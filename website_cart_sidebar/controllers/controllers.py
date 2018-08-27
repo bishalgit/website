@@ -165,7 +165,8 @@ class WebsiteSaleCart(WebsiteSale):
             [('id', '=', product_id), ('is_addition', '=', False)])
         # addition_items = request.env['product.template'].sudo().search([('id', '=', product_id)]).child_id
         additions_list = dict([(int(key[16:-1]),int(value)) for key, value in kw.items() if key.startswith("additions_input[")])
-
+        addition_items = None
+        
         _logger.warning(additions_list)
 
         sub_count = 0
@@ -238,25 +239,26 @@ class WebsiteSaleCart(WebsiteSale):
                     attributes=self._filter_attributes(**kw),
                 )
                 _logger.warning(main)
-                for aitems in addition_items:
-                    if aitems.is_multiple:
-                        request.website.sale_get_order(force_create=1)._cart_update(
-                            product_id=int(aitems.id),
-                            add_qty=additions_list[aitems.id],
-                            set_qty=set_qty,
-                            line_id=False,
-                            parent_id=main['line_id'],
-                            attributes=self._filter_attributes(**kw),
-                        )
-                    else:
-                        request.website.sale_get_order(force_create=1)._cart_update(
-                            product_id=int(aitems.id),
-                            add_qty=add_qty,
-                            set_qty=set_qty,
-                            line_id=False,
-                            parent_id=main['line_id'],
-                            attributes=self._filter_attributes(**kw),
-                        )
+                if addition_items:
+                    for aitems in addition_items:
+                        if aitems.is_multiple:
+                            request.website.sale_get_order(force_create=1)._cart_update(
+                                product_id=int(aitems.id),
+                                add_qty=additions_list[aitems.id],
+                                set_qty=set_qty,
+                                line_id=False,
+                                parent_id=main['line_id'],
+                                attributes=self._filter_attributes(**kw),
+                            )
+                        else:
+                            request.website.sale_get_order(force_create=1)._cart_update(
+                                product_id=int(aitems.id),
+                                add_qty=add_qty,
+                                set_qty=set_qty,
+                                line_id=False,
+                                parent_id=main['line_id'],
+                                attributes=self._filter_attributes(**kw),
+                            )
             else:
                 _logger.warning('treating as old item')
                 m_line_id = request.env['sale.order.line'].search(
