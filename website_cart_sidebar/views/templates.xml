@@ -84,7 +84,9 @@
 												<i class="fa fa-plus"/>
 											</div>
 											<div class="oe-cart-sidebar-modal-addition-title" t-esc="addition_line.product_id.display_name" />
-											<div class="oe-cart-sidebar-modal-addition-qty" t-esc="addition_line.product_uom_qty" />
+											<div class="oe-cart-sidebar-modal-addition-qty">
+												[<t t-esc="addition_line.product_uom_qty"/>]
+											</div>
 											<div class="oe-cart-sidebar-modal-addition-unitPrice">
 												<t t-if="(compute_currency(addition_line.product_id.lst_price) - addition_line.price_reduce ) &gt; 0.01  and website.get_current_pricelist().discount_policy=='without_discount'">
 													<del t-attf-class="#{'text-danger mr8'}" 
