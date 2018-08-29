@@ -78,13 +78,13 @@
 							<t t-if="line.child_ids">
 								<div class="row">
 									<div class="oe-additions-collapse">
-										<button class="btn btn-primary" type="button" data-toggle="collapse" t-attf-data-target="#additions{{ line.id }}" aria-expanded="false" t-attf-aria-controls="additions{{ line.id }}">
-											Additions
+										<button class="btn btn-primary" type="button" data-toggle="collapse" t-attf-data-target="#additionsSidebar{{ line.id }}" aria-expanded="false" t-attf-aria-controls="additionsSidebar{{ line.id }}">
+											Additions&amp;nbsp;&amp;nbsp;<i class="fa fa-angle-down"/>
 										</button>
 									</div>
 								</div>
 
-								<div class="oe-cart-sidebar-modal-additions collapse" t-attf-id="additions{{ line.id }}">
+								<div class="oe-cart-sidebar-modal-additions collapse" t-attf-id="additionsSidebar{{ line.id }}">
 									<t t-foreach="line.child_ids" t-as="addition_line">
 										<div class="row oe-cart-sidebar-modal-addition">
 											<div class="col-md-3 col-sm-3 oe-cart-sidebar-modal-addition-blank" />
@@ -117,11 +117,9 @@
 
 							<div class="row">
 								<div class="col-md-12 text-right">
-									<a href="#" class="js_delete_product_modal hidden-xs no-decoration">
+									<a href="#" class="js_delete_product_modal no-decoration">
 										<small>
-											<i class="fa fa-trash-o">
-											</i>
-											Remove
+											<i class="fa fa-trash-o"/><span class="hidden-xs">&amp;nbsp;Remove</span>
 										</small>
 									</a>
 									<!-- <button class="btn btn-customize ">Remove</button> -->
@@ -600,7 +598,7 @@
 			<tbody>
                 <t t-foreach="website_sale_order.website_order_line" t-as="line">
 					<t t-if="not line.product_id.is_addition">
-						<tr t-if="not line.product_id.is_addition">
+						<tr class="oe-product-cart-line">
 							<td colspan="2" t-if="not line.product_id.product_tmpl_id" class='td-img'></td>
 							<td align="center" t-if="line.product_id.product_tmpl_id" class='td-img'>
 								<span t-field="line.product_id.image_small" t-options="{'widget': 'image', 'class': 'img-rounded'}" />
@@ -619,7 +617,14 @@
 										<span><t t-esc="name_line"/></span><br/>
 									</t>
 								</div>
-								<a href='#' class='js_delete_product hidden-xs no-decoration'> <small><i class='fa fa-trash-o'></i> Remove</small></a>
+								<div class="oe-product-cart-line-control-panel">
+									<a href='#' class='js_delete_product hidden-xs no-decoration'> <small><i class='fa fa-trash-o'></i> Remove</small></a>
+									<div t-if="line.child_ids" class="oe-additions-collapse">
+										<button class="btn btn-primary" type="button" data-toggle="collapse" t-attf-data-target="#additions{{ line.id }}" aria-expanded="false" t-attf-aria-controls="additions{{ line.id }}">
+											Additions&amp;nbsp;&amp;nbsp;<i class="fa fa-angle-down"/>
+										</button>
+									</div>
+								</div>
 							</td>
 							<td colspan="2" t-if="line.product_id.product_tmpl_id" class='td-product_name hidden-lg hidden-md hidden-sm'>
 								<div>
@@ -635,7 +640,14 @@
 										<span><t t-esc="name_line"/></span><br/>
 									</t>
 								</div>
-								<a href='#' class='js_delete_product hidden-xs no-decoration'> <small><i class='fa fa-trash-o'></i> Remove</small></a>
+								<div class="oe-product-cart-line-control-panel">
+									<a href='#' class='js_delete_product no-decoration'> <small><i class='fa fa-trash-o'></i></small></a>
+									<div t-if="line.child_ids" class="oe-additions-collapse">
+										<button class="btn btn-primary" type="button" data-toggle="collapse" t-attf-data-target="#additions{{ line.id }}" aria-expanded="false" t-attf-aria-controls="additions{{ line.id }}">
+											Additions&amp;nbsp;&amp;nbsp;<i class="fa fa-angle-down" /> 
+										</button>
+									</div>
+								</div>
 							</td>
 							<td class="text-center td-qty">
 								<div class="css_quantity input-group oe_website_spinner">
@@ -658,7 +670,7 @@
 						</tr>
 
 						<t t-if="line.child_ids">
-							<tbody class="oe-addition-cart-lines">
+							<tbody class="oe-addition-cart-lines collapse" t-attf-id="additions{{ line.id }}">
 								<tr class="oe-addition-cart-line" t-foreach="line.child_ids" t-as="addition_line">
 									<td colspan="2" class='oe-addition-cart-line-title hidden-lg hidden-md hidden-sm'>
 										<i class="hidden-lg hidden-md hidden-sm">+ &amp;nbsp;</i>
@@ -680,6 +692,15 @@
 								</tr>
 							</tbody>
 						</t>
+
+						<!-- Put divider in between products. Adjust colspan as per needed. -->
+						<t t-if="not line_last">
+							<tbody>
+								<tr>
+									<td colspan="4" class="oe-cart-line-divider" />
+								</tr>
+							</tbody>
+						</t>
 					</t>
                 </t>
             </tbody>
@@ -694,7 +715,7 @@
 			<tbody>
 				<t t-foreach="website_sale_order.website_order_line" t-as="line">
 					<t t-if="not line.product_id.is_addition">
-						<tr>
+						<tr class="oe-product-cart-line">
 							<td class='' colspan="2" t-if="not line.product_id.product_tmpl_id"></td>
 							<td class='td-img' t-if="line.product_id.product_tmpl_id">
 								<!-- <a t-attf-href="/shop/product/#{ slug(line.product_id.product_tmpl_id) }"> -->
@@ -711,6 +732,13 @@
 										<span><t t-esc="name_line"/></span><br/>
 									</t>
 								</div>
+								<div t-if="line.child_ids" class="oe-product-cart-line-control-panel">
+									<div class="oe-additions-collapse">
+										<button class="btn btn-primary" type="button" data-toggle="collapse" t-attf-data-target="#additions{{ line.id }}" aria-expanded="false" t-attf-aria-controls="additions{{ line.id }}">
+											<i class="fa fa-angle-down"/>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Additions
+										</button>
+									</div>
+								</div>
 							</td>
 							<td colspan="2" class='td-product_name hidden-lg hidden-md hidden-sm' t-if="line.product_id.product_tmpl_id">
 								<div>
@@ -720,6 +748,13 @@
 									<t t-foreach="line.name.splitlines()[1:]" t-as="name_line">
 										<span><t t-esc="name_line"/></span><br/>
 									</t>
+								</div>
+								<div t-if="line.child_ids" class="oe-product-cart-line-control-panel">
+									<div class="oe-additions-collapse">
+										<button class="btn btn-primary" type="button" data-toggle="collapse" t-attf-data-target="#additions{{ line.id }}" aria-expanded="false" t-attf-aria-controls="additions{{ line.id }}">
+											<i class="fa fa-angle-down"/>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Additions
+										</button>
+									</div>
 								</div>
 							</td>
 							
@@ -732,7 +767,7 @@
 							</td>
 						</tr>
 						<t t-if="line.child_ids">
-							<tbody class="oe-addition-cart-lines">
+							<tbody class="oe-addition-cart-lines collapse" t-attf-id="additions{{ line.id }}">
 								<tr class="oe-addition-cart-line" t-foreach="line.child_ids" t-as="addition_line">
 									<td colspan="2" class='oe-addition-cart-line-title hidden-lg hidden-md hidden-sm'>
 										<i class="hidden-lg hidden-md hidden-sm">+ &amp;nbsp;</i>
@@ -749,6 +784,15 @@
 										<!-- <span t-field="addition_line.price_reduce_taxexcl" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'from_currency': website_sale_order.pricelist_id.currency_id, 'display_currency': website.currency_id}" groups="sale.group_show_price_subtotal" /> -->
 										<span t-field="addition_line.price_reduce_taxinc" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'from_currency': website_sale_order.pricelist_id.currency_id, 'display_currency': website.currency_id}" groups="sale.group_show_price_total" />
 									</td>
+								</tr>
+							</tbody>
+						</t>
+
+						<!-- Put divider in between products. Adjust colspan as per needed. -->
+						<t t-if="not line_last">
+							<tbody>
+								<tr>
+									<td colspan="4" class="oe-cart-line-divider" />
 								</tr>
 							</tbody>
 						</t>
