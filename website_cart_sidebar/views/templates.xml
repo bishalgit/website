@@ -76,11 +76,19 @@
 							</div>
 
 							<t t-if="line.child_ids">
-								<div class="row">
-									<div class="oe-additions-collapse">
-										<button class="btn btn-primary" type="button" data-toggle="collapse" t-attf-data-target="#additionsSidebar{{ line.id }}" aria-expanded="false" t-attf-aria-controls="additionsSidebar{{ line.id }}">
-											Additions&amp;nbsp;&amp;nbsp;<i class="fa fa-angle-down"/>
-										</button>
+								<div class="row oe-additions-collapse">
+									<div class="col-md-3 col-sm-3"/>
+									<div class="col-md-5 col-sm-5">
+										<a class="btn btn-primary" data-toggle="collapse" t-attf-href="#additionsSidebar{{ line.id }}" role="button" aria-expanded="false" t-attf-aria-controls="additionsSidebar{{ line.id }}">
+											<i class="fa fa-angle-down"/>&amp;nbsp;&amp;nbsp;Additions
+										</a>
+									</div>
+									<div class="col-md-4 col-sm-4">
+										<a href="#" class="js_delete_product_modal no-decoration">
+											<small>
+												<i class="fa fa-trash-o"/><span class="hidden-xs">&amp;nbsp;Remove</span>
+											</small>
+										</a>
 									</div>
 								</div>
 
@@ -115,17 +123,15 @@
 								</div>
 							</t>
 
-							<div class="row">
+							<!-- <div class="row">
 								<div class="col-md-12 text-right">
 									<a href="#" class="js_delete_product_modal no-decoration">
 										<small>
 											<i class="fa fa-trash-o"/><span class="hidden-xs">&amp;nbsp;Remove</span>
 										</small>
 									</a>
-									<!-- <button class="btn btn-customize ">Remove</button> -->
-									<!-- <a href=""  class="btn btn-default-cart">Customize </a> -->
 								</div>
-							</div>
+							</div> -->
 						</div>
 					</div>
 				</t>
@@ -617,12 +623,16 @@
 										<span><t t-esc="name_line"/></span><br/>
 									</t>
 								</div>
-								<div class="oe-product-cart-line-control-panel">
-									<a href='#' class='js_delete_product hidden-xs no-decoration'> <small><i class='fa fa-trash-o'></i> Remove</small></a>
-									<div t-if="line.child_ids" class="oe-additions-collapse">
-										<button class="btn btn-primary" type="button" data-toggle="collapse" t-attf-data-target="#additions{{ line.id }}" aria-expanded="false" t-attf-aria-controls="additions{{ line.id }}">
-											Additions&amp;nbsp;&amp;nbsp;<i class="fa fa-angle-down"/>
-										</button>
+								<div class="row oe-product-cart-line-control-panel">
+									<div class="col-md-7 col-sm-7">
+										<div t-if="line.child_ids" class="oe-additions-collapse">
+											<button class="btn btn-primary" type="button" data-toggle="collapse" t-attf-data-target="#additions{{ line.id }}" aria-expanded="false" t-attf-aria-controls="additions{{ line.id }}">
+												Additions&amp;nbsp;&amp;nbsp;<i class="fa fa-angle-down"/>
+											</button>
+										</div>
+									</div>
+									<div class="col-md-5 col-sm-5">
+										<a href='#' class='js_delete_product hidden-xs no-decoration'> <small><i class='fa fa-trash-o'></i> Remove</small></a>
 									</div>
 								</div>
 							</td>
@@ -640,12 +650,16 @@
 										<span><t t-esc="name_line"/></span><br/>
 									</t>
 								</div>
-								<div class="oe-product-cart-line-control-panel">
-									<a href='#' class='js_delete_product no-decoration'> <small><i class='fa fa-trash-o'></i></small></a>
-									<div t-if="line.child_ids" class="oe-additions-collapse">
-										<button class="btn btn-primary" type="button" data-toggle="collapse" t-attf-data-target="#additions{{ line.id }}" aria-expanded="false" t-attf-aria-controls="additions{{ line.id }}">
-											Additions&amp;nbsp;&amp;nbsp;<i class="fa fa-angle-down" /> 
-										</button>
+								<div class="row oe-product-cart-line-control-panel">
+									<div class="col-md-7 col-sm-7">
+										<div t-if="line.child_ids" class="oe-additions-collapse">
+											<button class="btn btn-primary" type="button" data-toggle="collapse" t-attf-data-target="#additions{{ line.id }}" aria-expanded="false" t-attf-aria-controls="additions{{ line.id }}">
+												Additions&amp;nbsp;&amp;nbsp;<i class="fa fa-angle-down" /> 
+											</button>
+										</div>
+									</div>
+									<div class="col-md-5 col-sm-5">
+										<a href='#' class='js_delete_product no-decoration'> <small><i class='fa fa-trash-o'></i></small></a>
 									</div>
 								</div>
 							</td>
