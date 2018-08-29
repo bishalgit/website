@@ -75,35 +75,45 @@
 								</div>
 							</div>
 
-							<div class="oe-cart-sidebar-modal-additions" t-if="line.child_ids">
-								<t t-foreach="line.child_ids" t-as="addition_line">
-									<div class="row oe-cart-sidebar-modal-addition">
-										<div class="col-md-3 col-sm-3 oe-cart-sidebar-modal-addition-blank" />
-										<div class="col-md-9 col-sm-9 oe-cart-sidebar-modal-addition-container">
-											<div class="oe-cart-sidebar-modal-addition-icon">
-												<i class="fa fa-plus"/>
-											</div>
-											<div class="oe-cart-sidebar-modal-addition-title" t-esc="addition_line.product_id.display_name" />
-											<div class="oe-cart-sidebar-modal-addition-qty">
-												[<t t-esc="addition_line.product_uom_qty"/>]
-											</div>
-											<div class="oe-cart-sidebar-modal-addition-unitPrice">
-												<t t-if="(compute_currency(addition_line.product_id.lst_price) - addition_line.price_reduce ) &gt; 0.01  and website.get_current_pricelist().discount_policy=='without_discount'">
-													<del t-attf-class="#{'text-danger mr8'}" 
+							<t t-if="line.child_ids">
+								<div class="row">
+									<div class="oe-additions-collapse">
+										<button class="btn btn-primary" type="button" data-toggle="collapse" t-attf-data-target="#additions{{ line.id }}" aria-expanded="false" t-attf-aria-controls="additions{{ line.id }}">
+											Additions
+										</button>
+									</div>
+								</div>
+
+								<div class="oe-cart-sidebar-modal-additions collapse" t-attf-id="additions{{ line.id }}">
+									<t t-foreach="line.child_ids" t-as="addition_line">
+										<div class="row oe-cart-sidebar-modal-addition">
+											<div class="col-md-3 col-sm-3 oe-cart-sidebar-modal-addition-blank" />
+											<div class="col-md-9 col-sm-9 oe-cart-sidebar-modal-addition-container">
+												<div class="oe-cart-sidebar-modal-addition-icon">
+													<i class="fa fa-plus"/>
+												</div>
+												<div class="oe-cart-sidebar-modal-addition-title" t-esc="addition_line.product_id.display_name" />
+												<div class="oe-cart-sidebar-modal-addition-qty">
+													[<t t-esc="addition_line.product_uom_qty"/>]
+												</div>
+												<div class="oe-cart-sidebar-modal-addition-unitPrice">
+													<t t-if="(compute_currency(addition_line.product_id.lst_price) - addition_line.price_reduce ) &gt; 0.01  and website.get_current_pricelist().discount_policy=='without_discount'">
+														<del t-attf-class="#{'text-danger mr8'}" 
+														style="white-space: nowrap;" 
+														t-esc="compute_currency(addition_line.product_id.website_public_price)" 
+														t-options="{'widget': 'monetary', 'display_currency': website.get_current_pricelist().currency_id, 'from_currency': website.currency_id}" />
+													</t>
+													<!-- <span t-field="addition_line.price_reduce_taxexcl" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'from_currency': website_sale_order.pricelist_id.currency_id, 'display_currency': website.currency_id}" groups="sale.group_show_price_subtotal" /> -->
+													<span t-field="addition_line.price_reduce_taxinc" 
 													style="white-space: nowrap;" 
-													t-esc="compute_currency(addition_line.product_id.website_public_price)" 
-													t-options="{'widget': 'monetary', 'display_currency': website.get_current_pricelist().currency_id, 'from_currency': website.currency_id}" />
-												</t>
-												<!-- <span t-field="addition_line.price_reduce_taxexcl" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'from_currency': website_sale_order.pricelist_id.currency_id, 'display_currency': website.currency_id}" groups="sale.group_show_price_subtotal" /> -->
-												<span t-field="addition_line.price_reduce_taxinc" 
-												style="white-space: nowrap;" 
-												t-options="{'widget': 'monetary', 'from_currency': website_sale_order.pricelist_id.currency_id, 'display_currency': website.currency_id}" 
-												groups="sale.group_show_price_total" />
+													t-options="{'widget': 'monetary', 'from_currency': website_sale_order.pricelist_id.currency_id, 'display_currency': website.currency_id}" 
+													groups="sale.group_show_price_total" />
+												</div>
 											</div>
 										</div>
-									</div>
-								</t>
-							</div>
+									</t>
+								</div>
+							</t>
 
 							<div class="row">
 								<div class="col-md-12 text-right">
