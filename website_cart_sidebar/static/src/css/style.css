@@ -1139,13 +1139,18 @@ tr.oe-addition-cart-line {
 }
 
 .oe_cart tbody td {
-    padding: 25px 10px !important;
     border-top: none !important;
     color: #4b4f56;
 }
+tr.oe-addition-cart-line td {
+    padding: 20px 10px !important;
+}
+tr.oe-product-cart-line td {
+    padding: 25px 10px !important;
+}
 
 .oe_cart tr {
-    border-bottom: 1px solid #eeeeee;
+    border-bottom: 1px solid #f7f7f7;
 }
 
 .oe_cart .td-qty {}
@@ -1339,7 +1344,7 @@ select {
     padding: 13px 28px;
     font-family: gotham-book;
     margin-bottom: 30px;
-    border: 1px solid #eeeeee;
+    border: 1px solid #f7f7f7;
 }
 
 .js_cart_lines .text-muted {
@@ -1383,7 +1388,7 @@ select {
 
 .oe_cart {
     margin-bottom: 150px;
-    background: #fff;
+    background: #f7f7f7;
     padding: 50px 50px;
     margin-top: 50px;
 }
@@ -1880,4 +1885,27 @@ td.oe-addition-cart-line-product div i {
 
 .oe-addition-cart-lines i {
     font-style: normal !important;
+}
+
+
+/*************
+accorodin css  
+***************/
+.oe-additions-collapse .btn-primary {
+    border-radius: 0;
+    padding: 8px 16px;
+    font-size: 12px;
+    margin-right: 0;
+    float: none !important;
+    width: 100%;
+    margin-top: 7px;
+}
+.custom-modal .control-btn {
+    margin-bottom: 12px !important;
+}
+td.oe-cart-line-divider {
+    background: #f7f7f7;
+}
+.custom-modal .collapse.in {
+    padding-top: 10px;
 }
