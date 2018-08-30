@@ -1164,17 +1164,17 @@ tr.oe-product-cart-line td {
 
 .oe_cart .input-group-addon:first-child {
     border-right: 0;
-    background: #6bb944;
-    border-color: #6bb944;
-    color: #fff;
+    background: #ffffff;
+    border-color: #eeeeee;
+    color: #8c8c8c;
     border-radius: 0;
 }
 
 .oe_cart .input-group-addon:last-child {
     border-left: 0;
-    background: #6bb944;
-    border-color: #6bb944;
-    color: #fff;
+    background: #ffffff;
+    border-color: #eeeeee;
+    color: #8c8c8c;
     border-radius: 0;
 }
 
@@ -1253,7 +1253,7 @@ tr.oe-product-cart-line td {
     padding: 10px 23px;
     font-size: 14px;
     text-transform: uppercase;
-    font-family: gotham-bold !important;
+    font-family: gotham-book !important;
 }
 
 .oe_cart .btn-default,
@@ -1266,6 +1266,8 @@ tr.oe-product-cart-line td {
     border-radius: 4px !important;
     background: #6cbe45;
     color: #fff !important;
+    font-family: gotham-book;
+    font-weight: normal !important;
 }
 
 .u500_continue_shopping {
@@ -1291,8 +1293,6 @@ tr.oe-product-cart-line td {
     box-shadow: none !important;
     border: 1px solid #eee !important;
     font-family: gotham-bold;
-    border-left: none !important;
-    border-right: none !important;
 }
 
 .oe_cart .cart_bg_box .table {
@@ -1356,12 +1356,12 @@ select {
 .js_delete_product,
 .js_delete_product:hover,
 .js_delete_product:active {
-    font-family: arial;
-    color: #4b4f56 !important;
-    background: #f6f7f9;
+    font-family: gotham-book;
+    color: #8c8c8c !important;
+    background: #ffffff;
     padding: 8px 12px;
     line-height: 50px;
-    border: 1px solid #ced0d4;
+    border: 1px solid #eeeeee;
     font-size: 13px;
 }
 
@@ -1485,8 +1485,8 @@ address span {
 }
 
 ul.wizard li {
-    font-family: gotham-bold;
-    font-weight: bold;
+    font-family: gotham-book;
+
 }
 
 div#payment_method {
@@ -1531,7 +1531,7 @@ div#payment_method .panel .panel-body label {
 }
 
 .oe_cart .js_quantity {
-    min-height: 36px !important;
+    min-height: 34px !important;
 }
 
 #payment_method input[type="submit"] {
@@ -1675,13 +1675,14 @@ ul.wizard li:last-child {
     background: #f6f7f9;
     border: 1px solid #ced0d4;
     color: #c1c2c3;
-    font-family: gotham-bold;
+    font-family: gotham-book;
 }
 
 .modal-footer .btn {
     padding: 9px 30px !important;
     font-size: 15px;
     border-radius: 5px !important;
+    font-family: gotham-book;
 }
 
 .custom-modal .modal-footer .btn:hover {
@@ -1893,12 +1894,16 @@ accorodin css
 ***************/
 .oe-additions-collapse .btn-primary {
     border-radius: 0;
-    padding: 8px 16px;
+    padding: 7px 16px;
     font-size: 12px;
     margin-right: 0;
     float: none !important;
     width: 100%;
     margin-top: 7px;
+    text-transform: none;
+    font-family: gotham-book !important;
+    font-size: 14px;
+    letter-spacing: .5px;
 }
 .custom-modal .control-btn {
     margin-bottom: 12px !important;
@@ -1906,6 +1911,7 @@ accorodin css
 td.oe-cart-line-divider {
     background: #f7f7f7;
 }
-.custom-modal .collapse.in {
-    padding-top: 10px;
+
+.modal .oe-additions-collapse .js_delete_product_modal {
+    float: right;
 }
