@@ -408,7 +408,8 @@ odoo.define('website_cart_sidebar.views', function(require) {
 
     var $elem = $('.oe_order_app');
     if (!$elem.length) {
-        return $.Deferred().reject("DOM doesn't contain '.oe_order_app'");
+        $elem = $('body');
+        // return $.Deferred().reject("DOM doesn't contain '.oe_order_app'");
     }
     var app = new OrderApp(null);
     app.appendTo($elem).then(function() {
