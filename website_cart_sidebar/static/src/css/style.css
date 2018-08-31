@@ -173,7 +173,7 @@ p.price {
 .btn-line {
     border: 1px solid #a29b9b !important;
     border-radius: 0 !important;
-    color: #232222 !important;
+    color: #232222;
     padding: 14px 40px !important;
     font-weight: bold !important;
     letter-spacing: 1px;
