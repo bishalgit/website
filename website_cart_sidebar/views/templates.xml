@@ -229,6 +229,7 @@
 														<form action="/shop/cart/update" class="js_add_cart_variants" method="post">
 															<input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
 															<input type="hidden" class="product_id" data-min="1" name="product_id" t-att-value="product.id"/>
+															<input type="hidden" class="category_id" data-min="1" name="category_id" t-att-value="category.id"/>
 															<!-- <t t-set="additional_title" t-value="product.name" /> -->
 															<div itemscope="itemscope" itemtype="http://schema.org/Product" id="wrap" class="js_sale">
 																<a type="button" t-att-data-product-id="product.id" class="additions oe_add_to_cart_button">

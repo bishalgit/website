@@ -285,7 +285,7 @@ class WebsiteSaleCart(WebsiteSale):
                                 set_qty=set_qty,
                                 line_id=s.id
                             )
-        return request.redirect("/order")
+        return request.redirect("/order#category_" + str(kw.get('category_id')))
 
     @http.route()
     def cart_update_json(self, product_id, line_id=None, add_qty=None, set_qty=None, display=True):
