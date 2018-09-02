@@ -77,7 +77,7 @@ class WebsiteSaleCart(WebsiteSale):
         '/order/page/<int:page>',
         '/order/category/<model("product.public.category"):category>',
         '/order/category/<model("product.public.category"):category>/page/<int:page>'
-    ], type='http', auth="public", website=True)
+    ], type='http', auth="user", website=True)
     def orderOnline(self, page=0, category=None, search='', ppg=False, **post):
         if ppg:
             try:
@@ -191,7 +191,7 @@ class WebsiteSaleCart(WebsiteSale):
             _logger.warning(main_product_lines)
             old_id = 0
             old_item = False
-            if main_product_lines and (len(additions_list) > 0):
+            if main_product_lines:
                 _logger.warning('2')
                 
                 for main_product_line in main_product_lines:
