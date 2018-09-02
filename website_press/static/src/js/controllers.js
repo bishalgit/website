@@ -1,4 +1,4 @@
-odoo.define('website_press.views', function (require) {
+odoo.define('website_press.views', function(require) {
     'use strict';
 
     var bus = require('bus.bus').bus;
@@ -17,22 +17,22 @@ odoo.define('website_press.views', function (require) {
         xmlDependencies: ['/website_press/static/src/xml/press_views.xml'],
 
         /* Lifecycle */
-        init: function (parent, options) {
+        init: function(parent, options) {
             this._super.apply(this, arguments);
             this.pressConfig = new PressConfig({
                 id: odoo.csrf_token
             });
         },
-        willStart: function () {
+        willStart: function() {
             return $.when(this._super.apply(this, arguments),
                 this.pressConfig.fetchAllPosts()
-            ).then(function (pressConfig) {
+            ).then(function(pressConfig) {
                 bus.update_option('website.press', '1');
             });
         },
-        start: function () {
+        start: function() {
             var self = this;
-            return this._super.apply(this, arguments).then(function () {
+            return this._super.apply(this, arguments).then(function() {
 
                 // Create and append post list
                 self.list = new PostList(self, self.pressConfig.posts);
@@ -57,7 +57,7 @@ odoo.define('website_press.views', function (require) {
          *
          * @param  {Array} notifications Array of notification arriving through the bus.
          */
-        _onNotification: function (notifications) {
+        _onNotification: function(notifications) {
             var self = this;
             for (var notif of notifications) {
                 var channel = notif[0],
@@ -68,14 +68,14 @@ odoo.define('website_press.views', function (require) {
                 if (message[0] === 'new_post') {
                     var post_id = message[1];
                     if (!this.pressConfig.posts.find(t => t.id === post_id)) {
-                        this.pressConfig.fetchPost(post_id).then(function (new_post) {
+                        this.pressConfig.fetchPost(post_id).then(function(new_post) {
                             self.list.insertPost(new_post);
                         });
                     }
                 } else if (message[0] === 'update_post') {
                     var post_id = message[1];
                     if (this.pressConfig.posts.find(t => t.id === post_id)) {
-                        this.pressConfig.fetchPost(post_id).then(function (update_post) {
+                        this.pressConfig.fetchPost(post_id).then(function(update_post) {
                             self.list.updatePost(update_post);
                         });
                     }
@@ -91,27 +91,27 @@ odoo.define('website_press.views', function (require) {
     var PostList = Widget.extend({
         template: 'website_press.post_list',
         /* Lifecycle */
-        init: function (parent, posts) {
+        init: function(parent, posts) {
             this._super.apply(this, arguments);
             this.posts = posts;
             this.parent = parent;
             this.offset = 0;
         },
-        start: function () {
+        start: function() {
             var self = this;
-            return this._super.apply(this, arguments).then(function () {
+            return this._super.apply(this, arguments).then(function() {
                 // Bind events for swap controllers
                 self.load_more = self.$('.load_more');
                 console.log(self.load_more.attr('data-offset'));
                 self.load_more.on('click', _.bind(self.loadPosts, self));
             });
         },
-        loadPosts: function (ev) {
+        loadPosts: function(ev) {
             var self = this;
             $(ev.target).disabled = true;
             console.log('Loading Posts...');
             console.log(self.load_more.attr('data-offset'));
-            this.parent.pressConfig.fetchAllPosts($(ev.target).attr('data-offset')).then(function (pressConfig) {
+            this.parent.pressConfig.fetchAllPosts($(ev.target).attr('data-offset')).then(function(pressConfig) {
                 console.log(self.load_more.attr('data-offset'));
                 console.log(pressConfig.posts);
                 console.log(self.load_more.attr('data-offset'));
@@ -127,7 +127,7 @@ odoo.define('website_press.views', function (require) {
          * Append old posts instance in the list.
          * @param  {OdooClass.Post} Post to insert in the list
          */
-        appendPost: function (post) {
+        appendPost: function(post) {
             console.log(this.$('.press_list_body').length);
             if (!this.$('.press_list_body').length) {
                 console.log('Rerender >>>');
@@ -145,7 +145,7 @@ odoo.define('website_press.views', function (require) {
          * a complete rerendering instead.
          * @param  {OdooClass.Post} Post to insert in the list
          */
-        insertPost: function (post) {
+        insertPost: function(post) {
             if (!this.$('.press_list_body').length) {
                 this._rerender();
                 return;
@@ -154,14 +154,14 @@ odoo.define('website_press.views', function (require) {
                 post: post
             });
             this.$('.press_list_body').prepend(post_node);
-            var new_offset = parseInt(this.load_more.attr('data-offset')) + 1; 
+            var new_offset = parseInt(this.load_more.attr('data-offset')) + 1;
             this.load_more.attr('data-offset', new_offset);
         },
         /**
          * Update an existing post instance in the list.
          * @param  {OdooClass.Branch} branch Branch to update in the list
          */
-        updatePost: function (post) {
+        updatePost: function(post) {
             var post_node = qweb.render('website_press.post_list.post', {
                 post: post
             });
@@ -173,7 +173,7 @@ odoo.define('website_press.views', function (require) {
          * state.
          * @param  {Integer} id ID of the branch to remove.
          */
-        removePost: function (id) {
+        removePost: function(id) {
             this.$('div[data-id=' + id + ']').remove();
             var new_offset = parseInt(this.load_more.attr('data-offset')) - 1;
             this.load_more.attr('data-offset', new_offset);
@@ -187,7 +187,7 @@ odoo.define('website_press.views', function (require) {
          * an empty list of branches to one or more branch (or vice-versa)
          * by using the bus.
          */
-        _rerender: function () {
+        _rerender: function() {
             var self = this;
             this.replaceElement(qweb.render('website_press.post_list', {
                 widget: this
@@ -197,8 +197,11 @@ odoo.define('website_press.views', function (require) {
     });
 
     var $elem = $('.o_press_app');
+    if (!$elem.length) {
+        return $.Deferred().reject("DOM doesn't contain '.o_press_app'");
+    }
     var app = new PressApp(null);
-    app.appendTo($elem).then(function () {
+    app.appendTo($elem).then(function() {
         bus.start_polling();
     });
 })
