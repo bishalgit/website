@@ -5,14 +5,11 @@
 		<template id="assets_frontend" inherit_id="website.assets_frontend">
 			<xpath expr=".">
 				<link rel="stylesheet" type="text/css" href="/website_cart_sidebar/static/src/css/style.css" />
-				<link rel="stylesheet" type="text/css" href="/website_cart_sidebar/static/src/css/category_sticky.css" />
 				<!-- <script type="text/javascript" src="/website_cart_sidebar/static/src/js/website_sale.js"></script> -->
 				<!-- <script type="text/javascript" src="/bus/static/src/js/bus.js"/> -->
             	<script type="text/javascript" src="/web/static/src/js/widgets/notification.js"/>
 				<script type="text/javascript" src="/website_cart_sidebar/static/src/js/models.js"></script>
 				<script type="text/javascript" src="/website_cart_sidebar/static/src/js/controllers.js"></script>
-				<script type="text/javascript" src="/website_cart_sidebar/static/src/js/smooth_scroll.js"></script>
-				<script type="text/javascript" src="/website_cart_sidebar/static/src/js/category_sticky.js"></script>
 			</xpath>
 		</template>
 	</data>
