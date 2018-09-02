@@ -303,7 +303,7 @@ odoo.define('website_branch_map.views', function(require) {
         },
     });
 
-    // var $elem = $('.o_branch_location_app');
+    var $elem = $('.o_branch_location_app');
     // if (!$elem.length) {
     //     return $.Deferred().reject("DOM doesn't contain '.o_branch_location_app'");
     // }
