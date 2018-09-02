@@ -76,23 +76,24 @@
 								</div>
 							</div>
 
-							<t t-if="line.child_ids">
-								<div class="row oe-additions-collapse">
-									<div class="col-md-3 col-sm-3 col-xs-2 hidden-xs"/>
-									<div class="col-md-5 col-sm-5 col-xs-9 ">
+							<div class="row oe-additions-collapse">
+								<div class="col-md-3 col-sm-3 col-xs-2 hidden-xs"/>
+								<div class="col-md-5 col-sm-5 col-xs-9 ">
+									<t t-if="line.child_ids">
 										<a class="btn btn-primary" data-toggle="collapse" t-attf-href="#additionsSidebar{{ line.id }}" role="button" aria-expanded="false" t-attf-aria-controls="additionsSidebar{{ line.id }}">
 											<i class="fa fa-angle-down"/>&amp;nbsp;&amp;nbsp;Additions
 										</a>
-									</div>
-									<div class="col-md-4 col-sm-4 col-xs-3">
-										<a href="#" class="js_delete_product_modal no-decoration">
-											<small>
-												<i class="fa fa-trash-o"/><span class="hidden-xs">&amp;nbsp;Remove</span>
-											</small>
-										</a>
-									</div>
+									</t>
 								</div>
-
+								<div class="col-md-4 col-sm-4 col-xs-3">
+									<a href="#" class="js_delete_product_modal no-decoration">
+										<small>
+											<i class="fa fa-trash-o"/><span class="hidden-xs">&amp;nbsp;Remove</span>
+										</small>
+									</a>
+								</div>
+							</div>
+							<t t-if="line.child_ids">
 								<div class="oe-cart-sidebar-modal-additions collapse" t-attf-id="additionsSidebar{{ line.id }}">
 									<t t-foreach="line.child_ids" t-as="addition_line">
 										<div class="row oe-cart-sidebar-modal-addition">
