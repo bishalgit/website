@@ -43,6 +43,7 @@
 		<t t-set="product" t-value="widget"/>
 		<t t-if="product">
 			<input type="hidden" class="product_id" data-min="1" name="product_id" t-att-value="product.id"/>
+			<input type="hidden" class="category_id" data-min="1" name="category_id" t-att-value="product.public_categ_ids[0]"/>
 			<div class="row oe_product_content">
 				<div class="col-sm-6">
 					<img t-attf-src="/web/image/product.template/{{product.id}}/image" class="img img-responsive product_detail_img" 
