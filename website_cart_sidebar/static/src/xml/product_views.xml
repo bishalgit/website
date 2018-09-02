@@ -154,7 +154,7 @@
 								<a href="/order" class="btn btn-default-cart-dark pull-left"> <i class="fa fa-angle-left mr-10"></i> Order More </a>
 							</div>
 							<div class="col-md-6 col-sm-6 col-xs-6">
-								<a href="/shop/cart" class="btn btn-default-cart pull-right">Checkout </a>
+								<a href="/shop/checkout" class="btn btn-default-cart pull-right">Checkout </a>
 							</div>
 						</div>
 					</div>

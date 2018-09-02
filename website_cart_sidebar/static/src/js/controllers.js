@@ -346,10 +346,21 @@ odoo.define('website_cart_sidebar.views', function(require) {
                             return;
                         }
                         var $q = $(".my_cart_quantity");
+                        console.log(data.cart_quantity);
                         if (data.cart_quantity) {
-                            $q.parents('li:first').removeClass("hidden");
+                            $q.each(function() {
+                                console.log(this);
+                                $(this).parents('li:first').removeClass("hidden");
+                            });
+                            $('a[href*="/shop/checkout"]').removeClass("hidden");
+                            // $q.parents('li:first').removeClass("hidden");
                         } else {
-                            $q.parents('li:first').addClass("hidden");
+                            data.cart_quantity = 0;
+                            console.log("adding class hidden");
+                            $q.each(function() {
+                                console.log(this);
+                                $(this).parents('li:first').addClass("hidden");
+                            });
                             $('a[href*="/shop/checkout"]').addClass("hidden");
                         }
 
@@ -365,7 +376,7 @@ odoo.define('website_cart_sidebar.views', function(require) {
                                 // self._bindAllEvents();
                             });
 
-                        $(".js_cart_lines").first().before(data['website_sale.cart_lines']).end().remove();
+                        // $(".js_cart_lines").first().before(data['website_sale.cart_lines']).end().remove();
 
                         if (data.warning) {
                             var cart_alert = $('.oe_cart').parent().find('#data_warning');
