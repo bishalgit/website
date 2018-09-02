@@ -8,6 +8,7 @@
 			<attribute name="class">col-md-12 oe_cart_total</attribute>
 		</xpath> -->
 	</template>
+
 	<template id="cart_modal" name="Cart Modal">
 		<div t-if="not website_sale_order or not website_sale_order.website_order_line" class="well well-lg">
 			Your cart is empty!
@@ -153,6 +154,7 @@
 			</div>
 		</t>
 	</template>
+
 	<template id="product_modal" name="Product Modal">
 		<!-- Modal -->
 		<div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalTitle" aria-hidden="true">
@@ -175,6 +177,7 @@
 			</div>
 		</div>
 	</template>
+
 	<template id="products" name="Custom Products" inherit_id="website_sale.products">
 		<xpath expr="//t[@t-call='website.layout']" position="replace">
 			<t t-call="website.layout">
@@ -225,63 +228,66 @@
 													<div class="team_list">
 														<form action="/shop/cart/update" class="js_add_cart_variants" method="post">
 															<input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+															<input type="hidden" class="product_id" data-min="1" name="product_id" t-att-value="product.id"/>
 															<!-- <t t-set="additional_title" t-value="product.name" /> -->
 															<div itemscope="itemscope" itemtype="http://schema.org/Product" id="wrap" class="js_sale">
-																<div class="team_img">
-																	<div class="oe_product_image">
-																		<span itemprop="image" t-attf-content="{{request.httprequest.url_root}}web/image/product.template/{{product.id}}/image" t-field="product.image" t-options="{'widget': 'image', 'zoom': 'image'}" t-att-alt="product.name" />
-																		<div class="overlay">
-																			<ul class="food-energy-list">
-																				<li class="cal">
-																					CAL
-																					<span>
-																						<t t-esc="product.calorie" />
-																					</span>
-																				</li>
-																				<li class="pro">
-																					PRO
-																					<span>
-																						<t t-esc="product.protein" />
-																					</span>
-																				</li>
-																				<li class="carbs">
-																					CARBS
-																					<span>
-																						<t t-esc="product.carbohydrate" />
-																					</span>
-																				</li>
-																				<li class="fat">
-																					FAT
-																					<span>
-																						<t t-esc="product.fat" />
-																					</span>
-																				</li>
-																			</ul>
+																<a type="button" t-att-data-product-id="product.id" class="additions oe_add_to_cart_button">
+																	<div class="team_img">
+																		<div class="oe_product_image">
+																			<span itemprop="image" t-attf-content="{{request.httprequest.url_root}}web/image/product.template/{{product.id}}/image" t-field="product.image" t-options="{'widget': 'image', 'zoom': 'image'}" t-att-alt="product.name" />
+																			<div class="overlay">
+																				<ul class="food-energy-list">
+																					<li class="cal">
+																						CAL
+																						<span>
+																							<t t-esc="product.calorie" />
+																						</span>
+																					</li>
+																					<li class="pro">
+																						PRO
+																						<span>
+																							<t t-esc="product.protein" />
+																						</span>
+																					</li>
+																					<li class="carbs">
+																						CARBS
+																						<span>
+																							<t t-esc="product.carbohydrate" />
+																						</span>
+																					</li>
+																					<li class="fat">
+																						FAT
+																						<span>
+																							<t t-esc="product.fat" />
+																						</span>
+																					</li>
+																				</ul>
+																			</div>
 																		</div>
 																	</div>
-																</div>
-																<t t-if="show_publish">
-																	<div id="website_published_button" class="" groups="sales_team.group_sale_manager">
-																		<t t-call="website.publish_management">
-																			<t t-set="object" t-value="product" />
-																			<t t-set="publish_edit" t-value="True" />
-																			<t t-set="action" t-value="'product.product_template_action'" />
-																		</t>
+																	<t t-if="show_publish">
+																		<div id="website_published_button" class="" groups="sales_team.group_sale_manager">
+																			<t t-call="website.publish_management">
+																				<t t-set="object" t-value="product" />
+																				<t t-set="publish_edit" t-value="True" />
+																				<t t-set="action" t-value="'product.product_template_action'" />
+																			</t>
+																		</div>
+																	</t>
+																	<div class="team_info" id="calories">
+																		<h3>
+																			<t t-esc="product.name">
+																			</t>
+																		</h3>
+																		<p>
+																			<t t-esc="product.description_sale">
+																			</t>
+																		</p>
 																	</div>
-																</t>
-																<div class="team_info" id="calories">
-																	<h3>
-																		<t t-esc="product.name">
-																		</t>
-																	</h3>
-																	<p>
-																		<t t-esc="product.description_sale">
-																		</t>
-																	</p>
-																</div>
+																</a>
 																<div class="cart">
 																	<div class="row">
-																		<div class="col-md-9 co-sm-9 col-xs-8">
+																		<div class="col-md-6 co-sm-6 col-xs-5">
 																			<div class="price">
 																				<h4>
 																					<!-- AED -->
@@ -293,9 +299,12 @@
 																				</h4>
 																			</div>
 																		</div>
-																		<div class="col-md-3 col-sm-3 col-xs-4">
+																		<div class="col-md-6 col-sm-6 col-xs-7">
 																			<button type="button" t-att-data-product-id="product.id" class="btn btn-primary btn-lg mt8 pull-right additions oe_add_to_cart_button" style="display:inline-block;">
-																				<i class="fa fa-cart-plus" />
+																				<i class="fa fa-plus" />
+																			</button>
+																			<button type="button" t-att-data-product-id="product.id" class="btn btn-dark btn-lg mt8 pull-right a-submit" style="display:inline-block;">
+																				<i class="fa fa-cart-arrow-down" />
 																			</button>
 																		</div>
 																	</div>

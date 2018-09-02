@@ -44,7 +44,7 @@ odoo.define('website_cart_sidebar.views', function(require) {
                 self.productModal = $('#productModal');
 
                 // Bind events for product modal elements
-                $(self.productModal).on('click', '.a-submit', function(event) {
+                $(self.productModal, self.$el).on('click', '.a-submit', function(event) {
                     if (!event.isDefaultPrevented() && !$(this).is(".disabled")) {
                         event.preventDefault();
                         $(this).closest('form').submit();

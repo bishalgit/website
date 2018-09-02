@@ -191,12 +191,14 @@ class WebsiteSaleCart(WebsiteSale):
             _logger.warning(main_product_lines)
             old_id = 0
             old_item = False
-            if main_product_lines:
+            if main_product_lines and (len(additions_list) > 0):
                 _logger.warning('2')
+                
                 for main_product_line in main_product_lines:
                     old_item = True
                     sub_product = request.env['sale.order.line'].search([('parent_id', '=', main_product_line.id)])
-                    if sub_product:
+                    # Check if the line has child lines meaning addons
+                    if sub_product and (len(additions_list) > 0):
                         _logger.warning('3')
                         if len(sub_product) == len(addition_items):
                             old_item = True
@@ -222,13 +224,12 @@ class WebsiteSaleCart(WebsiteSale):
                             old_item = False
                             _logger.warning('Addons count mismatch')
                     else:
-                        old_item = False
-                        _logger.warning('Addons count mismatch')
+                        old_item = True
+                        _logger.warning('This line has no addons')
                     
                     if old_item == True:
                         old_id = main_product_line.id
                         break
-
             if not old_item:
                 _logger.warning('Treating as new item')
                 main = request.website.sale_get_order(force_create=1)._cart_update(
@@ -284,7 +285,7 @@ class WebsiteSaleCart(WebsiteSale):
                                 set_qty=set_qty,
                                 line_id=s.id
                             )
-        return request.redirect("/shop/cart")
+        return request.redirect("/order")
 
     @http.route()
     def cart_update_json(self, product_id, line_id=None, add_qty=None, set_qty=None, display=True):
