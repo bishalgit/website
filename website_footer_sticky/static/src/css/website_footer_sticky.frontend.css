@@ -14,3 +14,18 @@
     display: inline-block;
     vertical-align: top;
 }
+
+.footer-nav {
+    margin-bottom: 0;
+    width: 100%;
+    background: #fff;
+    box-shadow: 0 1px 20px rgba(20, 20, 20, 0.2);
+}
+
+.footer-nav-sticky {
+    position: fixed;
+    z-index: 1000;
+    right: 0;
+    left: 0;
+    bottom: 0px;
+}
