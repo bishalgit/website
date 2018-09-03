@@ -301,17 +301,8 @@ class WebsiteSaleCart(WebsiteSale):
             return value
 
         order = request.website.sale_get_order()
-
-        # Compute total items in a cart
-        # This concept takes account only unique items not their uom_qty
-        # If you want to take all the items into accounts use order.cart_quantity
-        # This loop discards additions as new items
-        items = 0
-        for line in order.order_line:
-            if not line.product_id.is_addition:
-                items += 1
         
-        value['items_quantity'] = items
+        value['items_quantity'] = order.cart_quantity
         value['cart_quantity'] = order.cart_quantity
         from_currency = order.company_id.currency_id
         to_currency = order.pricelist_id.currency_id
