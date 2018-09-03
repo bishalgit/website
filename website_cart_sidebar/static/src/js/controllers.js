@@ -346,19 +346,15 @@ odoo.define('website_cart_sidebar.views', function(require) {
                             return;
                         }
                         var $q = $(".my_cart_quantity");
-                        console.log("items:" + data.items_quantity);
                         if (data.items_quantity) {
                             $q.each(function() {
-                                console.log(this);
                                 $(this).parents('li:first').removeClass("hidden");
                             });
                             $('a[href*="/shop/checkout"]').removeClass("hidden");
                             // $q.parents('li:first').removeClass("hidden");
                         } else {
                             data.items_quantity = 0;
-                            console.log("adding class hidden");
                             $q.each(function() {
-                                console.log(this);
                                 $(this).parents('li:first').addClass("hidden");
                             });
                             $('a[href*="/shop/checkout"]').addClass("hidden");
