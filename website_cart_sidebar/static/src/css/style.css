@@ -1150,7 +1150,7 @@ tr.oe-product-cart-line td {
 }
 
 .oe_cart tr {
-    border-bottom: 1px solid #f7f7f7;
+    border-bottom: 1px solid #eee;
 }
 
 .oe_cart .td-qty {}
@@ -1283,7 +1283,7 @@ tr.oe-product-cart-line td {
 }
 
 #order_total .h4 {
-    color: #181f27;
+    color: #000;
     font-weight: bold;
     margin-top: 5px !important;
     font-family: gotham-bold !important;
@@ -1344,11 +1344,11 @@ select {
     padding: 13px 28px;
     font-family: gotham-book;
     margin-bottom: 30px;
-    border: 1px solid #f7f7f7;
+    border: 1px solid #fff;
 }
 
 .js_cart_lines .text-muted {
-    color: #848282;
+    color: #000000;
     margin-bottom: 15px;
     font-family: gotham-book;
 }
@@ -1388,7 +1388,7 @@ select {
 
 .oe_cart {
     margin-bottom: 150px;
-    background: #f7f7f7;
+    background: #eee;
     padding: 50px 50px;
     margin-top: 50px;
 }
@@ -1491,7 +1491,7 @@ ul.wizard li {
 
 div#payment_method {
     margin-top: 0px;
-    background: #fbfbfb;
+    background: #fff;
     padding: 30px 30px 85px;
     border-radius: 0px;
     margin-bottom: 50px;
@@ -1508,7 +1508,7 @@ div#payment_method .panel {
 div#payment_method .panel .panel-body {
     padding: 0px !important;
     border-top: none !important;
-    background: #fbfbfb;
+    background: #fff;
 }
 
 div#payment_method .panel .panel-body label {
@@ -1909,9 +1909,18 @@ accorodin css
     margin-bottom: 12px !important;
 }
 td.oe-cart-line-divider {
-    background: #f7f7f7;
+    background: #eee;
 }
 
 .modal .oe-additions-collapse .js_delete_product_modal {
     float: right;
+}
+
+#order_total_taxes span {
+    color: #000 !important;
+    font-weight: bold;
+}
+#order_total_untaxed span{
+    color: #000 !important;
+    font-weight: bold;
 }
