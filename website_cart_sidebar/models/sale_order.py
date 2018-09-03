@@ -90,4 +90,17 @@ class SaleOrder(models.Model):
 
         return {'line_id': order_line.id, 'quantity': quantity}
 
-    
+    items_quantity = fields.Integer(compute='_compute_cart_items_quantity', string='Cart Quantity')
+    @api.multi
+    @api.depends('website_order_line.product_uom_qty', 'website_order_line.product_id')
+    def _compute_cart_items_quantity(self):
+        for order in self:
+            # Compute total items in a cart
+            # This concept takes account only unique items not their uom_qty
+            # If you want to take all the items into accounts use order.cart_quantity
+            # This loop discards additions as new items
+            items = 0
+            for line in order.order_line:
+                if not line.product_id.is_addition:
+                    items += 1
+        order.items_quantity = items

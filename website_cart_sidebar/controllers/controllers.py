@@ -166,8 +166,6 @@ class WebsiteSaleCart(WebsiteSale):
         # addition_items = request.env['product.template'].sudo().search([('id', '=', product_id)]).child_id
         additions_list = dict([(int(key[16:-1]),int(value)) for key, value in kw.items() if key.startswith("additions_input[")])
         addition_items = None
-        
-        _logger.warning(additions_list)
 
         sub_count = 0
         if len(additions_list) > 0:
@@ -177,61 +175,46 @@ class WebsiteSaleCart(WebsiteSale):
                 ))
             sub_count = len(addition_items)
         
-        _logger.warning("count: " + str(sub_count))
-        old_item = True
+        old_id = 0
+        old_item = False
         # check if the similar order already exists
         order = request.website.sale_get_order(force_create=1)
 
         if main_item:
-            _logger.warning(order.id)
-            _logger.warning(product_id)
-            main_product_lines = request.env['sale.order.line'].search(
-                [('order_id', '=', int(order.id)), ('product_id', '=', int(product_id))])
-            _logger.warning('1')
-            _logger.warning(main_product_lines)
-            old_id = 0
-            old_item = False
-            if main_product_lines:
-                _logger.warning('2')
-                
-                for main_product_line in main_product_lines:
-                    old_item = True
-                    sub_product = request.env['sale.order.line'].search([('parent_id', '=', main_product_line.id)])
-                    # Check if the line has child lines meaning addons
-                    if sub_product and (len(additions_list) > 0):
-                        _logger.warning('3')
-                        if len(sub_product) == len(addition_items):
-                            old_item = True
-                            _logger.warning(sub_product.ids)
-                            _logger.warning(addition_items.ids)
-                            for x in sub_product:
-                                _logger.warning(x.product_id.id)
-                                if x.product_id.id not in addition_items.ids:
-                                    old_item = False
-
-                        # if sub_product_count == sub_count:
-                        #     for sub in sub_product:
-                        #         # checking for is_multiple addons item
-                        #         _logger.warning(sub.product_id.is_multiple)
-                        #         if sub.product_id.is_multiple:
-                        #             old_item = False
-                        #             break
-                        #         _logger.warning(sub.product_id.id)
-                        #         if not kw.get('additions_input[' + str(sub.product_id.id) + ']'):
-                        #             old_item = False
-                        #             _logger.warning('Addons mismatch')
+            # Check if the current product is single or with additions
+            if len(additions_list) > 0:
+                # Do check if the product is same as already existing 
+                # product with exact same addons with equal qty respectively
+                main_product_lines = request.env['sale.order.line'].search(
+                    [('order_id', '=', int(order.id)), ('product_id', '=', int(product_id)), ('child_ids', '!=', False)])
+                if main_product_lines:
+                    for main_product_line in main_product_lines:
+                        # Check equality for products with addons
+                        sub_product = request.env['sale.order.line'].search([('parent_id', '=', main_product_line.id)])
+                        # Check if the line has child lines meaning addons
+                        if sub_product:
+                            if len(sub_product) == len(addition_items):
+                                old_item = True
+                                for x in sub_product:
+                                    if x.product_id.id not in addition_items.ids:
+                                        old_item = False
+                            else:
+                                _logger.warning('Addons count mismatch')
                         else:
-                            old_item = False
-                            _logger.warning('Addons count mismatch')
-                    else:
-                        old_item = True
-                        _logger.warning('This line has no addons')
-                    
-                    if old_item == True:
-                        old_id = main_product_line.id
-                        break
+                            _logger.warning('This line has no addons')
+                        
+                        if old_item == True:
+                            old_id = main_product_line.id
+                            break
+            else:
+                # Do check if the single product does exists in the orderline
+                main_product_line = request.env['sale.order.line'].search(
+                [('order_id', '=', int(order.id)), ('product_id', '=', int(product_id)), ('child_ids', '=', False)])
+                if main_product_line:
+                    old_item = True
+                    old_id = main_product_line.id
+            
             if not old_item:
-                _logger.warning('Treating as new item')
                 main = request.website.sale_get_order(force_create=1)._cart_update(
                     product_id=int(product_id),
                     add_qty=add_qty,
@@ -239,7 +222,6 @@ class WebsiteSaleCart(WebsiteSale):
                     line_id=False,
                     attributes=self._filter_attributes(**kw),
                 )
-                _logger.warning(main)
                 if addition_items:
                     for aitems in addition_items:
                         if aitems.is_multiple:
@@ -261,7 +243,6 @@ class WebsiteSaleCart(WebsiteSale):
                                 attributes=self._filter_attributes(**kw),
                             )
             else:
-                _logger.warning('treating as old item')
                 m_line_id = request.env['sale.order.line'].search(
                     [('order_id', '=', int(order.id)), ('product_id', '=', int(product_id)), ('id', '=', old_id)])
                 for m in m_line_id:
@@ -295,20 +276,15 @@ class WebsiteSaleCart(WebsiteSale):
             return {}
         
         m_line_id = request.env['sale.order.line'].browse(line_id)
-        _logger.warning("m_line_id" + str(m_line_id))
         prev_product_qty = m_line_id.product_uom_qty
-        _logger.warning("prev_product" + str(prev_product_qty))
         
         # Add or delete addons
         s_line_ids = m_line_id.child_ids
         if s_line_ids:
             for s in s_line_ids:
                 addition_new_qty = set_qty
-                _logger.warning("addition_qty" + str(addition_new_qty))
                 if s.product_id.is_multiple:
-                    _logger.warning("masdfas")
                     addition_new_qty = (s.product_uom_qty / prev_product_qty) * int(set_qty)
-                    _logger.warning("addition_qty" + str(addition_new_qty))
 
                 order._cart_update(
                     product_id=int(s.product_id),
@@ -325,6 +301,17 @@ class WebsiteSaleCart(WebsiteSale):
             return value
 
         order = request.website.sale_get_order()
+
+        # Compute total items in a cart
+        # This concept takes account only unique items not their uom_qty
+        # If you want to take all the items into accounts use order.cart_quantity
+        # This loop discards additions as new items
+        items = 0
+        for line in order.order_line:
+            if not line.product_id.is_addition:
+                items += 1
+        
+        value['items_quantity'] = items
         value['cart_quantity'] = order.cart_quantity
         from_currency = order.company_id.currency_id
         to_currency = order.pricelist_id.currency_id

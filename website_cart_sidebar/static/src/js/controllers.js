@@ -346,8 +346,8 @@ odoo.define('website_cart_sidebar.views', function(require) {
                             return;
                         }
                         var $q = $(".my_cart_quantity");
-                        console.log(data.cart_quantity);
-                        if (data.cart_quantity) {
+                        console.log("items:" + data.items_quantity);
+                        if (data.items_quantity) {
                             $q.each(function() {
                                 console.log(this);
                                 $(this).parents('li:first').removeClass("hidden");
@@ -355,7 +355,7 @@ odoo.define('website_cart_sidebar.views', function(require) {
                             $('a[href*="/shop/checkout"]').removeClass("hidden");
                             // $q.parents('li:first').removeClass("hidden");
                         } else {
-                            data.cart_quantity = 0;
+                            data.items_quantity = 0;
                             console.log("adding class hidden");
                             $q.each(function() {
                                 console.log(this);
@@ -364,7 +364,7 @@ odoo.define('website_cart_sidebar.views', function(require) {
                             $('a[href*="/shop/checkout"]').addClass("hidden");
                         }
 
-                        $q.html(data.cart_quantity).hide().fadeIn(600);
+                        $q.html(data.items_quantity).hide().fadeIn(600);
                         $input.val(data.quantity);
                         $('.js_quantity[data-line-id=' + line_id + ']').val(data.quantity).html(data.quantity);
 
