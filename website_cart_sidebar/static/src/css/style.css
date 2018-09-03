@@ -1924,3 +1924,8 @@ td.oe-cart-line-divider {
     color: #000 !important;
     font-weight: bold;
 }
+
+.oe_cart_buttons_add_customize {
+    text-align: right;
+    padding-right: 30px;
+}
