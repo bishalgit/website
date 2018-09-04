@@ -37,7 +37,7 @@ odoo.define('website_cart_sidebar.views', function(require) {
                 self.cartModal = new CartModal(this, "cartModal");
                 // $('body').append(cart_modal_node);
                 self.cartModal.appendTo($('body')).then(function() {
-                    console.log("cart modal widget appended.");
+                    // console.log("append cart modal widget appended.");
                 });
                 $('body').append(product_modal_node);
                 // self.cartModal = $('#cartModal');
