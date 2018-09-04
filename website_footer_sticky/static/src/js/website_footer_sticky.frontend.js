@@ -21,6 +21,10 @@ odoo.define('website_footer_sticky.frontend', function(require) {
         if ($(footer_mobile_nav).length) {
             if (footer_mobile_nav.attr('data-do-stick') === '1') {
                 var footer_mobile_navclone = footer_mobile_nav.clone();
+                // Check if navbar has collapse
+                if ($(footer_mobile_nav).find('.navbar-collapse').length) {
+                    $(footer_mobile_nav).find('.navbar-collapse').remove();
+                }
                 footer_mobile_navclone.addClass('footer-nav-sticky');
                 footer.append(footer_mobile_navclone);
             }
