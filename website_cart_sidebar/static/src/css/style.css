@@ -1135,7 +1135,7 @@ input[type="checkbox"] {
 }
 
 tr.oe-addition-cart-line {
-    background: #fbfbfb !important;
+    background: #fff!important;
 }
 
 .oe_cart tbody td {
@@ -1405,8 +1405,7 @@ select {
     font-size: 15px;
     color: #4c4c4c;
     text-transform: uppercase;
-    font-weight: bold;
-    font-family: gotham-bold;
+    font-family: gotham-book;
     line-height: 29px;
 }
 
@@ -1928,4 +1927,7 @@ td.oe-cart-line-divider {
 .oe_cart_buttons_add_customize {
     text-align: right;
     padding-right: 30px;
+}
+.o_payment_form .payment_icon_list {
+    padding-top: 12px;
 }
